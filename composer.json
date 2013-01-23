@@ -1,0 +1,24 @@
+{
+	"name": "arachne/entity-loader",
+    "type": "library",
+    "keywords": [ "nette", "arachne" ],
+   	"homepage": "http://enumag.cz",
+	"license": [ "BSD-3-Clause", "GPL-2.0", "GPL-3.0" ],
+	"authors": [
+		{
+			"name": "Jáchym Toušek",
+			"homepage": "http://m33.cz/",
+			"email": "enumag@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"nette/nette": "@dev"
+	},
+	"autoload": {
+		"psr-0": {
+			"Arachne\\EntityLoader": ""
+		}
+	},
+	"target-dir": "Arachne"
+}
