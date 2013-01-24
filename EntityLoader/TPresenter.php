@@ -43,7 +43,7 @@ trait TPresenter
 		if (!$this->loader->removeEntities($request)) {
 			throw new InvalidStateException("Failed to remove entities from request.");
 		}
-		$session[$key] = array($this->getUser()->getId(), $request);
+		$session[$key] = [ $this->getUser()->getId(), $request ];
 		$session->setExpiration($expiration, $key);
 		return $key;
 	}
@@ -51,7 +51,6 @@ trait TPresenter
 	/**
 	 * Restores current request to session.
 	 * @param string $key
-	 * @return void
 	 */
 	public function restoreRequest($key)
 	{
@@ -65,9 +64,9 @@ trait TPresenter
 			return;
 		}
 		$request->setFlag(\Nette\Application\Request::RESTORED, TRUE);
-		$params = $request->getParameters();
-		$params[self::FLASH_KEY] = $this->getParameter(self::FLASH_KEY);
-		$request->setParameters($params);
+		$parameters = $request->getParameters();
+		$parameters[self::FLASH_KEY] = $this->getParameter(self::FLASH_KEY);
+		$request->setParameters($parameters);
 		$this->sendResponse(new \Nette\Application\Responses\ForwardResponse($request));
 	}
 
