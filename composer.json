@@ -16,6 +16,7 @@
 		"nette/nette": "@dev"
 	},
 	"autoload": {
+        "classmap": [ "Arachne/EntityLoader/exceptions.php" ],
 		"psr-0": {
 			"Arachne\\EntityLoader": ""
 		}
