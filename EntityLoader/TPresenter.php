@@ -22,7 +22,7 @@ trait TPresenter
 	/**
 	 * @param \Arachne\EntityLoader\EntityLoader $loader
 	 */
-	final public function injectLoader(EntityLoader $loader)
+	final public function injectEntityLoader(EntityLoader $loader)
 	{
 		$this->loader = $loader;
 	}
