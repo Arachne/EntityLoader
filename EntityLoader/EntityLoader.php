@@ -16,8 +16,8 @@ namespace Arachne\EntityLoader;
 class EntityLoader extends \Nette\Object
 {
 
-	/** @var \Nette\DI\Container */
-	protected $container;
+	/** @var \Nette\Database\Connection */
+	protected $connection;
 
 	/** @var \Nette\Application\IPresenterFactory */
 	protected $presenterFactory;
@@ -25,20 +25,15 @@ class EntityLoader extends \Nette\Object
 	/** @var \Nette\Caching\Cache */
 	protected $cache;
 
-	/** @var \Nette\Database\Connection */
-	protected $connection;
-
 	/**
-	 * @param \Nette\DI\Container $container
+	 * @param \Nette\Database\Connection $connection
 	 * @param \Nette\Application\IPresenterFactory $presenterFactory
 	 * @param \Nette\Caching\IStorage $storage
-	 * @param \Nette\Database\Connection $connection
 	 */
-	public function __construct(\Nette\DI\Container $container, \Nette\Application\IPresenterFactory $presenterFactory, \Nette\Caching\IStorage $storage, \Nette\Database\Connection $connection)
+	public function __construct(\Nette\Database\Connection $connection, \Nette\Application\IPresenterFactory $presenterFactory, \Nette\Caching\IStorage $storage)
 	{
-		$this->container = $container;
-		$this->presenterFactory = $presenterFactory;
 		$this->connection = $connection;
+		$this->presenterFactory = $presenterFactory;
 		$this->cache = new \Nette\Caching\Cache($storage, 'Arachne.EntityLoader');
 	}
 
@@ -93,11 +88,6 @@ class EntityLoader extends \Nette\Object
 					if ($parameter[0] === '$') {
 						$parameter = substr($parameter, 1);
 					}
-					if (strpos($table, ':') !== FALSE) {
-						list($database, $table) = explode(':', $table);
-					} else {
-						$database = NULL;
-					}
 					if (strpos($table, '.') !== FALSE) {
 						list($table, $column) = explode('.', $table);
 					} else {
@@ -110,12 +100,10 @@ class EntityLoader extends \Nette\Object
 					}
 					$array = explode(':', $default);
 					$table = end($array);
-					$database = NULL;
 					$column = NULL;
 				}
 
 				$entities[$prefix . $parameter] = [
-					'database' => $database,
 					'table' => $table,
 					'column' => $column,
 				];
@@ -137,16 +125,10 @@ class EntityLoader extends \Nette\Object
 			if (isset($annotations['Entity'])) {
 				foreach ($annotations['Entity'] as $annotation) {
 					if ($annotation === TRUE) {
-						$database = NULL;
 						$table = $persistent;
 						$column = NULL;
 					} else {
 						$table = $annotation;
-						if (strpos($table, ':') !== FALSE) {
-							list($database, $table) = explode(':', $table);
-						} else {
-							$database = NULL;
-						}
 						if (strpos($table, '.') !== FALSE) {
 							list($table, $column) = explode('.', $table);
 						} else {
@@ -155,7 +137,6 @@ class EntityLoader extends \Nette\Object
 					}
 
 					$entities[$prefix . $persistent] = [
-						'database' => $database,
 						'table' => $table,
 						'column' => $column,
 					];
@@ -282,11 +263,7 @@ class EntityLoader extends \Nette\Object
 		$parameters = $request->getParameters();
 		foreach ($entities as $key => $mapping) {
 			if (isset($parameters[$key])) {
-				if ($mapping['database'] === NULL) {
-					$table = $this->connection->table($mapping['table']);
-				} else {
-					$table = $this->container->{$mapping['database']}->table($mapping['table']);
-				}
+				$table = $this->connection->table($mapping['table']);
 				if ($mapping['column'] === NULL) {
 					$parameters[$key] = $table->get($parameters[$key]);
 				} else {
