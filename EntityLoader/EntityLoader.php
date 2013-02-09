@@ -99,7 +99,7 @@ class EntityLoader extends \Nette\Object
 						$parameter = substr($parameter, 1);
 					}
 					$array = explode(':', $default);
-					$table = end($array);
+					$table = strtolower(end($array));
 					$column = NULL;
 				}
 
