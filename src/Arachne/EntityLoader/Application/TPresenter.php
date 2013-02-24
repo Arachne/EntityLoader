@@ -8,7 +8,7 @@
  * For the full copyright and licence information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader;
+namespace Arachne\EntityLoader\Application;
 
 /**
  * @author Jáchym Toušek
@@ -16,13 +16,13 @@ namespace Arachne\EntityLoader;
 trait TPresenter
 {
 
-	/** @var EntityLoader */
+	/** @var \Arachne\EntityLoader\EntityLoader */
 	private $loader;
 
 	/**
 	 * @param \Arachne\EntityLoader\EntityLoader $loader
 	 */
-	final public function injectEntityLoader(EntityLoader $loader)
+	final public function injectEntityLoader(\Arachne\EntityLoader\EntityLoader $loader)
 	{
 		$this->loader = $loader;
 	}

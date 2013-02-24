@@ -8,7 +8,7 @@
  * For the full copyright and licence information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader;
+namespace Arachne\EntityLoader\Config;
 
 /**
  * @author Jáchym Toušek

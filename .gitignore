@@ -1,1 +1,12 @@
-/composer.lock
+/.idea/
+/nbproject/
+
+/vendor/*
+/tests/*.log
+
+.DS_Store
+!.htaccess
+!.gitignore
+!web.config
+
+composer.lock

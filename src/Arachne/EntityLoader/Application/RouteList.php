@@ -8,7 +8,7 @@
  * For the full copyright and licence information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader;
+namespace Arachne\EntityLoader\Application;
 
 /**
  * @author Jáchym Toušek
@@ -16,14 +16,14 @@ namespace Arachne\EntityLoader;
 class RouteList extends \Nette\Application\Routers\RouteList
 {
 
-	/** @var EntityLoader */
+	/** @var \Arachne\EntityLoader\EntityLoader */
 	protected $loader;
 
 	/**
-	 * @param EntityLoader $loader
+	 * @param \Arachne\EntityLoader\EntityLoader $loader
 	 * @param string $module
 	 */
-	public function __construct(EntityLoader $loader, $module = NULL)
+	public function __construct(\Arachne\EntityLoader\EntityLoader $loader, $module = NULL)
 	{
 		parent::__construct($module);
 		$this->loader = $loader;
