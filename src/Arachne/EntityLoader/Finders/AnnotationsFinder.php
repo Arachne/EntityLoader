@@ -126,7 +126,7 @@ class AnnotationsFinder extends \Nette\Object implements \Arachne\EntityLoader\I
 		if ($reflection->hasMethod($method)) {
 			$element = $reflection->getMethod($method);
 			$class = $element->getAnnotation('return');
-			if (!$class) {
+			if (!is_string($class)) {
 				return;
 			}
 			if ($class[0] != '\\') {
