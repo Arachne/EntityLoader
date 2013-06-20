@@ -18,10 +18,10 @@ use Codeception\Module\CodeHelper;
  * @method void amGoingTo($argumentation)
  * @method void am($role)
  * @method void lookForwardTo($role)
-*/
+ */
 
 class CodeGuy extends \Codeception\AbstractGuy
 {
-    
+
 }
 

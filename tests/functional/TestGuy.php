@@ -19,11 +19,11 @@ use Codeception\Module\TestHelper;
  * @method void amGoingTo($argumentation)
  * @method void am($role)
  * @method void lookForwardTo($role)
-*/
+ */
 
 class TestGuy extends \Codeception\AbstractGuy
 {
-    
+
     /**
      * Enters a directory In local filesystem.
      * Project root directory is used by default
@@ -43,7 +43,7 @@ class TestGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Opens a file and stores it's content.
      *
@@ -71,7 +71,7 @@ class TestGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Deletes a file
      *
@@ -96,7 +96,7 @@ class TestGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Deletes directory with all subdirectories
      *
@@ -121,7 +121,7 @@ class TestGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Copies directory with all contents
      *
@@ -147,7 +147,7 @@ class TestGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks If opened file has `text` in it.
      *
@@ -175,7 +175,7 @@ class TestGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks If opened file doesn't contain `text` in it
      *
@@ -201,7 +201,7 @@ class TestGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Deletes a file
      * @see Filesystem::deleteThisFile()
@@ -218,7 +218,7 @@ class TestGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks if file exists in path.
      * Opens a file when it's exists

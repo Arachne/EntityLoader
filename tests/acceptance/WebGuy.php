@@ -19,11 +19,11 @@ use Codeception\Module\WebHelper;
  * @method void amGoingTo($argumentation)
  * @method void am($role)
  * @method void lookForwardTo($role)
-*/
+ */
 
 class WebGuy extends \Codeception\AbstractGuy
 {
-    
+
     /**
      * Submits a form located on page.
      * Specify the form by it's css or xpath selector.
@@ -77,7 +77,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * If your page triggers an ajax request, you can perform it manually.
      * This action sends a POST ajax request with specified params.
@@ -111,7 +111,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * If your page triggers an ajax request, you can perform it manually.
      * This action sends a GET ajax request with specified params.
@@ -134,7 +134,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Asserts that current page has 404 response status code.
      * @see PhpBrowser::seePageNotFound()
@@ -151,7 +151,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that response code is equal to value provided.
      *
@@ -171,7 +171,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Adds HTTP authentication via username/password.
      *
@@ -191,7 +191,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Low-level API method.
      * If Codeception commands are not enough, use [Guzzle HTTP Client](http://guzzlephp.org/) methods directly
@@ -231,7 +231,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Opens the page.
      *
@@ -250,7 +250,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Sets 'url' configuration parameter to hosts subdomain.
      * It does not open a page on subdomain. Use `amOnPage` for that
@@ -282,7 +282,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Check if current page doesn't contain the text specified.
      * Specify the css selector to match only specific region.
@@ -312,7 +312,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Check if current page contains the text specified.
      * Specify the css selector to match only specific region.
@@ -343,7 +343,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks if there is a link with text specified.
      * Specify url to match link with exact this url.
@@ -373,7 +373,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks if page doesn't contain the link with text specified.
      * Specify url to narrow the results.
@@ -402,7 +402,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Perform a click on link or button.
      * Link or button are found by their names or CSS selector.
@@ -446,7 +446,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks if element exists on a page, matching it by CSS or XPath
      *
@@ -471,7 +471,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks if element does not exist (or is visible) on a page, matching it by CSS or XPath
      *
@@ -496,7 +496,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Reloads current page
      * @see PhpBrowser::reloadPage()
@@ -513,7 +513,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Moves back in history
      * @see PhpBrowser::moveBack()
@@ -530,7 +530,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Moves forward in history
      * @see PhpBrowser::moveForward()
@@ -547,7 +547,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Fills a text field or textarea with value.
      *
@@ -567,7 +567,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Selects an option in select tag or in radio button group.
      *
@@ -597,7 +597,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Ticks a checkbox.
      * For radio buttons use `selectOption` method.
@@ -625,7 +625,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Unticks a checkbox.
      *
@@ -652,7 +652,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that current uri contains a value
      *
@@ -680,7 +680,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that current uri does not contain a value
      *
@@ -705,7 +705,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that current url is equal to value.
      * Unlike `seeInCurrentUrl` performs a strict check.
@@ -730,7 +730,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that current url is not equal to value.
      * Unlike `dontSeeInCurrentUrl` performs a strict check.
@@ -755,7 +755,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that current url is matches a RegEx value
      *
@@ -779,7 +779,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that current url does not match a RegEx value
      *
@@ -803,7 +803,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      *
      * @see PhpBrowser::seeCookie()
@@ -820,7 +820,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      *
      * @see PhpBrowser::dontSeeCookie()
@@ -837,7 +837,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      *
      * @see PhpBrowser::setCookie()
@@ -854,7 +854,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      *
      * @see PhpBrowser::resetCookie()
@@ -871,7 +871,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      *
      * @see PhpBrowser::grabCookie()
@@ -888,7 +888,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Takes a parameters from current URI by RegEx.
      * If no url provided returns full URI.
@@ -917,7 +917,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Attaches file from Codeception data directory to upload field.
      *
@@ -946,7 +946,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks if option is selected in select field.
      *
@@ -973,7 +973,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks if option is not selected in select field.
      *
@@ -1000,7 +1000,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Assert if the specified checkbox is checked.
      * Use css selector or xpath to match.
@@ -1030,7 +1030,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Assert if the specified checkbox is unchecked.
      * Use css selector or xpath to match.
@@ -1059,7 +1059,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that an input field or textarea contains value.
      * Field is matched either by label or CSS or Xpath
@@ -1092,7 +1092,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Checks that an input field or textarea doesn't contain value.
      * Field is matched either by label or CSS or Xpath
@@ -1124,7 +1124,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Finds and returns text contents of element.
      * Element is searched by CSS selector, XPath or matcher by regex.
@@ -1155,7 +1155,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      * Finds and returns field and returns it's value.
      * Searches by field name, then by CSS, then by XPath
@@ -1186,7 +1186,7 @@ class WebGuy extends \Codeception\AbstractGuy
         return new Maybe();
     }
 
- 
+
     /**
      *
      * @see PhpBrowser::grabAttribute()
