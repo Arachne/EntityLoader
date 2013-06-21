@@ -2,7 +2,8 @@
 /nbproject/
 
 /vendor/*
-/tests/*.log
+/tests/_log/*
+/tests/temp/*
 
 .DS_Store
 !.htaccess
