@@ -8,12 +8,12 @@
  * For the full copyright and licence information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader\Config;
+namespace Arachne\EntityLoader\DI;
 
 /**
  * @author Jáchym Toušek
  */
-class EntityLoaderExtension extends \Nette\Config\CompilerExtension
+class EntityLoaderExtension extends \Nette\DI\CompilerExtension
 {
 
 	public function loadConfiguration()
