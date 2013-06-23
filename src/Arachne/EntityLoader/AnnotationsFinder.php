@@ -1,6 +1,6 @@
 <?php
 
-namespace Arachne\EntityLoader\Finders;
+namespace Arachne\EntityLoader;
 
 use Arachne\EntityLoader\InvalidStateException;
 
