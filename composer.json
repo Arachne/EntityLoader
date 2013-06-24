@@ -22,9 +22,9 @@
 		"mockery/mockery": "@dev"
 	},
 	"autoload": {
-		"classmap": [ "src/Arachne/EntityLoader/exceptions.php" ],
 		"psr-0": {
 			"Arachne\\EntityLoader": "src/"
-		}
+		},
+		"classmap": [ "src/Arachne/EntityLoader/exceptions.php" ]
 	}
 }

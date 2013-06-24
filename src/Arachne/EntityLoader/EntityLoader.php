@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the EntityLoader extenstion
+ * This file is part of the Arachne EntityLoader extenstion
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
  *
