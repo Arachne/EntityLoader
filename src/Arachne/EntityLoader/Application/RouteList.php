@@ -52,9 +52,9 @@ class RouteList extends \Nette\Application\Routers\RouteList
 	{
 		$parameters = $request->getParameters();
 		if ($this->loader->removeEntities($request)) {
-			$return = parent::constructUrl($request, $refUrl);
+			$url = parent::constructUrl($request, $refUrl);
 			$request->setParameters($parameters);
-			return $return;
+			return $url;
 		}
 	}
 
