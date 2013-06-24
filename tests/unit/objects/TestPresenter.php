@@ -1,6 +1,6 @@
 <?php
 
-namespace ArachneTests\EntityLoader;
+namespace Tests;
 
 class TestPresenter extends \Nette\Application\UI\Presenter
 {
@@ -59,21 +59,21 @@ class TestPresenter extends \Nette\Application\UI\Presenter
 	}
 
 	/**
-	 * @return \ArachneTests\EntityLoader\TestComponentOne
+	 * @return TestComponentOne
 	 */
 	protected function createComponentComponentOne()
 	{
 	}
 
 	/**
-	 * @return \ArachneTests\EntityLoader\TestComponentTwo
+	 * @return TestComponentTwo
 	 */
 	protected function createComponentComponentTwo()
 	{
 	}
 
 	/**
-	 * @return \ArachneTests\EntityLoader\NonexistentComponent
+	 * @return NonexistentComponent
 	 */
 	protected function createComponentNonexistentComponent()
 	{

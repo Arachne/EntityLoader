@@ -1,14 +1,11 @@
 <?php
 
-namespace ArachneTests\EntityLoader;
+namespace Tests\Arachne\EntityLoader;
 
 use Mockery;
 
-class EntityLoaderTest extends \Codeception\TestCase\Test
+final class EntityLoaderTest extends \Codeception\TestCase\Test
 {
-
-	/** @var \CodeGuy */
-	protected $codeGuy;
 
 	/** @var \Nette\Application\Request */
 	private $request;

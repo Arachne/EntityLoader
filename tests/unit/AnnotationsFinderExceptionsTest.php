@@ -1,21 +1,21 @@
 <?php
 
-namespace ArachneTests\EntityLoader;
+namespace Tests\Arachne\EntityLoader;
 
 use Mockery;
 
-class AnnotationsFinderExceptionsTest extends \Codeception\TestCase\Test
+final class AnnotationsFinderExceptionsTest extends \Codeception\TestCase\Test
 {
 
-	/** @var \Arachne\EntityLoader\Finders\AnnotationsFinder */
+	/** @var \Arachne\EntityLoader\AnnotationsFinder */
 	private $finder;
 
 	protected function _before()
 	{
-		$presenterFactory = Mockery::mock('Nette\Application\PresenterFactory')
+		$presenterFactory = Mockery::mock('Nette\Application\IPresenterFactory')
 				->shouldReceive('getPresenterClass')
 				->once()
-				->andReturn('ArachneTests\EntityLoader\TestPresenter')
+				->andReturn('Tests\TestPresenter')
 				->getMock();
 		$storage = Mockery::mock('Nette\Caching\IStorage');
 		$storage->shouldReceive('read')
@@ -23,7 +23,7 @@ class AnnotationsFinderExceptionsTest extends \Codeception\TestCase\Test
 				->andReturnNull();
 		$storage->shouldReceive('write')
 				->never();
-		$this->finder = new \Arachne\EntityLoader\Finders\AnnotationsFinder($presenterFactory, $storage);
+		$this->finder = new \Arachne\EntityLoader\AnnotationsFinder($presenterFactory, $storage);
 	}
 
 	protected function _after()
@@ -94,7 +94,7 @@ class AnnotationsFinderExceptionsTest extends \Codeception\TestCase\Test
 
 	/**
 	 * @expectedException \Arachne\EntityLoader\InvalidStateException
-	 * @expectedExceptionMessage Class '\ArachneTests\EntityLoader\NonexistentComponent' from ArachneTests\EntityLoader\TestPresenter::createComponentNonexistentComponent @return annotation not found.
+	 * @expectedExceptionMessage Class 'Tests\NonexistentComponent' from Tests\TestPresenter::createComponentNonexistentComponent @return annotation not found.
 	 */
 	public function testNonexistentComponent()
 	{

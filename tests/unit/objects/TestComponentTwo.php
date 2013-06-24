@@ -1,6 +1,6 @@
 <?php
 
-namespace ArachneTests\EntityLoader;
+namespace Tests;
 
 class TestComponentTwo extends \Nette\Application\UI\PresenterComponent
 {
