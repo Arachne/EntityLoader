@@ -38,7 +38,6 @@ trait TPresenter
 		do {
 			$key = \Nette\Utils\Strings::random(5);
 		} while (isset($session[$key]));
-
 		$request = clone $this->request;
 		if (!$this->loader->removeEntities($request)) {
 			throw new InvalidStateException("Failed to remove entities from request.");
