@@ -2,12 +2,14 @@
 
 namespace Tests;
 
-class TestComponentOne extends \Nette\Application\UI\PresenterComponent
+use Arachne\EntityLoader\Entity;
+
+class TestComponent extends \Nette\Application\UI\PresenterComponent
 {
 
 	/**
 	 * @persistent
-	 * @Entity mapping
+	 * @Entity(entity="mapping")
 	 */
 	public $persistent;
 
@@ -17,7 +19,7 @@ class TestComponentOne extends \Nette\Application\UI\PresenterComponent
 	}
 
 	/**
-	 * @Entity handle $handleEntity
+	 * @Entity(entity="handle", parameter="handleEntity")
 	 */
 	public function handleTestHandle($handleEntity)
 	{

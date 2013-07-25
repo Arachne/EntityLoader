@@ -13,7 +13,7 @@ namespace Arachne\EntityLoader\Application;
 /**
  * @author Jáchym Toušek
  */
-trait TPresenter
+trait TEntityLoaderPresenter
 {
 
 	/** @var \Arachne\EntityLoader\EntityLoader */

@@ -10,15 +10,14 @@
 
 namespace Arachne\EntityLoader;
 
-use Arachne\EntityLoader\InvalidStateException;
-
 /**
  * @author Jáchym Toušek
  */
-class AnnotationsFinder extends \Nette\Object implements \Arachne\EntityLoader\IParameterFinder
+class ParameterFinder extends \Nette\Object
 {
 
-	const ANNOTATION = 'Entity';
+	/** @var \Doctrine\Common\Annotations\Reader */
+	protected $reader;
 
 	/** @var \Nette\Application\IPresenterFactory */
 	protected $presenterFactory;
@@ -27,11 +26,13 @@ class AnnotationsFinder extends \Nette\Object implements \Arachne\EntityLoader\I
 	protected $cache;
 
 	/**
+	 * @param \Doctrine\Common\Annotations\Reader $reader
 	 * @param \Nette\Application\IPresenterFactory $presenterFactory
 	 * @param \Nette\Caching\IStorage $storage
 	 */
-	public function __construct(\Nette\Application\IPresenterFactory $presenterFactory, \Nette\Caching\IStorage $storage)
+	public function __construct(\Doctrine\Common\Annotations\Reader $reader, \Nette\Application\IPresenterFactory $presenterFactory, \Nette\Caching\IStorage $storage)
 	{
+		$this->reader = $reader;
 		$this->presenterFactory = $presenterFactory;
 		$this->cache = new \Nette\Caching\Cache($storage, 'Arachne.EntityLoader');
 	}
@@ -45,10 +46,10 @@ class AnnotationsFinder extends \Nette\Object implements \Arachne\EntityLoader\I
 	{
 		$parameters = $request->getParameters();
 		$presenter = $request->getPresenterName();
-		$cacheKey = $this->getCacheKey($presenter, $parameters);
-		$entities = $this->cache->load($cacheKey);
-		if ($entities !== NULL) {
-			return $entities;
+		$cacheKey = $this->getCacheKey($request);
+		$cached = $this->cache->load($cacheKey);
+		if ($cached !== NULL) {
+			return $cached;
 		}
 
 		$class = $this->presenterFactory->getPresenterClass($presenter);
@@ -110,7 +111,7 @@ class AnnotationsFinder extends \Nette\Object implements \Arachne\EntityLoader\I
 			}
 		}
 
-		// Does not invalidate if a component factory file was changed (see getComponentReflection method)
+		// Does not invalidate if a component factory file was changed (see createReflection method)
 		$this->cache->save($cacheKey, $entities, [
 			\Nette\Caching\Cache::FILES => $files,
 		]);
@@ -165,20 +166,15 @@ class AnnotationsFinder extends \Nette\Object implements \Arachne\EntityLoader\I
 			$parameters[] = $parameter->getName();
 		}
 		$entities = [];
-		$annotations = $reflection->getAnnotations();
-		if (isset($annotations[self::ANNOTATION])) {
-			foreach ($annotations[self::ANNOTATION] as $annotation) {
-				if (!is_string($annotation)) {
-					throw new InvalidStateException("Annotation @Entity of '$reflection->name' method is not a string.");
-				}
-				if (!preg_match('/^(.+)\\s++\\$(\\w++)$/', $annotation, $matches)) {
-					throw new InvalidStateException("Annotation @Entity of '$reflection->name' method doesn't have correct format.");
-				}
-				if (!in_array($matches[2], $parameters)) {
-					throw new InvalidStateException("Annotation @Entity of '$reflection->name' method uses nonexistent parameter '$$matches[2]'.");
-				}
-				$entities[$prefix . $matches[2]] = $matches[1];
+		$annotations = $this->reader->getMethodAnnotations($reflection);
+		foreach ($annotations as $annotation) {
+			if (!$annotation instanceof Entity) {
+				continue;
 			}
+			if (!in_array($annotation->parameter, $parameters)) {
+				throw new InvalidStateException("Annotation @Entity of '$reflection->name' method uses nonexistent parameter '\${$annotation->parameter}'.");
+			}
+			$entities[$prefix . $annotation->parameter] = $annotation;
 		}
 		return $entities;
 	}
@@ -192,28 +188,27 @@ class AnnotationsFinder extends \Nette\Object implements \Arachne\EntityLoader\I
 	{
 		$entities = [];
 		foreach ($reflection->getPersistentParams() as $persistent => $_) {
-			$annotations = $reflection->getProperty($persistent)->getAnnotations();
-			if (isset($annotations[self::ANNOTATION])) {
-				foreach ($annotations[self::ANNOTATION] as $annotation) {
-					if (!is_string($annotation)) {
-						throw new InvalidStateException("Annotation @Entity of '$$persistent' property is not a string.");
-					}
-					$entities[$prefix . $persistent] = $annotation;
+			$annotations = $this->reader->getPropertyAnnotations($reflection->getProperty($persistent));
+			foreach ($annotations as $annotation) {
+				if (!$annotation instanceof Entity) {
+					continue;
 				}
+				// TODO $annotation->parameter = $persistent; ?
+				$entities[$prefix . $persistent] = $annotation;
 			}
 		}
 		return $entities;
 	}
 
 	/**
-	 * @param string $presenter
-	 * @param array $parameters
+	 * @param \Nette\Application\Request $request
 	 * @return array
 	 */
-	protected function getCacheKey($presenter, array $parameters)
+	protected function getCacheKey(\Nette\Application\Request $request)
 	{
+		$parameters = $request->getParameters();
 		$key = [
-			'presenter' => $presenter,
+			'presenter' => $request->getPresenterName(),
 			'action' => $parameters[\Nette\Application\UI\Presenter::ACTION_KEY],
 		];
 		unset($parameters[\Nette\Application\UI\Presenter::ACTION_KEY]);

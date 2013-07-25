@@ -16,17 +16,17 @@ namespace Arachne\EntityLoader;
 class EntityLoader extends \Nette\Object
 {
 
-	/** @var \Arachne\EntityLoader\IParameterFinder */
+	/** @var \Arachne\EntityLoader\ParameterFinder */
 	protected $finder;
 
-	/** @var \Arachne\EntityLoader\IParameterConverter */
+	/** @var \Arachne\EntityLoader\IConverter */
 	protected $converter;
 
 	/**
-	 * @param \Arachne\EntityLoader\IParameterFinder $finder
-	 * @param \Arachne\EntityLoader\IParameterConverter $converter
+	 * @param \Arachne\EntityLoader\ParameterFinder $finder
+	 * @param \Arachne\EntityLoader\IConverter $converter
 	 */
-	public function __construct(IParameterFinder $finder, IParameterConverter $converter)
+	public function __construct(ParameterFinder $finder, IConverter $converter)
 	{
 		$this->finder = $finder;
 		$this->converter = $converter;

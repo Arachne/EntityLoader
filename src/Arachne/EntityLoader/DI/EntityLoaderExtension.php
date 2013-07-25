@@ -21,10 +21,13 @@ class EntityLoaderExtension extends \Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('parameterFinder'))
-			->setClass('Arachne\EntityLoader\AnnotationsFinder');
+				->setClass('Arachne\EntityLoader\ParameterFinder')
+				->setAutowired(FALSE);
 
 		$builder->addDefinition($this->prefix('loader'))
-			->setClass('Arachne\EntityLoader\EntityLoader');
+				->setClass('Arachne\EntityLoader\EntityLoader', array(
+					$this->prefix('@parameterFinder'),
+				));
 	}
 
 }

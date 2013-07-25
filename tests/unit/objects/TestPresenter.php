@@ -2,12 +2,14 @@
 
 namespace Tests;
 
+use Arachne\EntityLoader\Entity;
+
 class TestPresenter extends \Nette\Application\UI\Presenter
 {
 
 	/**
 	 * @persistent
-	 * @Entity persistent
+	 * @Entity(entity="persistent")
 	 */
 	public $persistent;
 
@@ -17,58 +19,37 @@ class TestPresenter extends \Nette\Application\UI\Presenter
 	}
 
 	/**
-	 * @Entity action.id $actionEntity
+	 * @Entity(entity="action", property="id", parameter="actionEntity")
 	 */
 	public function actionTestAction($actionEntity)
 	{
 	}
 
 	/**
-	 * @Entity render.id $renderEntity
+	 * @Entity(entity="render", property="id", parameter="renderEntity")
 	 */
 	public function renderTestRender($renderEntity)
 	{
 	}
 
 	/**
-	 * @Entity handle.id $handleEntity
+	 * @Entity(entity="handle", property="id", parameter="handleEntity")
 	 */
 	public function handleTestHandle($handleEntity)
 	{
 	}
 
 	/**
-	 * @Entity (wrong, annotation)
-	 */
-	public function actionArrayAnnotation($entity)
-	{
-	}
-
-	/**
-	 * @Entity missing dollar
-	 */
-	public function actionWrongFormat($entity)
-	{
-	}
-
-	/**
-	 * @Entity table $nonexistent
+	 * @Entity(entity="table", property="id", parameter="nonexistent")
 	 */
 	public function actionNonexistentPatameter($entity)
 	{
 	}
 
 	/**
-	 * @return TestComponentOne
+	 * @return TestComponent
 	 */
-	protected function createComponentComponentOne()
-	{
-	}
-
-	/**
-	 * @return TestComponentTwo
-	 */
-	protected function createComponentComponentTwo()
+	protected function createComponentComponent()
 	{
 	}
 

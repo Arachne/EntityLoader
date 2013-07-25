@@ -11,15 +11,19 @@
 namespace Arachne\EntityLoader;
 
 /**
- * @author Jáchym Toušek
+ * @Annotation
+ * @Target({"METHOD", "PROPERTY"})
  */
-interface IParameterFinder
+class Entity extends \Nette\Object
 {
 
-	/**
-	 * @param \Nette\Application\Request $request
-	 * @return array
-	 */
-	public function getEntityParameters(\Nette\Application\Request $request);
+	/** @var string */
+	public $parameter;
+
+	/** @var string */
+	public $entity;
+
+	/** @var string */
+	public $property = 'id';
 
 }

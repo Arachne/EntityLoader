@@ -13,7 +13,8 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"nette/nette": "@dev"
+		"nette/nette": "@dev",
+		"kdyby/annotations": "@dev"
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "1.*",
@@ -21,10 +22,10 @@
 		"codeception/codeception": "@stable",
 		"mockery/mockery": "@dev"
 	},
+	"minimum-stability": "dev",
 	"autoload": {
 		"psr-0": {
 			"Arachne\\EntityLoader": "src/"
-		},
-		"classmap": [ "src/Arachne/EntityLoader/exceptions.php" ]
+		}
 	}
 }

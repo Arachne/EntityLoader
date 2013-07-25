@@ -4,7 +4,7 @@ namespace Tests\Arachne\EntityLoader;
 
 use Mockery;
 
-final class EntityLoaderTest extends \Codeception\TestCase\Test
+class EntityLoaderTest extends BaseTest
 {
 
 	/** @var \Nette\Application\Request */
@@ -13,7 +13,7 @@ final class EntityLoaderTest extends \Codeception\TestCase\Test
 	/** @var \Arachne\EntityLoader\EntityLoader */
 	private $entityLoader;
 
-	/** @var \Arachne\EntityLoader\IParameterConverter */
+	/** @var \Mockery\MockInterface */
 	private $converter;
 
 	protected function _before()
@@ -23,21 +23,15 @@ final class EntityLoaderTest extends \Codeception\TestCase\Test
 			'entity' => 'value1',
 			'component-entity' => 'value2',
 		]);
-		$this->converter = Mockery::mock('Arachne\EntityLoader\IParameterConverter');
-		$finder = Mockery::mock('Arachne\EntityLoader\IParameterFinder')
-				->shouldReceive('getEntityParameters')
+		$finder = Mockery::mock('Arachne\EntityLoader\ParameterFinder');
+		$finder->shouldReceive('getEntityParameters')
 				->once()
 				->andReturn([
 					'entity' => 'mapping',
 					'component-entity' => 'mapping',
-				])
-				->getMock();
+				]);
+		$this->converter = Mockery::mock('Arachne\EntityLoader\IConverter');
 		$this->entityLoader = new \Arachne\EntityLoader\EntityLoader($finder, $this->converter);
-	}
-
-	protected function _after()
-	{
-		Mockery::close();
 	}
 
 	private function assertParameters()
@@ -51,7 +45,8 @@ final class EntityLoaderTest extends \Codeception\TestCase\Test
 
 	public function testLoadEntities()
 	{
-		$this->converter->shouldReceive('parameterToEntity')
+		$this->converter
+				->shouldReceive('parameterToEntity')
 				->twice()
 				->andReturn(1, 2);
 		$this->assertTrue($this->entityLoader->loadEntities($this->request));
@@ -60,7 +55,8 @@ final class EntityLoaderTest extends \Codeception\TestCase\Test
 
 	public function testRemoveEntities()
 	{
-		$this->converter->shouldReceive('entityToParameter')
+		$this->converter
+				->shouldReceive('entityToParameter')
 				->twice()
 				->andReturn(1, 2);
 		$this->assertTrue($this->entityLoader->removeEntities($this->request));
@@ -69,17 +65,19 @@ final class EntityLoaderTest extends \Codeception\TestCase\Test
 
 	public function testLoadEntitiesFail()
 	{
-		$this->converter->shouldReceive('parameterToEntity')
-			->twice()
-			->andReturn(1, NULL);
+		$this->converter
+				->shouldReceive('parameterToEntity')
+				->twice()
+				->andReturn(1, NULL);
 		$this->assertFalse($this->entityLoader->loadEntities($this->request));
 	}
 
 	public function testRemoveEntitiesFail()
 	{
-		$this->converter->shouldReceive('entityToParameter')
-			->twice()
-			->andReturn(1, NULL);
+		$this->converter
+				->shouldReceive('entityToParameter')
+				->twice()
+				->andReturn(1, NULL);
 		$this->assertFalse($this->entityLoader->removeEntities($this->request));
 	}
 

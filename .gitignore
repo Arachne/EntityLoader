@@ -3,7 +3,7 @@
 
 /vendor/*
 /tests/_log/*
-/tests/temp/*
+/tests/_temp/*
 
 .DS_Store
 !.htaccess

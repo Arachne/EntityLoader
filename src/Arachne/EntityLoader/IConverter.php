@@ -13,21 +13,21 @@ namespace Arachne\EntityLoader;
 /**
  * @author Jáchym Toušek
  */
-interface IParameterConverter
+interface IConverter
 {
 
 	/**
+	 * @param \Arachne\EntityLoader\Entity $annotation
 	 * @param mixed $value
-	 * @param string $mapping
 	 * @return mixed
 	 */
-	public function parameterToEntity($value, $mapping);
+	public function parameterToEntity(Entity $annotation, $value);
 
 	/**
+	 * @param \Arachne\EntityLoader\Entity $annotation
 	 * @param mixed $entity
-	 * @param string $mapping
 	 * @return mixed
 	 */
-	public function entityToParameter($entity, $mapping);
+	public function entityToParameter(Entity $annotation, $entity);
 
 }
