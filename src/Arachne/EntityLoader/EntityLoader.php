@@ -45,9 +45,9 @@ class EntityLoader extends \Nette\Object
 		}
 
 		$parameters = $request->getParameters();
-		foreach ($entities as $key => $mapping) {
+		foreach ($entities as $key => $annotation) {
 			if (isset($parameters[$key])) {
-				$entity = $this->converter->parameterToEntity($mapping, $parameters[$key]);
+				$entity = $this->converter->parameterToEntity($annotation, $parameters[$key]);
 				if ($entity === NULL) {
 					return FALSE;
 				}
@@ -71,9 +71,9 @@ class EntityLoader extends \Nette\Object
 		}
 
 		$parameters = $request->getParameters();
-		foreach ($entities as $key => $mapping) {
+		foreach ($entities as $key => $annotation) {
 			if (isset($parameters[$key])) {
-				$parameter = $this->converter->entityToParameter($mapping, $parameters[$key]);
+				$parameter = $this->converter->entityToParameter($annotation, $parameters[$key]);
 				if ($parameter === NULL) {
 					return FALSE;
 				}
