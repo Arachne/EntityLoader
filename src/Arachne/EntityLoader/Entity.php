@@ -20,10 +20,7 @@ class Entity extends \Nette\Object
 	/** @var string */
 	public $parameter;
 
-	/** @var string */
-	public $entity;
-
-	/** @var string */
-	public $property = 'id';
+	/** @var mixed */
+	public $mapping;
 
 }
