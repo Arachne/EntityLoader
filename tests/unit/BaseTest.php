@@ -2,12 +2,15 @@
 
 namespace Tests\Arachne\EntityLoader;
 
-abstract class BaseTest extends \Codeception\TestCase\Test
+use Codeception\TestCase\Test;
+use Mockery;
+
+abstract class BaseTest extends Test
 {
 
 	protected function tearDown()
 	{
-		\Mockery::close();
+		Mockery::close();
 		parent::tearDown();
 	}
 

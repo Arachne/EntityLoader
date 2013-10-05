@@ -10,10 +10,13 @@
 
 namespace Arachne\EntityLoader;
 
+use Nette\Application\Request;
+use Nette\Object;
+
 /**
  * @author Jáchym Toušek
  */
-class EntityLoader extends \Nette\Object
+class EntityLoader extends Object
 {
 
 	/** @var \Arachne\EntityLoader\ParameterFinder */
@@ -34,10 +37,10 @@ class EntityLoader extends \Nette\Object
 
 	/**
 	 * Replaces scalars in request by entities.
-	 * @param \Nette\Application\Request $request
+	 * @param Request $request
 	 * @return bool
 	 */
-	public function loadEntities(\Nette\Application\Request $request)
+	public function loadEntities(Request $request)
 	{
 		$entities = $this->finder->getEntityParameters($request);
 		if (empty($entities)) {
@@ -60,10 +63,10 @@ class EntityLoader extends \Nette\Object
 
 	/**
 	 * Replaces entities in request by scalars.
-	 * @param \Nette\Application\Request $request
+	 * @param Request $request
 	 * @return bool
 	 */
-	public function removeEntities(\Nette\Application\Request $request)
+	public function removeEntities(Request $request)
 	{
 		$entities = $this->finder->getEntityParameters($request);
 		if (empty($entities)) {

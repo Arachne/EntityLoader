@@ -10,39 +10,50 @@
 
 namespace Arachne\EntityLoader;
 
+use Doctrine\Common\Annotations\Reader;
+use Nette\Application\IPresenterFactory;
+use Nette\Application\Request;
+use Nette\Application\UI\Presenter;
+use Nette\Application\UI\PresenterComponentReflection;
+use Nette\Caching\Cache;
+use Nette\Caching\IStorage;
+use Nette\Object;
+use Nette\Reflection\ClassType;
+use Nette\Reflection\Method;
+
 /**
  * @author Jáchym Toušek
  */
-class ParameterFinder extends \Nette\Object
+class ParameterFinder extends Object
 {
 
-	/** @var \Doctrine\Common\Annotations\Reader */
+	/** @var Reader */
 	protected $reader;
 
-	/** @var \Nette\Application\IPresenterFactory */
+	/** @var IPresenterFactory */
 	protected $presenterFactory;
 
-	/** @var \Nette\Caching\Cache */
+	/** @var Cache */
 	protected $cache;
 
 	/**
-	 * @param \Doctrine\Common\Annotations\Reader $reader
-	 * @param \Nette\Application\IPresenterFactory $presenterFactory
-	 * @param \Nette\Caching\IStorage $storage
+	 * @param Reader $reader
+	 * @param IPresenterFactory $presenterFactory
+	 * @param IStorage $storage
 	 */
-	public function __construct(\Doctrine\Common\Annotations\Reader $reader, \Nette\Application\IPresenterFactory $presenterFactory, \Nette\Caching\IStorage $storage)
+	public function __construct(Reader $reader, IPresenterFactory $presenterFactory, IStorage $storage)
 	{
 		$this->reader = $reader;
 		$this->presenterFactory = $presenterFactory;
-		$this->cache = new \Nette\Caching\Cache($storage, 'Arachne.EntityLoader');
+		$this->cache = new Cache($storage, 'Arachne.EntityLoader');
 	}
 
 	/**
 	 * Returns entity parameters based on the request.
-	 * @param \Nette\Application\Request $request
+	 * @param Request $request
 	 * @return array
 	 */
-	public function getEntityParameters(\Nette\Application\Request $request)
+	public function getEntityParameters(Request $request)
 	{
 		$parameters = $request->getParameters();
 		$presenter = $request->getPresenterName();
@@ -53,7 +64,7 @@ class ParameterFinder extends \Nette\Object
 		}
 
 		$class = $this->presenterFactory->getPresenterClass($presenter);
-		$presenterReflection = new \Nette\Application\UI\PresenterComponentReflection($class);
+		$presenterReflection = new PresenterComponentReflection($class);
 		$files = [];
 
 		// Presenter persistent entities
@@ -61,7 +72,7 @@ class ParameterFinder extends \Nette\Object
 		$files[] = $presenterReflection->getFileName();
 
 		// Action entities
-		$action = $parameters[\Nette\Application\UI\Presenter::ACTION_KEY];
+		$action = $parameters[Presenter::ACTION_KEY];
 		$method = 'action' . $action;
 		$element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : NULL;
 		if (!$element) {
@@ -91,8 +102,8 @@ class ParameterFinder extends \Nette\Object
 		}
 
 		// Signal entities
-		if (isset($parameters[\Nette\Application\UI\Presenter::SIGNAL_KEY])) {
-			$signal = $parameters[\Nette\Application\UI\Presenter::SIGNAL_KEY];
+		if (isset($parameters[Presenter::SIGNAL_KEY])) {
+			$signal = $parameters[Presenter::SIGNAL_KEY];
 			$pos = strrpos($signal, '-');
 			if ($pos !== FALSE) {
 				$component = substr($signal, 0, $pos);
@@ -113,18 +124,18 @@ class ParameterFinder extends \Nette\Object
 
 		// Does not invalidate if a component factory file was changed (see createReflection method)
 		$this->cache->save($cacheKey, $entities, [
-			\Nette\Caching\Cache::FILES => $files,
+			Cache::FILES => $files,
 		]);
 
 		return $entities;
 	}
 
 	/**
-	 * @param \Nette\Reflection\ClassType $reflection
+	 * @param ClassType $reflection
 	 * @param string $component
-	 * @return \Nette\Application\UI\PresenterComponentReflection|NULL
+	 * @return PresenterComponentReflection|NULL
 	 */
-	protected function createReflection(\Nette\Reflection\ClassType $reflection, $component)
+	protected function createReflection(ClassType $reflection, $component)
 	{
 		$pos = strpos($component, '-');
 		if ($pos !== FALSE) {
@@ -143,9 +154,9 @@ class ParameterFinder extends \Nette\Object
 			}
 			if (class_exists($class)) {
 				if (isset($subComponent)) {
-					return $this->createReflection(new \Nette\Reflection\ClassType($class), $subComponent);
+					return $this->createReflection(new ClassType($class), $subComponent);
 				} else {
-					return new \Nette\Application\UI\PresenterComponentReflection($class);
+					return new PresenterComponentReflection($class);
 				}
 			} else {
 				throw new InvalidStateException("Class '$class' from $reflection->name::$method @return annotation not found.");
@@ -154,12 +165,12 @@ class ParameterFinder extends \Nette\Object
 	}
 
 	/**
-	 * @param \Nette\Reflection\Method $element
+	 * @param Method $element
 	 * @param string $prefix
 	 * @param string $default
 	 * @return array
 	 */
-	protected function getMethodEntities(\Nette\Reflection\Method $reflection, $prefix = NULL)
+	protected function getMethodEntities(Method $reflection, $prefix = NULL)
 	{
 		$parameters = [];
 		foreach ($reflection->getParameters() as $parameter) {
@@ -180,11 +191,11 @@ class ParameterFinder extends \Nette\Object
 	}
 
 	/**
-	 * @param \Nette\Application\UI\PresenterComponentReflection $reflection
+	 * @param PresenterComponentReflection $reflection
 	 * @param string
 	 * @return array
 	 */
-	protected function getPersistentEntities(\Nette\Application\UI\PresenterComponentReflection $reflection, $prefix = NULL)
+	protected function getPersistentEntities(PresenterComponentReflection $reflection, $prefix = NULL)
 	{
 		$entities = [];
 		foreach ($reflection->getPersistentParams() as $persistent => $_) {
@@ -201,20 +212,20 @@ class ParameterFinder extends \Nette\Object
 	}
 
 	/**
-	 * @param \Nette\Application\Request $request
+	 * @param Request $request
 	 * @return array
 	 */
-	protected function getCacheKey(\Nette\Application\Request $request)
+	protected function getCacheKey(Request $request)
 	{
 		$parameters = $request->getParameters();
 		$key = [
 			'presenter' => $request->getPresenterName(),
-			'action' => $parameters[\Nette\Application\UI\Presenter::ACTION_KEY],
+			'action' => $parameters[Presenter::ACTION_KEY],
 		];
-		unset($parameters[\Nette\Application\UI\Presenter::ACTION_KEY]);
-		if (isset($parameters[\Nette\Application\UI\Presenter::SIGNAL_KEY])) {
-			$key['signal'] = $parameters[\Nette\Application\UI\Presenter::SIGNAL_KEY];
-			unset($parameters[\Nette\Application\UI\Presenter::SIGNAL_KEY]);
+		unset($parameters[Presenter::ACTION_KEY]);
+		if (isset($parameters[Presenter::SIGNAL_KEY])) {
+			$key['signal'] = $parameters[Presenter::SIGNAL_KEY];
+			unset($parameters[Presenter::SIGNAL_KEY]);
 		}
 		$key['parameters'] = array_keys($parameters);
 		return $key;

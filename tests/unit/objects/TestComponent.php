@@ -3,8 +3,10 @@
 namespace Tests;
 
 use Arachne\EntityLoader\Entity;
+use Exception;
+use Nette\Application\UI\PresenterComponent;
 
-class TestComponent extends \Nette\Application\UI\PresenterComponent
+class TestComponent extends PresenterComponent
 {
 
 	/**
@@ -15,7 +17,7 @@ class TestComponent extends \Nette\Application\UI\PresenterComponent
 
 	final public function __construct()
 	{
-		throw new \Exception('This class is there for annotations only.');
+		throw new Exception('This class is there for annotations only.');
 	}
 
 	/**

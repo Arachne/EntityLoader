@@ -17,14 +17,14 @@ interface IConverter
 {
 
 	/**
-	 * @param \Arachne\EntityLoader\Entity $annotation
+	 * @param Entity $annotation
 	 * @param mixed $value
 	 * @return mixed
 	 */
 	public function parameterToEntity(Entity $annotation, $value);
 
 	/**
-	 * @param \Arachne\EntityLoader\Entity $annotation
+	 * @param Entity $annotation
 	 * @param mixed $entity
 	 * @return mixed
 	 */

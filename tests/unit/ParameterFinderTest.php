@@ -2,17 +2,21 @@
 
 namespace Tests\Arachne\EntityLoader;
 
+use Arachne\EntityLoader\Entity;
+use Arachne\EntityLoader\ParameterFinder;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Mockery;
+use Nette\Application\Request;
 
 class ParameterFinderTest extends BaseTest
 {
 
-	/** @var \Arachne\EntityLoader\ParameterFinder */
+	/** @var ParameterFinder */
 	private $finder;
 
 	protected function _before()
 	{
-		$reader = new \Doctrine\Common\Annotations\AnnotationReader();
+		$reader = new AnnotationReader();
 		$reader->addGlobalIgnoredName('persistent');
 		$presenterFactory = Mockery::mock('Nette\Application\IPresenterFactory')
 				->shouldReceive('getPresenterClass')
@@ -26,12 +30,12 @@ class ParameterFinderTest extends BaseTest
 		$storage->shouldReceive('write')
 				->once()
 				->andReturn();
-		$this->finder = new \Arachne\EntityLoader\ParameterFinder($reader, $presenterFactory, $storage);
+		$this->finder = new ParameterFinder($reader, $presenterFactory, $storage);
 	}
 
 	public function testAction()
 	{
-		$request = new \Nette\Application\Request('', 'GET', [
+		$request = new Request('', 'GET', [
 			'action' => 'testAction',
 			'persistent' => 0,
 		]);
@@ -43,7 +47,7 @@ class ParameterFinderTest extends BaseTest
 
 	public function testRenderAndHandle()
 	{
-		$request = new \Nette\Application\Request('', 'GET', [
+		$request = new Request('', 'GET', [
 			'action' => 'testRender',
 			'do' => 'testHandle',
 		]);
@@ -56,7 +60,7 @@ class ParameterFinderTest extends BaseTest
 
 	public function testComponent()
 	{
-		$request = new \Nette\Application\Request('', 'GET', [
+		$request = new Request('', 'GET', [
 			'action' => 'testAction',
 			'do' => 'component-testHandle',
 			'component-persistent' => 1,
@@ -73,11 +77,11 @@ class ParameterFinderTest extends BaseTest
 	 * @param string $parameter
 	 * @param string $class
 	 * @param string $property
-	 * @return \Arachne\EntityLoader\Entity
+	 * @return Entity
 	 */
 	private function createEntity($parameter, $class, $property)
 	{
-		$entity = new \Arachne\EntityLoader\Entity();
+		$entity = new Entity();
 		$entity->parameter = $parameter;
 		$entity->entity = $class;
 		$entity->property = $property;

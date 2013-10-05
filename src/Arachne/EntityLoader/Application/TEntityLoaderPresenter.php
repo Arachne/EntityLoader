@@ -10,19 +10,25 @@
 
 namespace Arachne\EntityLoader\Application;
 
+use Arachne\EntityLoader\EntityLoader;
+use Nette\Application\Request;
+use Nette\Application\Responses\ForwardResponse;
+use Nette\InvalidStateException;
+use Nette\Utils\Strings;
+
 /**
  * @author Jáchym Toušek
  */
 trait TEntityLoaderPresenter
 {
 
-	/** @var \Arachne\EntityLoader\EntityLoader */
+	/** @var EntityLoader */
 	private $loader;
 
 	/**
-	 * @param \Arachne\EntityLoader\EntityLoader $loader
+	 * @param EntityLoader $loader
 	 */
-	final public function injectEntityLoader(\Arachne\EntityLoader\EntityLoader $loader)
+	final public function injectEntityLoader(EntityLoader $loader)
 	{
 		$this->loader = $loader;
 	}
@@ -36,7 +42,7 @@ trait TEntityLoaderPresenter
 	{
 		$session = $this->getSession('Arachne.Application/requests');
 		do {
-			$key = \Nette\Utils\Strings::random(5);
+			$key = Strings::random(5);
 		} while (isset($session[$key]));
 		$request = clone $this->request;
 		if (!$this->loader->removeEntities($request)) {
@@ -62,11 +68,11 @@ trait TEntityLoaderPresenter
 		if (!$this->loader->loadEntities($request)) {
 			return;
 		}
-		$request->setFlag(\Nette\Application\Request::RESTORED, TRUE);
+		$request->setFlag(Request::RESTORED, TRUE);
 		$parameters = $request->getParameters();
 		$parameters[self::FLASH_KEY] = $this->getParameter(self::FLASH_KEY);
 		$request->setParameters($parameters);
-		$this->sendResponse(new \Nette\Application\Responses\ForwardResponse($request));
+		$this->sendResponse(new ForwardResponse($request));
 	}
 
 }

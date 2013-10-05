@@ -10,11 +10,13 @@
 
 namespace Arachne\EntityLoader;
 
+use Nette\Object;
+
 /**
  * @Annotation
  * @Target({"METHOD", "PROPERTY"})
  */
-class Entity extends \Nette\Object
+class Entity extends Object
 {
 
 	/** @var string */

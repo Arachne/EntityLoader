@@ -2,15 +2,17 @@
 
 namespace Tests\Arachne\EntityLoader;
 
+use Arachne\EntityLoader\EntityLoader;
 use Mockery;
+use Nette\Application\Request;
 
 class EntityLoaderTest extends BaseTest
 {
 
-	/** @var \Nette\Application\Request */
+	/** @var Request */
 	private $request;
 
-	/** @var \Arachne\EntityLoader\EntityLoader */
+	/** @var EntityLoader */
 	private $entityLoader;
 
 	/** @var \Mockery\MockInterface */
@@ -18,7 +20,7 @@ class EntityLoaderTest extends BaseTest
 
 	protected function _before()
 	{
-		$this->request = new \Nette\Application\Request('', 'GET', [
+		$this->request = new Request('', 'GET', [
 			'non-entity' => 0,
 			'entity' => 'value1',
 			'component-entity' => 'value2',
@@ -31,7 +33,7 @@ class EntityLoaderTest extends BaseTest
 					'component-entity' => 'mapping',
 				]);
 		$this->converter = Mockery::mock('Arachne\EntityLoader\IConverter');
-		$this->entityLoader = new \Arachne\EntityLoader\EntityLoader($finder, $this->converter);
+		$this->entityLoader = new EntityLoader($finder, $this->converter);
 	}
 
 	private function assertParameters()

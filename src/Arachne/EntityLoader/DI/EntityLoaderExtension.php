@@ -10,10 +10,12 @@
 
 namespace Arachne\EntityLoader\DI;
 
+use Nette\DI\CompilerExtension;
+
 /**
  * @author Jáchym Toušek
  */
-class EntityLoaderExtension extends \Nette\DI\CompilerExtension
+class EntityLoaderExtension extends CompilerExtension
 {
 
 	public function loadConfiguration()

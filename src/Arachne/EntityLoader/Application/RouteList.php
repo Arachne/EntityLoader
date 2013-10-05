@@ -10,20 +10,26 @@
 
 namespace Arachne\EntityLoader\Application;
 
+use Arachne\EntityLoader\EntityLoader;
+use Nette\Application\Request;
+use Nette\Application\Routers\RouteList;
+use Nette\Http\IRequest;
+use Nette\Http\Url;
+
 /**
  * @author Jáchym Toušek
  */
-class RouteList extends \Nette\Application\Routers\RouteList
+class RouteList extends RouteList
 {
 
-	/** @var \Arachne\EntityLoader\EntityLoader */
+	/** @var EntityLoader */
 	protected $loader;
 
 	/**
-	 * @param \Arachne\EntityLoader\EntityLoader $loader
+	 * @param EntityLoader $loader
 	 * @param string $module
 	 */
-	public function __construct(\Arachne\EntityLoader\EntityLoader $loader, $module = NULL)
+	public function __construct(EntityLoader $loader, $module = NULL)
 	{
 		parent::__construct($module);
 		$this->loader = $loader;
@@ -31,10 +37,10 @@ class RouteList extends \Nette\Application\Routers\RouteList
 
 	/**
 	 * Maps HTTP request to a Request object.
-	 * @param \Nette\Http\IRequest $httpRequest
-	 * @return \Nette\Application\Request|NULL
+	 * @param IRequest $httpRequest
+	 * @return Request|NULL
 	 */
-	public function match(\Nette\Http\IRequest $httpRequest)
+	public function match(IRequest $httpRequest)
 	{
 		$request = parent::match($httpRequest);
 		if ($request && $this->loader->loadEntities($request)) {
@@ -44,11 +50,11 @@ class RouteList extends \Nette\Application\Routers\RouteList
 
 	/**
 	 * Constructs absolute URL from Request object.
-	 * @param \Nette\Application\Request $request
-	 * @param \Nette\Http\Url $refUrl
+	 * @param Request $request
+	 * @param Url $refUrl
 	 * @return string|NULL
 	 */
-	public function constructUrl(\Nette\Application\Request $request, \Nette\Http\Url $refUrl)
+	public function constructUrl(Request $request, Url $refUrl)
 	{
 		$parameters = $request->getParameters();
 		if ($this->loader->removeEntities($request)) {
