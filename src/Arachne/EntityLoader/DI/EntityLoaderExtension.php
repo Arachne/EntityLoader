@@ -18,18 +18,21 @@ use Nette\DI\CompilerExtension;
 class EntityLoaderExtension extends CompilerExtension
 {
 
+	const TAG_CONVERTER = 'arachne.entityLoader.converter';
+
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('parameterFinder'))
-				->setClass('Arachne\EntityLoader\ParameterFinder')
-				->setAutowired(FALSE);
+				->setClass('Arachne\EntityLoader\ParameterFinder');
+
+		$builder->addDefinition($this->prefix('converterLoader'))
+				->setClass('Arachne\EntityLoader\IConverterLoader')
+				->setFactory('Arachne\EntityLoader\DIConverterLoader');
 
 		$builder->addDefinition($this->prefix('loader'))
-				->setClass('Arachne\EntityLoader\EntityLoader', array(
-					$this->prefix('@parameterFinder'),
-				));
+				->setClass('Arachne\EntityLoader\EntityLoader');
 	}
 
 }

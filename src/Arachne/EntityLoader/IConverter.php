@@ -17,17 +17,17 @@ interface IConverter
 {
 
 	/**
-	 * @param Entity $annotation
+	 * @param string $type
 	 * @param mixed $value
 	 * @return mixed
 	 */
-	public function parameterToEntity(Entity $annotation, $value);
+	public function parameterToEntity($type, $value);
 
 	/**
-	 * @param Entity $annotation
+	 * @param string $type
 	 * @param mixed $entity
 	 * @return mixed
 	 */
-	public function entityToParameter(Entity $annotation, $entity);
+	public function entityToParameter($type, $entity);
 
 }

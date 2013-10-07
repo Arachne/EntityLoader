@@ -25,9 +25,6 @@ trait TEntityLoaderPresenter
 	/** @var EntityLoader */
 	private $loader;
 
-	/**
-	 * @param EntityLoader $loader
-	 */
 	final public function injectEntityLoader(EntityLoader $loader)
 	{
 		$this->loader = $loader;
@@ -46,7 +43,7 @@ trait TEntityLoaderPresenter
 		} while (isset($session[$key]));
 		$request = clone $this->request;
 		if (!$this->loader->removeEntities($request)) {
-			throw new InvalidStateException("Failed to remove entities from request.");
+			throw new InvalidStateException('Failed to remove entities from request.');
 		}
 		$session[$key] = [ $this->getUser()->getId(), $request ];
 		$session->setExpiration($expiration, $key);

@@ -10,7 +10,6 @@
 
 namespace Arachne\EntityLoader;
 
-use Doctrine\Common\Annotations\Reader;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\UI\Presenter;
@@ -20,6 +19,7 @@ use Nette\Caching\IStorage;
 use Nette\Object;
 use Nette\Reflection\ClassType;
 use Nette\Reflection\Method;
+use Nette\Reflection\Property;
 
 /**
  * @author Jáchym Toušek
@@ -27,30 +27,20 @@ use Nette\Reflection\Method;
 class ParameterFinder extends Object
 {
 
-	/** @var Reader */
-	protected $reader;
-
 	/** @var IPresenterFactory */
 	protected $presenterFactory;
 
 	/** @var Cache */
 	protected $cache;
 
-	/**
-	 * @param Reader $reader
-	 * @param IPresenterFactory $presenterFactory
-	 * @param IStorage $storage
-	 */
-	public function __construct(Reader $reader, IPresenterFactory $presenterFactory, IStorage $storage)
+	public function __construct(IPresenterFactory $presenterFactory, IStorage $storage)
 	{
-		$this->reader = $reader;
 		$this->presenterFactory = $presenterFactory;
 		$this->cache = new Cache($storage, 'Arachne.EntityLoader');
 	}
 
 	/**
 	 * Returns entity parameters based on the request.
-	 * @param Request $request
 	 * @return array
 	 */
 	public function getEntityParameters(Request $request)
@@ -168,7 +158,7 @@ class ParameterFinder extends Object
 	 * @param Method $element
 	 * @param string $prefix
 	 * @param string $default
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getMethodEntities(Method $reflection, $prefix = NULL)
 	{
@@ -177,15 +167,11 @@ class ParameterFinder extends Object
 			$parameters[] = $parameter->getName();
 		}
 		$entities = [];
-		$annotations = $this->reader->getMethodAnnotations($reflection);
-		foreach ($annotations as $annotation) {
-			if (!$annotation instanceof Entity) {
-				continue;
+		foreach ($reflection->getParameters() as $parameter) {
+			$type = $parameter->getClassName();
+			if ($type) {
+				$entities[$prefix . $parameter->getName()] = $type;
 			}
-			if (!in_array($annotation->parameter, $parameters)) {
-				throw new InvalidStateException("Annotation @Entity of '$reflection->name' method uses nonexistent parameter '\${$annotation->parameter}'.");
-			}
-			$entities[$prefix . $annotation->parameter] = $annotation;
 		}
 		return $entities;
 	}
@@ -193,19 +179,16 @@ class ParameterFinder extends Object
 	/**
 	 * @param PresenterComponentReflection $reflection
 	 * @param string
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getPersistentEntities(PresenterComponentReflection $reflection, $prefix = NULL)
 	{
 		$entities = [];
 		foreach ($reflection->getPersistentParams() as $persistent => $_) {
-			$annotations = $this->reader->getPropertyAnnotations($reflection->getProperty($persistent));
-			foreach ($annotations as $annotation) {
-				if (!$annotation instanceof Entity) {
-					continue;
-				}
-				// TODO $annotation->parameter = $persistent; ?
-				$entities[$prefix . $persistent] = $annotation;
+			$parameter = new Property($reflection->getName(), $persistent);
+			if (!$parameter->isStatic() && $parameter->hasAnnotation('var')) {
+				// TODO: Use parser from Doctrine/Annotarions to get correct class from use statements
+				$entities[$prefix . $persistent] = $parameter->getAnnotation('var');
 			}
 		}
 		return $entities;

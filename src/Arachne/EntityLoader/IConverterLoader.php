@@ -10,19 +10,16 @@
 
 namespace Arachne\EntityLoader;
 
-use Nette\Object;
-
 /**
- * @Annotation
- * @Target({"METHOD", "PROPERTY"})
+ * @author Jáchym Toušek
  */
-class Entity extends Object
+interface IConverterLoader
 {
 
-	/** @var string */
-	public $parameter;
-
-	/** @var mixed */
-	public $mapping;
+	/**
+	 * @param string $type
+	 * @return IConverter|NULL
+	 */
+	public function getConverter($type);
 
 }

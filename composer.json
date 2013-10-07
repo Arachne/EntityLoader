@@ -13,8 +13,7 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"nette/nette": "@dev",
-		"kdyby/annotations": "@dev"
+		"nette/nette": "@dev"
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "1.*",

@@ -19,20 +19,16 @@ use Nette\Object;
 class EntityLoader extends Object
 {
 
-	/** @var \Arachne\EntityLoader\ParameterFinder */
-	protected $finder;
+	/** @var ParameterFinder */
+	private $finder;
 
-	/** @var \Arachne\EntityLoader\IConverter */
-	protected $converter;
+	/** @var IConverterLoader */
+	private $converterLoader;
 
-	/**
-	 * @param \Arachne\EntityLoader\ParameterFinder $finder
-	 * @param \Arachne\EntityLoader\IConverter $converter
-	 */
-	public function __construct(ParameterFinder $finder, IConverter $converter)
+	public function __construct(ParameterFinder $finder, IConverterLoader $converterLoader)
 	{
 		$this->finder = $finder;
-		$this->converter = $converter;
+		$this->converterLoader = $converterLoader;
 	}
 
 	/**
@@ -46,15 +42,15 @@ class EntityLoader extends Object
 		if (empty($entities)) {
 			return $request;
 		}
-
-		$parameters = $request->getParameters();
-		foreach ($entities as $key => $annotation) {
-			if (isset($parameters[$key])) {
-				$entity = $this->converter->parameterToEntity($annotation, $parameters[$key]);
-				if ($entity === NULL) {
+        $parameters = $request->getParameters();
+		foreach ($entities as $name => $type) {
+			if (isset($parameters[$name])) {
+				$converter = $this->converterLoader->getConverter($type);
+				$entity = $converter ? $converter->parameterToEntity($type, $parameters[$name]) : NULL;
+                if ($entity === NULL) {
 					return FALSE;
 				}
-				$parameters[$key] = $entity;
+				$parameters[$name] = $entity;
 			}
 		}
 		$request->setParameters($parameters);
@@ -72,15 +68,15 @@ class EntityLoader extends Object
 		if (empty($entities)) {
 			return $request;
 		}
-
 		$parameters = $request->getParameters();
-		foreach ($entities as $key => $annotation) {
-			if (isset($parameters[$key])) {
-				$parameter = $this->converter->entityToParameter($annotation, $parameters[$key]);
-				if ($parameter === NULL) {
+		foreach ($entities as $name => $type) {
+			if (isset($parameters[$name])) {
+				$converter = $this->converterLoader->getConverter($type);
+     	    	$parameter = $converter ? $converter->entityToParameter($type, $parameters[$name]) : NULL;
+                if ($parameter === NULL) {
 					return FALSE;
 				}
-				$parameters[$key] = $parameter;
+				$parameters[$name] = $parameter;
 			}
 		}
 		$request->setParameters($parameters);
