@@ -22,7 +22,6 @@
 		"codeception/codeception": "@stable",
 		"mockery/mockery": "@dev"
 	},
-	"minimum-stability": "dev",
 	"autoload": {
 		"psr-0": {
 			"Arachne\\EntityLoader": "src/"
