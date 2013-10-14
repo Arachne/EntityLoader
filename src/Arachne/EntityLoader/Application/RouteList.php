@@ -12,14 +12,14 @@ namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\EntityLoader;
 use Nette\Application\Request;
-use Nette\Application\Routers\RouteList;
+use Nette\Application\Routers\RouteList as BaseRouteList;
 use Nette\Http\IRequest;
 use Nette\Http\Url;
 
 /**
  * @author Jáchym Toušek
  */
-class RouteList extends RouteList
+class RouteList extends BaseRouteList
 {
 
 	/** @var EntityLoader */
