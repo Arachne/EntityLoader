@@ -41,7 +41,7 @@ class ParameterFinder extends Object
 
 	/**
 	 * Returns entity parameters based on the request.
-	 * @return array
+	 * @return string[]
 	 */
 	public function getEntityParameters(Request $request)
 	{
@@ -204,7 +204,7 @@ class ParameterFinder extends Object
 
 	/**
 	 * @param Request $request
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getCacheKey(Request $request)
 	{
