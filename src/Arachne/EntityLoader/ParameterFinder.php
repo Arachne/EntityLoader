@@ -48,11 +48,19 @@ class ParameterFinder extends Object
 		$parameters = $request->getParameters();
 		$presenter = $request->getPresenterName();
 		$cacheKey = $this->getCacheKey($request);
-		$cached = $this->cache->load($cacheKey);
-		if ($cached !== NULL) {
-			return $cached;
-		}
+		return $this->cache->load($cacheKey, function(& $dependencies) use ($presenter, $parameters) {
+			return $this->loadEntityParameters($presenter, $parameters, $dependencies);
+		});
+	}
 
+	/**
+	 * @param string $presenter
+	 * @param array $parameters
+	 * @param array $dependencies
+	 * @return string[]
+	 */
+	protected function loadEntityParameters($presenter, $parameters, & $dependencies)
+	{
 		$class = $this->presenterFactory->getPresenterClass($presenter);
 		$presenterReflection = new PresenterComponentReflection($class);
 		$files = [];
@@ -112,10 +120,10 @@ class ParameterFinder extends Object
 			}
 		}
 
-		// Does not invalidate if a component factory file was changed (see createReflection method)
-		$this->cache->save($cacheKey, $entities, [
+		// $dependencies is passed by reference
+		$dependencies = [
 			Cache::FILES => $files,
-		]);
+		];
 
 		return $entities;
 	}
