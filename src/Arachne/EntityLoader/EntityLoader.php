@@ -76,7 +76,7 @@ class EntityLoader extends Object
                 if ($parameter === NULL) {
 					return FALSE;
 				}
-				$parameters[$name] = $parameter;
+				$parameters[$name] = new EntityProxy($parameters[$name], $parameter);
 			}
 		}
 		$request->setParameters($parameters);
