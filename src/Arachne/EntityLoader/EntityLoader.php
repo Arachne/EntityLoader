@@ -42,12 +42,12 @@ class EntityLoader extends Object
 		if (empty($entities)) {
 			return $request;
 		}
-        $parameters = $request->getParameters();
+		$parameters = $request->getParameters();
 		foreach ($entities as $name => $type) {
 			if (isset($parameters[$name])) {
 				$converter = $this->converterLoader->getConverter($type);
 				$entity = $converter ? $converter->parameterToEntity($type, $parameters[$name]) : NULL;
-                if ($entity === NULL) {
+				if ($entity === NULL) {
 					return FALSE;
 				}
 				$parameters[$name] = $entity;
@@ -72,8 +72,8 @@ class EntityLoader extends Object
 		foreach ($entities as $name => $type) {
 			if (isset($parameters[$name])) {
 				$converter = $this->converterLoader->getConverter($type);
-     	    	$parameter = $converter ? $converter->entityToParameter($type, $parameters[$name]) : NULL;
-                if ($parameter === NULL) {
+				$parameter = $converter ? $converter->entityToParameter($type, $parameters[$name]) : NULL;
+				if ($parameter === NULL) {
 					return FALSE;
 				}
 				$parameters[$name] = new EntityProxy($parameters[$name], $parameter);

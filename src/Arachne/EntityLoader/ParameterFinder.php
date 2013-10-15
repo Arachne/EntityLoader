@@ -48,7 +48,7 @@ class ParameterFinder extends Object
 		$parameters = $request->getParameters();
 		$presenter = $request->getPresenterName();
 		$cacheKey = $this->getCacheKey($request);
-		return $this->cache->load($cacheKey, function(& $dependencies) use ($presenter, $parameters) {
+		return $this->cache->load($cacheKey, function (& $dependencies) use ($presenter, $parameters) {
 			return $this->loadEntityParameters($presenter, $parameters, $dependencies);
 		});
 	}
@@ -195,7 +195,7 @@ class ParameterFinder extends Object
 		foreach ($reflection->getPersistentParams() as $persistent => $_) {
 			$parameter = new Property($reflection->getName(), $persistent);
 			if (!$parameter->isStatic() && $parameter->hasAnnotation('var')) {
-				// TODO: Use parser from Doctrine/Annotarions to get correct class from use statements
+				// TODO: Use parser from Doctrine/Annotations to get correct class from use statements
 				$entities[$prefix . $persistent] = $parameter->getAnnotation('var');
 			}
 		}
