@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\Arachne\EntityLoader;
+namespace Tests\Unit;
 
-use Arachne\EntityLoader\Entity;
 use Arachne\EntityLoader\ParameterFinder;
-use Doctrine\Common\Annotations\AnnotationReader;
 use Mockery;
 use Nette\Application\Request;
 
@@ -16,21 +14,18 @@ class ParameterFinderTest extends BaseTest
 
 	protected function _before()
 	{
-		$reader = new AnnotationReader();
-		$reader->addGlobalIgnoredName('persistent');
-		$presenterFactory = Mockery::mock('Nette\Application\IPresenterFactory')
-				->shouldReceive('getPresenterClass')
-				->once()
-				->andReturn('Tests\TestPresenter')
-				->getMock();
+		$presenterFactory = Mockery::mock('Nette\Application\IPresenterFactory');
+		$presenterFactory->shouldReceive('getPresenterClass')
+			->once()
+			->andReturn('Tests\Unit\TestPresenter');
 		$storage = Mockery::mock('Nette\Caching\IStorage');
 		$storage->shouldReceive('read')
-				->once()
-				->andReturnNull();
+			->once();
+		$storage->shouldReceive('lock')
+			->once();
 		$storage->shouldReceive('write')
-				->once()
-				->andReturn();
-		$this->finder = new ParameterFinder($reader, $presenterFactory, $storage);
+			->once();
+		$this->finder = new ParameterFinder($presenterFactory, $storage);
 	}
 
 	public function testAction()
@@ -40,8 +35,8 @@ class ParameterFinderTest extends BaseTest
 			'persistent' => 0,
 		]);
 		$this->assertEquals([
-			'persistent' => $this->createEntity(NULL, 'persistent', 'id'),
-			'actionEntity' => $this->createEntity('actionEntity', 'action', 'id'),
+			'persistent1' => 'Class1', // TODO: should be Test\Unit\Class1
+			'actionEntity' => 'Tests\Unit\Class2',
 		], $this->finder->getEntityParameters($request));
 	}
 
@@ -52,9 +47,9 @@ class ParameterFinderTest extends BaseTest
 			'do' => 'testHandle',
 		]);
 		$this->assertEquals([
-			'persistent' => $this->createEntity(NULL, 'persistent', 'id'),
-			'renderEntity' => $this->createEntity('renderEntity', 'render', 'id'),
-			'handleEntity' => $this->createEntity('handleEntity', 'handle', 'id'),
+			'persistent1' => 'Class1',
+			'renderEntity' => 'Tests\Unit\Class3',
+			'handleEntity' => 'Tests\Unit\Class4',
 		], $this->finder->getEntityParameters($request));
 	}
 
@@ -66,26 +61,11 @@ class ParameterFinderTest extends BaseTest
 			'component-persistent' => 1,
 		]);
 		$this->assertEquals([
-			'persistent' => $this->createEntity(NULL, 'persistent', 'id'),
-			'actionEntity' => $this->createEntity('actionEntity', 'action', 'id'),
-			'component-persistent' => $this->createEntity(NULL, 'mapping', 'id'),
-			'component-handleEntity' => $this->createEntity('handleEntity', 'handle', 'id'),
+			'persistent1' => 'Class1',
+			'actionEntity' => 'Tests\Unit\Class2',
+			'component-persistent' => 'Class5',
+			'component-handleEntity' => 'Tests\Unit\Class6',
 		], $this->finder->getEntityParameters($request));
-	}
-
-	/**
-	 * @param string $parameter
-	 * @param string $class
-	 * @param string $property
-	 * @return Entity
-	 */
-	private function createEntity($parameter, $class, $property)
-	{
-		$entity = new Entity();
-		$entity->parameter = $parameter;
-		$entity->entity = $class;
-		$entity->property = $property;
-		return $entity;
 	}
 
 }

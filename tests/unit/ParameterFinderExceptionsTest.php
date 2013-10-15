@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\Arachne\EntityLoader;
+namespace Tests\Unit;
 
-use Arachne\EntityLoader\InvalidStateException;
 use Arachne\EntityLoader\ParameterFinder;
-use Doctrine\Common\Annotations\AnnotationReader;
 use Mockery;
 use Nette\Application\Request;
 
@@ -16,36 +14,23 @@ class ParameterFinderExceptionsTest extends BaseTest
 
 	protected function _before()
 	{
-		$reader = new AnnotationReader();
-		$reader->addGlobalIgnoredName('persistent');
 		$presenterFactory = Mockery::mock('Nette\Application\IPresenterFactory');
 		$presenterFactory->shouldReceive('getPresenterClass')
-				->once()
-				->andReturn('Tests\TestPresenter');
+			->once()
+			->andReturn('Tests\Unit\TestPresenter');
 		$storage = Mockery::mock('Nette\Caching\IStorage');
 		$storage->shouldReceive('read')
-				->once()
-				->andReturnNull();
+			->once();
+		$storage->shouldReceive('lock')
+			->once();
 		$storage->shouldReceive('write')
-				->never();
-		$this->finder = new ParameterFinder($reader, $presenterFactory, $storage);
+			->never();
+		$this->finder = new ParameterFinder($presenterFactory, $storage);
 	}
 
 	/**
-	 * @expectedException InvalidStateException
-	 * @expectedExceptionMessage Annotation @Entity of 'actionNonexistentPatameter' method uses nonexistent parameter '$nonexistent'.
-	 */
-	public function testNonexistentParameter()
-	{
-		$request = new Request('', 'GET', [
-			'action' => 'nonexistentPatameter',
-		]);
-		$this->finder->getEntityParameters($request);
-	}
-
-	/**
-	 * @expectedException InvalidStateException
-	 * @expectedExceptionMessage Class 'Tests\NonexistentComponent' from Tests\TestPresenter::createComponentNonexistentComponent @return annotation not found.
+	 * @expectedException Arachne\EntityLoader\InvalidStateException
+	 * @expectedExceptionMessage Class 'Tests\Unit\NonexistentComponent' from Tests\Unit\TestPresenter::createComponentNonexistentComponent @return annotation not found.
 	 */
 	public function testNonexistentComponent()
 	{

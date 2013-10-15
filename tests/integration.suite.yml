@@ -1,6 +1,6 @@
 error_level: "E_ALL"
 
-class_name: UnitSuiteGuy
+class_name: IntegrationSuiteGuy
 
 modules:
     enabled:
@@ -8,5 +8,7 @@ modules:
     config:
         Nette:
             tempDir: tests/_temp
+            configFiles:
+                - tests/integration/config.neon
             robotLoader:
-                - tests/unit
+                - tests/integration

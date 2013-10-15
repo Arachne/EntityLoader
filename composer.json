@@ -16,11 +16,11 @@
 		"nette/nette": "@dev"
 	},
 	"require-dev": {
-		"squizlabs/php_codesniffer": "1.*",
+		"squizlabs/php_codesniffer": "~1.4",
 		"arachne/coding-style": "@dev",
 		"arachne/nette-codeception-module": "@dev",
-		"codeception/codeception": "@stable",
-		"mockery/mockery": "@dev"
+		"codeception/codeception": "~1.6",
+		"mockery/mockery": "~0.8"
 	},
 	"autoload": {
 		"psr-0": {

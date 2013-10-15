@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests;
+namespace Tests\Unit;
 
-use Arachne\EntityLoader\Entity;
 use Exception;
 use Nette\Application\UI\Presenter;
 
@@ -11,40 +10,34 @@ class TestPresenter extends Presenter
 
 	/**
 	 * @persistent
-	 * @Entity(entity="persistent")
+	 * @var Class1
 	 */
-	public $persistent;
+	public $persistent1;
+
+	/**
+	 * @persistent
+	 * @var string
+	 */
+	public $persistent2;
 
 	final public function __construct()
 	{
 		throw new Exception('This class is there for annotations only.');
 	}
 
-	/**
-	 * @Entity(entity="action", property="id", parameter="actionEntity")
-	 */
-	public function actionTestAction($actionEntity)
+	public function actionTestAction(Class2 $actionEntity)
 	{
 	}
 
-	/**
-	 * @Entity(entity="render", property="id", parameter="renderEntity")
-	 */
-	public function renderTestRender($renderEntity)
+	public function renderTestRender(Class3 $renderEntity)
 	{
 	}
 
-	/**
-	 * @Entity(entity="handle", property="id", parameter="handleEntity")
-	 */
-	public function handleTestHandle($handleEntity)
+	public function handleTestHandle(Class4 $handleEntity)
 	{
 	}
 
-	/**
-	 * @Entity(entity="table", property="id", parameter="nonexistent")
-	 */
-	public function actionNonexistentPatameter($entity)
+	public function actionNonexistentParameter($entity)
 	{
 	}
 

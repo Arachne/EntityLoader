@@ -1,0 +1,16 @@
+extensions:
+	arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
+
+nette:
+	application:
+		mapping:
+			*: Tests\Integration\*Module\*Presenter
+
+services:
+	routerFactory: Tests\Integration\RouterFactory
+	router: @routerFactory::create()
+	articleConverter:
+		class: Tests\Integration\ArticleConverter
+		tags:
+			arachne.entityLoader.converter:
+				- Tests\Integration\Article

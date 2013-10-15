@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests;
+namespace Tests\Unit;
 
-use Arachne\EntityLoader\Entity;
 use Exception;
 use Nette\Application\UI\PresenterComponent;
 
@@ -11,7 +10,7 @@ class TestComponent extends PresenterComponent
 
 	/**
 	 * @persistent
-	 * @Entity(entity="mapping")
+	 * @var Class5
 	 */
 	public $persistent;
 
@@ -20,10 +19,7 @@ class TestComponent extends PresenterComponent
 		throw new Exception('This class is there for annotations only.');
 	}
 
-	/**
-	 * @Entity(entity="handle", parameter="handleEntity")
-	 */
-	public function handleTestHandle($handleEntity)
+	public function handleTestHandle(Class6 $handleEntity)
 	{
 	}
 
