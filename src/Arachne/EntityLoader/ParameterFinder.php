@@ -33,6 +33,22 @@ class ParameterFinder extends Object
 	/** @var Cache */
 	protected $cache;
 
+	/** @var string[] */
+	private static $nonClassTypes = [
+		'int',
+		'integer',
+		'float',
+		'double',
+		'bool',
+		'boolean',
+		'string',
+		'array',
+		'object',
+		'resource',
+		'null',
+		'mixed',
+	];
+
 	public function __construct(IPresenterFactory $presenterFactory, IStorage $storage)
 	{
 		$this->presenterFactory = $presenterFactory;
@@ -196,7 +212,10 @@ class ParameterFinder extends Object
 			$parameter = new Property($reflection->getName(), $persistent);
 			if (!$parameter->isStatic() && $parameter->hasAnnotation('var')) {
 				// TODO: Use parser from Doctrine/Annotations to get correct class from use statements
-				$entities[$prefix . $persistent] = $parameter->getAnnotation('var');
+				$type = (string) $parameter->getAnnotation('var');
+				if (!in_array($type, self::$nonClassTypes) && preg_match('/^[[:alnum:]_\\\\]++$/', $type)) {
+					$entities[$prefix . $persistent] = $type;
+				}
 			}
 		}
 		return $entities;
