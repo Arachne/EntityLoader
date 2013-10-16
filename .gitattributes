@@ -4,4 +4,3 @@
 codeception.yml export-ignore
 docs export-ignore
 tests export-ignore
-vendor export-ignore
