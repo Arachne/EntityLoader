@@ -18,8 +18,8 @@
 	"require-dev": {
 		"squizlabs/php_codesniffer": "~1.4",
 		"arachne/coding-style": "@dev",
-		"arachne/nette-codeception-module": "@dev",
 		"codeception/codeception": "~1.6",
+		"arachne/codeception": "@dev",
 		"mockery/mockery": "~0.8"
 	},
 	"autoload": {
