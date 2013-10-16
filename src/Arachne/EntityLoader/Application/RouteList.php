@@ -57,7 +57,7 @@ class RouteList extends BaseRouteList
 	public function constructUrl(Request $request, Url $refUrl)
 	{
 		$parameters = $request->getParameters();
-		if ($this->loader->removeEntities($request)) {
+		if ($this->loader->removeEntities($request, TRUE)) {
 			$url = parent::constructUrl($request, $refUrl);
 			$request->setParameters($parameters);
 			return $url;

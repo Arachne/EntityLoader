@@ -79,6 +79,20 @@ class EntityLoaderTest extends BaseTest
 		$this->assertTrue($this->entityLoader->removeEntities($this->request));
 		$this->assertEquals([
 			'non-entity' => 0,
+			'entity' => 1,
+			'component-entity' => 2,
+		], $this->request->getParameters());
+	}
+
+	public function testRemoveEntitiesProxies()
+	{
+		$this->converter
+			->shouldReceive('entityToParameter')
+			->twice()
+			->andReturn(1, 2);
+		$this->assertTrue($this->entityLoader->removeEntities($this->request, TRUE));
+		$this->assertEquals([
+			'non-entity' => 0,
 			'entity' => new EntityProxy('value1', 1),
 			'component-entity' => new EntityProxy('value2', 2),
 		], $this->request->getParameters());
