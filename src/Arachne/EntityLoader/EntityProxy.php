@@ -26,7 +26,7 @@ class EntityProxy extends Object
 
 	/**
 	 * @param object $entity
-	 * @param callable $toString
+	 * @param callable $identifier
 	 */
 	public function __construct($entity, $identifier)
 	{
