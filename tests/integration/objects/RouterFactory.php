@@ -3,6 +3,7 @@
 namespace Tests\Integration;
 
 use Arachne\EntityLoader\Application\RouteList;
+use Arachne\EntityLoader\EntityEnvelope;
 use Arachne\EntityLoader\EntityLoader;
 use Nette\Application\IRouter;
 use Nette\Application\Routers\Route;
@@ -29,7 +30,7 @@ class RouterFactory extends Object
 			'presenter' => 'Article',
 			'action' => 'detail',
 			'entity' => [
-				Route::FILTER_OUT => function (\Arachne\EntityLoader\EntityProxy $value) {
+				Route::FILTER_OUT => function (EntityEnvelope $value) {
 					return 'article-' . $value->getEntity()->getValue();
 				},
 			],

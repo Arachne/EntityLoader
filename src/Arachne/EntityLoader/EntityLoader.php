@@ -60,10 +60,10 @@ class EntityLoader extends Object
 	/**
 	 * Replaces entities in request by scalars.
 	 * @param Request $request
-	 * @param bool $proxies
+	 * @param bool $envelopes
 	 * @return bool
 	 */
-	public function removeEntities(Request $request, $proxies = FALSE)
+	public function removeEntities(Request $request, $envelopes = FALSE)
 	{
 		$entities = $this->finder->getEntityParameters($request);
 		if (empty($entities)) {
@@ -77,7 +77,7 @@ class EntityLoader extends Object
 				if ($parameter === NULL) {
 					return FALSE;
 				}
-				$parameters[$name] = $proxies ? new EntityProxy($parameters[$name], $parameter) : $parameter;
+				$parameters[$name] = $envelopes ? new EntityEnvelope($parameters[$name], $parameter) : $parameter;
 			}
 		}
 		$request->setParameters($parameters);

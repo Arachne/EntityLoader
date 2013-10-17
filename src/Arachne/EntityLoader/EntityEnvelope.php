@@ -15,7 +15,7 @@ use Nette\Object;
 /**
  * @author Jáchym Toušek
  */
-class EntityProxy extends Object
+class EntityEnvelope extends Object
 {
 
 	/** @var object */

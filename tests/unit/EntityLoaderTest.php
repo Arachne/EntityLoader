@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityLoader;
-use Arachne\EntityLoader\EntityProxy;
+use Arachne\EntityLoader\EntityEnvelope;
 use Mockery;
 use Mockery\MockInterface;
 use Nette\Application\Request;
@@ -93,8 +93,8 @@ class EntityLoaderTest extends BaseTest
 		$this->assertTrue($this->entityLoader->removeEntities($this->request, TRUE));
 		$this->assertEquals([
 			'non-entity' => 0,
-			'entity' => new EntityProxy('value1', 1),
-			'component-entity' => new EntityProxy('value2', 2),
+			'entity' => new EntityEnvelope('value1', 1),
+			'component-entity' => new EntityEnvelope('value2', 2),
 		], $this->request->getParameters());
 	}
 
