@@ -108,14 +108,14 @@ Persistent parameters are also supported. Use the @var annotation to specify the
 
 ### Routers
 
-Now what if we want to use different format than timestamp in URL? This is supported and actually it can even be specific to the route in question. The solution uses filter out option a proxy object:
+Now what if we want to use different format than timestamp in URL? This is supported and actually it can even be specific to the route in question. The solution uses filter out option an envelope object:
 
 ```php
 $router[] = new Route('/<date>', [
 	'presenter' => 'Foo',
 	'date' => [
 		Route::FILTER_OUT => function ($value) {
-			// $value instanceof Arachne\EntityLoader\EntityProxy
+			// $value instanceof Arachne\EntityLoader\EntityEnvelope
 			return $value->getEntity()->format('Y-m-d');
 		},
 	],
