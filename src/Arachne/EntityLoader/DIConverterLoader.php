@@ -10,7 +10,6 @@
 
 namespace Arachne\EntityLoader;
 
-use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Nette\DI\Container;
 use Nette\Object;
 
@@ -29,14 +28,8 @@ class DIConverterLoader extends Object implements IConverterLoader
 	/** @var IConverter[] */
 	private $converters;
 
-	public function __construct(Container $container)
+	public function __construct($services, Container $container)
 	{
-		$services = [];
-		foreach ($container->findByTag(EntityLoaderExtension::TAG_CONVERTER) as $name => $types) {
-			foreach ((array) $types as $type) {
-				$services[$type] = $name;
-			}
-		}
 		$this->services = $services;
 		$this->container = $container;
 	}

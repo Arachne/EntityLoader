@@ -35,4 +35,19 @@ class EntityLoaderExtension extends CompilerExtension
 			->setClass('Arachne\EntityLoader\EntityLoader');
 	}
 
+	public function beforeCompile()
+	{
+		$builder = $this->getContainerBuilder();
+
+		$services = [];
+		foreach ($builder->findByTag(self::TAG_CONVERTER) as $name => $types) {
+			foreach ((array) $types as $type) {
+				$services[$type] = $name;
+			}
+		}
+
+		$builder->getDefinition($this->prefix('converterLoader'))
+			->setArguments([ $services ]);
+	}
+
 }
