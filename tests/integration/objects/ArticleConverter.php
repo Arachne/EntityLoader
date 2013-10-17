@@ -2,10 +2,11 @@
 
 namespace Tests\Integration;
 
+use Arachne\EntityLoader\IConverter;
 use InvalidArgumentException;
 use Nette\Object;
 
-class ArticleConverter extends Object implements \Arachne\EntityLoader\IConverter
+class ArticleConverter extends Object implements IConverter
 {
 
 	public function entityToParameter($type, $entity)

@@ -2,7 +2,8 @@
 
 namespace Tests\Integration;
 
-abstract class BaseTest extends \Codeception\TestCase\Test
-{
+use Codeception\TestCase\Test;
 
+abstract class BaseTest extends Test
+{
 }

@@ -2,12 +2,15 @@
 
 namespace Tests\Integration;
 
-use Tests\Integration\Article;
+use Nette\Application\IRouter;
+use Nette\Application\Request;
+use Nette\Http\Request as HttpRequest;
+use Nette\Http\UrlScript;
 
 class ConverterTest extends BaseTest
 {
 
-	/** @var \Nette\Application\IRouter */
+	/** @var IRouter */
 	private $router;
 
 	public function _before()
@@ -18,7 +21,7 @@ class ConverterTest extends BaseTest
 
 	public function testRouterIn()
 	{
-		$httpRequest = new \Nette\Http\Request($this->createUrlScript('5'));
+		$httpRequest = new HttpRequest($this->createUrlScript('5'));
 		$request = $this->router->match($httpRequest);
 		$this->assertInstanceOf('Nette\Application\Request', $request);
 		$parameters = $request->getParameters();
@@ -29,7 +32,7 @@ class ConverterTest extends BaseTest
 
 	public function testRouterOut()
 	{
-		$request = new \Nette\Application\Request('Article', 'GET', [
+		$request = new Request('Article', 'GET', [
 			'action' => 'detail',
 			'entity' => new Article('7'),
 		]);
@@ -39,7 +42,7 @@ class ConverterTest extends BaseTest
 
 	private function createUrlScript($url, array $params = array())
 	{
-		$urlScript = new \Nette\Http\UrlScript('http://example.com/' . $url);
+		$urlScript = new UrlScript('http://example.com/' . $url);
 		$urlScript->appendQuery($params);
 		return $urlScript;
 	}
