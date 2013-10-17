@@ -25,14 +25,14 @@ class EntityLoaderExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('parameterFinder'))
-				->setClass('Arachne\EntityLoader\ParameterFinder');
+			->setClass('Arachne\EntityLoader\ParameterFinder');
 
 		$builder->addDefinition($this->prefix('converterLoader'))
-				->setClass('Arachne\EntityLoader\IConverterLoader')
-				->setFactory('Arachne\EntityLoader\DIConverterLoader');
+			->setClass('Arachne\EntityLoader\IConverterLoader')
+			->setFactory('Arachne\EntityLoader\DIConverterLoader');
 
 		$builder->addDefinition($this->prefix('loader'))
-				->setClass('Arachne\EntityLoader\EntityLoader');
+			->setClass('Arachne\EntityLoader\EntityLoader');
 	}
 
 }
