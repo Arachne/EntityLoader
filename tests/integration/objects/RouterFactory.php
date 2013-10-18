@@ -8,6 +8,9 @@ use Arachne\EntityLoader\EntityLoader;
 use Nette\Application\Routers\Route;
 use Nette\Object;
 
+/**
+ * @author Jáchym Toušek
+ */
 class RouterFactory extends Object
 {
 

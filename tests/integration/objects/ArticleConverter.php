@@ -6,6 +6,9 @@ use Arachne\EntityLoader\IConverter;
 use InvalidArgumentException;
 use Nette\Object;
 
+/**
+ * @author Jáchym Toušek
+ */
 class ArticleConverter extends Object implements IConverter
 {
 

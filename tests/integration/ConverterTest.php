@@ -8,6 +8,9 @@ use Nette\Application\Request;
 use Nette\Http\Request as HttpRequest;
 use Nette\Http\UrlScript;
 
+/**
+ * @author Jáchym Toušek
+ */
 class ConverterTest extends Test
 {
 

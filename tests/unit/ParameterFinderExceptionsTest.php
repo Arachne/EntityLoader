@@ -7,6 +7,9 @@ use Codeception\TestCase\Test;
 use Mockery;
 use Nette\Application\Request;
 
+/**
+ * @author Jáchym Toušek
+ */
 class ParameterFinderExceptionsTest extends Test
 {
 

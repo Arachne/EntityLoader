@@ -4,6 +4,9 @@ namespace Tests\Integration;
 
 use Nette\Object;
 
+/**
+ * @author Jáchym Toušek
+ */
 class Article extends Object
 {
 

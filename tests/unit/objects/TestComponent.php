@@ -5,6 +5,9 @@ namespace Tests\Unit;
 use Exception;
 use Nette\Application\UI\PresenterComponent;
 
+/**
+ * @author Jáchym Toušek
+ */
 class TestComponent extends PresenterComponent
 {
 

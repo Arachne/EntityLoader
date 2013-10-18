@@ -5,6 +5,9 @@ namespace Tests\Integration;
 use Nette\Application\UI\Presenter;
 use Nette\StaticClassException;
 
+/**
+ * @author Jáchym Toušek
+ */
 class ArticlePresenter extends Presenter
 {
 
