@@ -4,6 +4,7 @@ class_name: UnitSuiteGuy
 
 modules:
     enabled:
+        - Mockery
         - Nette
     config:
         Nette:
