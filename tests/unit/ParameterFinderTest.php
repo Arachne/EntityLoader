@@ -3,10 +3,11 @@
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\ParameterFinder;
+use Codeception\TestCase\Test;
 use Mockery;
 use Nette\Application\Request;
 
-class ParameterFinderTest extends BaseTest
+class ParameterFinderTest extends Test
 {
 
 	/** @var ParameterFinder */

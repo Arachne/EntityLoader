@@ -4,11 +4,12 @@ namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\EntityEnvelope;
+use Codeception\TestCase\Test;
 use Mockery;
 use Mockery\MockInterface;
 use Nette\Application\Request;
 
-class EntityLoaderTest extends BaseTest
+class EntityLoaderTest extends Test
 {
 
 	/** @var Request */

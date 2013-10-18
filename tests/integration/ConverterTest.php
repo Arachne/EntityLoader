@@ -2,12 +2,13 @@
 
 namespace Tests\Integration;
 
+use Codeception\TestCase\Test;
 use Nette\Application\IRouter;
 use Nette\Application\Request;
 use Nette\Http\Request as HttpRequest;
 use Nette\Http\UrlScript;
 
-class ConverterTest extends BaseTest
+class ConverterTest extends Test
 {
 
 	/** @var IRouter */
