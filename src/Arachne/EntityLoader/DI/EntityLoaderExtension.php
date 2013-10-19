@@ -29,7 +29,7 @@ class EntityLoaderExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('converterLoader'))
 			->setClass('Arachne\EntityLoader\IConverterLoader')
-			->setFactory('Arachne\EntityLoader\DIConverterLoader');
+			->setFactory('Arachne\EntityLoader\ServiceConverterLoader');
 
 		$builder->addDefinition($this->prefix('loader'))
 			->setClass('Arachne\EntityLoader\EntityLoader');

@@ -27,13 +27,11 @@ class ParameterFinderExceptionsTest extends Test
 			->once();
 		$storage->shouldReceive('lock')
 			->once();
-		$storage->shouldReceive('write')
-			->never();
 		$this->finder = new ParameterFinder($presenterFactory, $storage);
 	}
 
 	/**
-	 * @expectedException Arachne\EntityLoader\InvalidStateException
+	 * @expectedException Arachne\EntityLoader\Exception\ClassNotFoundException
 	 * @expectedExceptionMessage Class 'Tests\Unit\NonexistentComponent' from Tests\Unit\TestPresenter::createComponentNonexistentComponent @return annotation not found.
 	 */
 	public function testNonexistentComponent()

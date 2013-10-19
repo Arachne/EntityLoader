@@ -13,7 +13,6 @@ namespace Arachne\EntityLoader\Application;
 use Arachne\EntityLoader\EntityLoader;
 use Nette\Application\Request;
 use Nette\Application\Responses\ForwardResponse;
-use Nette\InvalidStateException;
 use Nette\Utils\Strings;
 
 /**
@@ -46,9 +45,7 @@ trait TEntityLoaderPresenter
 		}
 
 		$request = clone $request;
-		if (!$this->loader->removeEntities($request)) {
-			throw new InvalidStateException('Failed to remove entities from request.');
-		}
+		$this->loader->removeEntities($request);
 
 		$session = $this->getSession('Arachne.Application/requests');
 		do {
@@ -72,9 +69,8 @@ trait TEntityLoaderPresenter
 		}
 		$request = $session[$key][1];
 		unset($session[$key]);
-		if (!$this->loader->loadEntities($request)) {
-			return;
-		}
+
+		$this->loader->loadEntities($request);
 		$request->setFlag(Request::RESTORED, TRUE);
 		$parameters = $request->getParameters();
 		$parameters[self::FLASH_KEY] = $this->getParameter(self::FLASH_KEY);

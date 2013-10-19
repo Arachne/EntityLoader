@@ -8,18 +8,11 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader;
+namespace Arachne\EntityLoader\Exception;
 
 /**
  * @author Jáchym Toušek
  */
-interface IConverterLoader
+class UnexpectedTypeException extends LogicException
 {
-
-	/**
-	 * @param string $type
-	 * @return IConverter
-	 */
-	public function getConverter($type);
-
 }

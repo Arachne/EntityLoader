@@ -10,6 +10,7 @@
 
 namespace Arachne\EntityLoader;
 
+use Arachne\EntityLoader\Exception\ClassNotFoundException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\UI\Presenter;
@@ -20,6 +21,7 @@ use Nette\Object;
 use Nette\Reflection\ClassType;
 use Nette\Reflection\Method;
 use Nette\Reflection\Property;
+use Nette\Utils\Strings;
 
 /**
  * @author Jáchym Toušek
@@ -34,7 +36,7 @@ class ParameterFinder extends Object
 	protected $cache;
 
 	/** @var string[] */
-	private static $nonClassTypes = [
+	protected $ignoredTypes = [
 		'int',
 		'integer',
 		'float',
@@ -173,7 +175,7 @@ class ParameterFinder extends Object
 					return new PresenterComponentReflection($class);
 				}
 			} else {
-				throw new InvalidStateException("Class '$class' from $reflection->name::$method @return annotation not found.");
+				throw new ClassNotFoundException("Class '$class' from $reflection->name::$method @return annotation not found.");
 			}
 		}
 	}
@@ -213,7 +215,7 @@ class ParameterFinder extends Object
 			if (!$parameter->isStatic() && $parameter->hasAnnotation('var')) {
 				// TODO: Use parser from Doctrine/Annotations to get correct class from use statements
 				$type = (string) $parameter->getAnnotation('var');
-				if (!in_array($type, self::$nonClassTypes) && preg_match('/^[[:alnum:]_\\\\]++$/', $type)) {
+				if (Strings::match($type, '/^[[:alnum:]_\\\\]++$/') && !in_array($type, $this->ignoredTypes)) {
 					$entities[$prefix . $persistent] = $type;
 				}
 			}

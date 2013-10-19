@@ -16,7 +16,7 @@ use Nette\Object;
 /**
  * @author Jáchym Toušek
  */
-class DIConverterLoader extends Object implements IConverterLoader
+class ServiceConverterLoader extends Object implements IConverterLoader
 {
 
 	/** @var Container */
@@ -36,18 +36,18 @@ class DIConverterLoader extends Object implements IConverterLoader
 
 	/**
 	 * @param string $type
-	 * @return IConverter|NULL
+	 * @return IConverter
 	 */
 	public function getConverter($type)
 	{
 		if (!isset($this->services[$type])) {
-			return NULL;
+			throw new UnknownTypeException("No converter found for type '$type'.");
 		}
 		$name = $this->services[$type];
 		if (!isset($this->converters[$name])) {
 			$service = $this->container->getService($name);
 			if (!$service instanceof IConverter) {
-				throw new InvalidStateException("Service '$name' is not an instance of Arachne\EntityLoader\IConverter.");
+				throw new UnexpectedTypeException("Service '$name' is not an instance of Arachne\EntityLoader\IConverter.");
 			}
 			$this->converters[$name] = $service;
 		}

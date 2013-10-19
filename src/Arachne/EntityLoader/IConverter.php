@@ -19,14 +19,14 @@ interface IConverter
 	/**
 	 * @param string $type
 	 * @param mixed $value
-	 * @return mixed
+	 * @return object
 	 */
 	public function parameterToEntity($type, $value);
 
 	/**
 	 * @param string $type
-	 * @param mixed $entity
-	 * @return mixed
+	 * @param object $entity
+	 * @return string
 	 */
 	public function entityToParameter($type, $entity);
 

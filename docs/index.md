@@ -70,8 +70,6 @@ class DateTimeConverter extends \Nette\Object implements \Arachne\EntityLoader\I
 
 You could argue that parameterToEntity method should only handle timestamps and not other formats. This implementation is intentional and the usage will be addressed later.
 
-If the converter is unable to do the conversion for whatever reason, it's supposed to return NULL.
-
 
 ### Configuration
 

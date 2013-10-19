@@ -26,7 +26,7 @@ class EntityEnvelope extends Object
 
 	/**
 	 * @param object $entity
-	 * @param callable $identifier
+	 * @param string $identifier
 	 */
 	public function __construct($entity, $identifier)
 	{
@@ -34,14 +34,20 @@ class EntityEnvelope extends Object
 		$this->identifier = $identifier;
 	}
 
+	/**
+	 * @return object
+	 */
 	public function getEntity()
 	{
 		return $this->entity;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString()
 	{
-		return $this->identifier;
+		return (string) $this->identifier;
 	}
 
 }

@@ -10,6 +10,7 @@
 
 namespace Arachne\EntityLoader;
 
+use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Nette\Application\Request;
 use Nette\Object;
 
@@ -34,7 +35,6 @@ class EntityLoader extends Object
 	/**
 	 * Replaces scalars in request by entities.
 	 * @param Request $request
-	 * @return bool
 	 */
 	public function loadEntities(Request $request)
 	{
@@ -44,24 +44,22 @@ class EntityLoader extends Object
 		}
 		$parameters = $request->getParameters();
 		foreach ($entities as $name => $type) {
-			if (isset($parameters[$name])) {
+			if (isset($parameters[$name]) && !$parameters[$name] instanceof $type) {
 				$converter = $this->converterLoader->getConverter($type);
-				$entity = $converter ? $converter->parameterToEntity($type, $parameters[$name]) : NULL;
-				if ($entity === NULL) {
-					return FALSE;
+				$entity = $converter->parameterToEntity($type, $parameters[$name]);
+				if (!$entity instanceof $type) {
+					throw new UnexpectedValueException("Converter did not return an instance of '$type'.");
 				}
 				$parameters[$name] = $entity;
 			}
 		}
 		$request->setParameters($parameters);
-		return TRUE;
 	}
 
 	/**
 	 * Replaces entities in request by scalars.
 	 * @param Request $request
 	 * @param bool $envelopes
-	 * @return bool
 	 */
 	public function removeEntities(Request $request, $envelopes = FALSE)
 	{
@@ -71,17 +69,16 @@ class EntityLoader extends Object
 		}
 		$parameters = $request->getParameters();
 		foreach ($entities as $name => $type) {
-			if (isset($parameters[$name])) {
+			if (isset($parameters[$name]) && $parameters[$name] instanceof $type) {
 				$converter = $this->converterLoader->getConverter($type);
-				$parameter = $converter ? $converter->entityToParameter($type, $parameters[$name]) : NULL;
-				if ($parameter === NULL) {
-					return FALSE;
+				$parameter = $converter->entityToParameter($type, $parameters[$name]);
+				if (!is_string($parameter)) {
+					throw new UnexpectedValueException("Converter for '$type' did not return a string.");
 				}
 				$parameters[$name] = $envelopes ? new EntityEnvelope($parameters[$name], $parameter) : $parameter;
 			}
 		}
 		$request->setParameters($parameters);
-		return TRUE;
 	}
 
 }
