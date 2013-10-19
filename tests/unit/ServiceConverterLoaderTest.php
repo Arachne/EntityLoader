@@ -27,6 +27,17 @@ class ServiceConverterLoaderTest extends Test
 		], $this->container);
 	}
 
+	public function testHandler()
+	{
+		$mock = Mockery::mock('Arachne\EntityLoader\IConverter');
+		$this->container
+			->shouldReceive('getService')
+			->once()
+			->with('type1Converter')
+			->andReturn($mock);
+		$this->assertSame($mock, $this->converterLoader->getConverter('Type1'));
+	}
+
 	/**
 	 * @expectedException Arachne\EntityLoader\Exception\UnexpectedTypeException
 	 * @expectedExceptionMessage Service 'type1Converter' is not an instance of Arachne\EntityLoader\IConverter.
