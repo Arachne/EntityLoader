@@ -10,6 +10,7 @@
 
 namespace Arachne\EntityLoader;
 
+use Arachne\EntityLoader\Exception\UnexpectedTypeException;
 use Nette\DI\Container;
 use Nette\Object;
 
@@ -41,7 +42,7 @@ class ServiceConverterLoader extends Object implements IConverterLoader
 	public function getConverter($type)
 	{
 		if (!isset($this->services[$type])) {
-			throw new UnknownTypeException("No converter found for type '$type'.");
+			throw new UnexpectedTypeException("No converter found for type '$type'.");
 		}
 		$name = $this->services[$type];
 		if (!isset($this->converters[$name])) {
