@@ -10,6 +10,8 @@
 
 namespace Arachne\EntityLoader;
 
+use Nette\Application\BadRequestException;
+
 /**
  * @author Jáchym Toušek
  */
@@ -20,6 +22,7 @@ interface IConverter
 	 * @param string $type
 	 * @param mixed $value
 	 * @return object
+	 * @throws BadRequestException
 	 */
 	public function parameterToEntity($type, $value);
 
