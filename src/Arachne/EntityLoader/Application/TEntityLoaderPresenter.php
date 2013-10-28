@@ -11,6 +11,7 @@
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\EntityLoader;
+use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\ForwardResponse;
 use Nette\Utils\Strings;
@@ -39,7 +40,7 @@ trait TEntityLoaderPresenter
 	{
 		if ($request === NULL) {
 			$request = $this->request;
-		} elseif (!$request instanceof Application\Request) { // first parameter is optional
+		} elseif (!$request instanceof Request) { // first parameter is optional
 			$expiration = $request;
 			$request = $this->request;
 		}
@@ -70,7 +71,11 @@ trait TEntityLoaderPresenter
 		$request = $session[$key][1];
 		unset($session[$key]);
 
-		$this->loader->loadEntities($request);
+		try {
+			$this->loader->loadEntities($request);
+		} catch (BadRequestException $e) {
+			return;
+		}
 		$request->setFlag(Request::RESTORED, TRUE);
 		$parameters = $request->getParameters();
 		$parameters[self::FLASH_KEY] = $this->getParameter(self::FLASH_KEY);
