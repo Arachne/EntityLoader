@@ -5,9 +5,7 @@
 /tests/_log/*
 /tests/_temp/*
 
-.DS_Store
-!.htaccess
 !.gitignore
-!web.config
+!.gitkeep
 
 composer.lock
