@@ -1,11 +1,9 @@
-Documentation
-=============
+# Documentation
 
 This extension is here to provide an easy way to have objects in application request and consequently in parameters of presenters and components.
 
 
-Instalation
------------
+## Installation
 
 The best way to install Arachne/EntityLoader is using [Composer](http://getcomposer.org/):
 
@@ -38,8 +36,7 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
 If you don't use PHP 5.4, just copy the trait's methods to your BasePresenter.
 
 
-Usage
------
+## Usage
 
 You will need a service implementing Arachne\EntityLoader\IConverter with arachne.entityLoader.converter tag and specified conversion types in the tag attributes. This will be often provided by some other extension but let's show it on an easy example.
 
