@@ -21,9 +21,6 @@ class EntityLoaderInTest extends Test
 	/** @var MockInterface */
 	private $converter;
 
-	/** @var MockInterface */
-	private $converterLoader;
-
 	protected function _before()
 	{
 		$finder = Mockery::mock('Arachne\EntityLoader\ParameterFinder');
@@ -34,8 +31,7 @@ class EntityLoaderInTest extends Test
 				'component-entity' => 'Type2',
 			]);
 		$this->converter = Mockery::mock('Arachne\EntityLoader\IConverter');
-		$this->converterLoader = Mockery::mock('Arachne\EntityLoader\IConverterLoader');
-		$this->entityLoader = new EntityLoader($finder, $this->converterLoader);
+		$this->entityLoader = new EntityLoader([ $this->converter ], $finder);
 	}
 
 	public function testLoadEntities()
@@ -47,11 +43,10 @@ class EntityLoaderInTest extends Test
 		]);
 		$mock1 = Mockery::mock('Type1');
 		$mock2 = Mockery::mock('Type2');
-		$this->converterLoader->shouldReceive('getConverter')
+		$this->converter
+			->shouldReceive('canConvert')
 			->twice()
-			->andReturnUsing(function () {
-				return $this->converter;
-			});
+			->andReturn(TRUE);
 		$this->converter
 			->shouldReceive('parameterToEntity')
 			->twice()
@@ -76,11 +71,10 @@ class EntityLoaderInTest extends Test
 			'component-entity' => 'value2',
 		]);
 		$mock1 = Mockery::mock('Type1');
-		$this->converterLoader->shouldReceive('getConverter')
+		$this->converter
+			->shouldReceive('canConvert')
 			->twice()
-			->andReturnUsing(function () {
-				return $this->converter;
-			});
+			->andReturn(TRUE);
 		$this->converter
 			->shouldReceive('parameterToEntity')
 			->twice()
@@ -100,13 +94,11 @@ class EntityLoaderInTest extends Test
 			'entity' => 'value1',
 			'component-entity' => $mock2,
 		]);
-		$this->converterLoader
-			->shouldReceive('getConverter')
-			->with('Type1')
+		$this->converter
+			->shouldReceive('canConvert')
 			->once()
-			->andReturnUsing(function () {
-				return $this->converter;
-			});
+			->with('Type1')
+			->andReturn(TRUE);
 		$this->converter
 			->shouldReceive('parameterToEntity')
 			->with('Type1', 'value1')

@@ -21,9 +21,6 @@ class EntityLoaderOutTest extends Test
 	/** @var MockInterface */
 	private $converter;
 
-	/** @var MockInterface */
-	private $converterLoader;
-
 	protected function _before()
 	{
 		$finder = Mockery::mock('Arachne\EntityLoader\ParameterFinder');
@@ -34,8 +31,7 @@ class EntityLoaderOutTest extends Test
 				'component-entity' => 'Type2',
 			]);
 		$this->converter = Mockery::mock('Arachne\EntityLoader\IConverter');
-		$this->converterLoader = Mockery::mock('Arachne\EntityLoader\IConverterLoader');
-		$this->entityLoader = new EntityLoader($finder, $this->converterLoader);
+		$this->entityLoader = new EntityLoader([ $this->converter ], $finder);
 	}
 
 	public function testRemoveEntities()
@@ -45,11 +41,10 @@ class EntityLoaderOutTest extends Test
 			'entity' => Mockery::mock('Type1'),
 			'component-entity' => Mockery::mock('Type2'),
 		]);
-		$this->converterLoader->shouldReceive('getConverter')
+		$this->converter
+			->shouldReceive('canConvert')
 			->twice()
-			->andReturnUsing(function () {
-				return $this->converter;
-			});
+			->andReturn(TRUE);
 		$this->converter
 			->shouldReceive('entityToParameter')
 			->twice()
@@ -71,11 +66,10 @@ class EntityLoaderOutTest extends Test
 			'entity' => $mock1,
 			'component-entity' => $mock2,
 		]);
-		$this->converterLoader->shouldReceive('getConverter')
+		$this->converter
+			->shouldReceive('canConvert')
 			->twice()
-			->andReturnUsing(function () {
-				return $this->converter;
-			});
+			->andReturn(TRUE);
 		$this->converter
 			->shouldReceive('entityToParameter')
 			->twice()
@@ -99,11 +93,10 @@ class EntityLoaderOutTest extends Test
 			'entity' => Mockery::mock('Type1'),
 			'component-entity' => Mockery::mock('Type2'),
 		]);
-		$this->converterLoader->shouldReceive('getConverter')
+		$this->converter
+			->shouldReceive('canConvert')
 			->twice()
-			->andReturnUsing(function () {
-				return $this->converter;
-			});
+			->andReturn(TRUE);
 		$this->converter
 			->shouldReceive('entityToParameter')
 			->twice()
@@ -119,12 +112,11 @@ class EntityLoaderOutTest extends Test
 			'entity' => $mock1,
 			'component-entity' => 'value2',
 		]);
-		$this->converterLoader->shouldReceive('getConverter')
+		$this->converter
+			->shouldReceive('canConvert')
 			->once()
 			->with('Type1')
-			->andReturnUsing(function () {
-				return $this->converter;
-			});
+			->andReturn(TRUE);
 		$this->converter
 			->shouldReceive('entityToParameter')
 			->once()

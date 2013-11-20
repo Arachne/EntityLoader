@@ -12,6 +12,11 @@ use Nette\Object;
 class ArticleConverter extends Object implements IConverter
 {
 
+	public function canConvert($type)
+	{
+		return $type === 'Tests\Integration\Article';
+	}
+
 	public function entityToParameter($type, $entity)
 	{
 		if ($type !== 'Tests\Integration\Article') {
