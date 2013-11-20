@@ -46,6 +46,11 @@ You will need a service implementing Arachne\EntityLoader\IConverter with arachn
 class DateTimeConverter extends \Nette\Object implements \Arachne\EntityLoader\IConverter
 {
 
+	public function canConvert($type)
+	{
+		return is_subclass_of($type, 'DateTimeInterface');
+	}
+
 	public function parameterToEntity($type, $value)
 	{
 		// $type is DateTime or DateTimeImmutable
@@ -79,8 +84,6 @@ services:
 		factory: DateTimeConverter
 		tags:
 			arachne.entityLoader.converter:
-				- DateTime
-                - DateTimeImmutable
 ```
 
 ### Presenter
