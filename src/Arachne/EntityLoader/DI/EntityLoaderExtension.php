@@ -27,10 +27,6 @@ class EntityLoaderExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('parameterFinder'))
 			->setClass('Arachne\EntityLoader\ParameterFinder');
 
-		$builder->addDefinition($this->prefix('converterLoader'))
-			->setClass('Arachne\EntityLoader\IConverterLoader')
-			->setFactory('Arachne\EntityLoader\ServiceConverterLoader');
-
 		$builder->addDefinition($this->prefix('loader'))
 			->setClass('Arachne\EntityLoader\EntityLoader');
 	}
@@ -40,14 +36,12 @@ class EntityLoaderExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$services = [];
-		foreach ($builder->findByTag(self::TAG_CONVERTER) as $name => $types) {
-			foreach ((array) $types as $type) {
-				$services[$type] = $name;
-			}
+		foreach ($builder->findByTag(self::TAG_CONVERTER) as $name => $_) {
+			$services[] = '@' . $name;
 		}
 
-		$builder->getDefinition($this->prefix('converterLoader'))
-			->setArguments([ $services ]);
+		$builder->getDefinition($this->prefix('loader'))
+			->setArguments([ 'converters' => $services ]);
 	}
 
 }

@@ -20,6 +20,12 @@ interface IConverter
 
 	/**
 	 * @param string $type
+	 * @return bool
+	 */
+	public function canConvert($type);
+
+	/**
+	 * @param string $type
 	 * @param mixed $value
 	 * @return object
 	 * @throws BadRequestException
