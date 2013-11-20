@@ -106,7 +106,7 @@ Persistent parameters are also supported. Use the @var annotation to specify the
 
 ### Routers
 
-Now what if we want to use different format than timestamp in URL? This is supported and actually it can even be specific to the route in question. The solution uses filter out option an envelope object:
+Now what if we want to use different format than timestamp in URL? This is supported and actually it can even be specific to the route in question. The solution uses filter out option and envelope object:
 
 ```php
 $router[] = new Route('/<date>', [
