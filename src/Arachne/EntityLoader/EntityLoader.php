@@ -49,7 +49,7 @@ class EntityLoader extends Object
 	{
 		$entities = $this->finder->getEntityParameters($request);
 		if (empty($entities)) {
-			return $request;
+			return;
 		}
 		$parameters = $request->getParameters();
 		foreach ($entities as $name => $type) {
@@ -73,7 +73,7 @@ class EntityLoader extends Object
 	{
 		$entities = $this->finder->getEntityParameters($request);
 		if (empty($entities)) {
-			return $request;
+			return;
 		}
 		$parameters = $request->getParameters();
 		foreach ($entities as $name => $type) {
