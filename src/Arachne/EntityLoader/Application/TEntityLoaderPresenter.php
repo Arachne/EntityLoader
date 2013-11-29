@@ -31,21 +31,13 @@ trait TEntityLoaderPresenter
 	}
 
 	/**
-	 * Stores request to session.
-	 * @param Request $request
+	 * Stores current request to session.
 	 * @param mixed $expiration
 	 * @return string
 	 */
-	public function storeRequest($request = NULL, $expiration = '+ 10 minutes')
+	public function storeRequest($expiration = '+ 10 minutes')
 	{
-		if ($request === NULL) {
-			$request = $this->request;
-		} elseif (!$request instanceof Request) { // first parameter is optional
-			$expiration = $request;
-			$request = $this->request;
-		}
-
-		$request = clone $request;
+		$request = clone $this->request;
 		$this->loader->removeEntities($request);
 
 		$session = $this->getSession('Arachne.Application/requests');
