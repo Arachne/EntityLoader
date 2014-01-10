@@ -63,11 +63,8 @@ class ParameterFinder extends Object
 	 */
 	public function getEntityParameters(Request $request)
 	{
-		$parameters = $request->getParameters();
-		$presenter = $request->getPresenterName();
-		$cacheKey = $this->getCacheKey($request);
-		return $this->cache->load($cacheKey, function (& $dependencies) use ($presenter, $parameters) {
-			return $this->loadEntityParameters($presenter, $parameters, $dependencies);
+		return $this->cache->load($this->getCacheKey($request), function (& $dependencies) use ($request) {
+			return $this->loadEntityParameters($request->getPresenterName(), $request->getParameters(), $dependencies);
 		});
 	}
 
