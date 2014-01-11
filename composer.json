@@ -13,14 +13,15 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"nette/nette": "@dev"
+		"nette/nette": "@dev",
+		"arachne/class-resolver": "@dev"
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "~1.4",
 		"arachne/coding-style": "@dev",
 		"codeception/codeception": "~1.6",
 		"arachne/codeception": "@dev",
-		"mockery/mockery": "~0.8"
+		"mockery/mockery": "@dev"
 	},
 	"autoload": {
 		"psr-0": {

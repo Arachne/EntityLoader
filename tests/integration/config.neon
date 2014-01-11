@@ -1,4 +1,5 @@
 extensions:
+	arachne.classResolver: Arachne\ClassResolver\DI\ClassResolverExtension
 	arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
 
 nette:

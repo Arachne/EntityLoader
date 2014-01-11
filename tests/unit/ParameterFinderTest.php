@@ -2,10 +2,12 @@
 
 namespace Tests\Unit;
 
+use Arachne\ClassResolver\ClassResolver;
 use Arachne\EntityLoader\ParameterFinder;
 use Codeception\TestCase\Test;
 use Mockery;
 use Nette\Application\Request;
+use Nette\Caching\Storages\DevNullStorage;
 
 /**
  * @author Jáchym Toušek
@@ -29,7 +31,8 @@ class ParameterFinderTest extends Test
 			->once();
 		$storage->shouldReceive('write')
 			->once();
-		$this->finder = new ParameterFinder($presenterFactory, $storage);
+		$classResolver = new ClassResolver(new DevNullStorage());
+		$this->finder = new ParameterFinder($presenterFactory, $classResolver, $storage);
 	}
 
 	public function testAction()
@@ -39,7 +42,7 @@ class ParameterFinderTest extends Test
 			'persistent' => 0,
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Class1', // TODO: should be Test\Unit\Class1
+			'persistent1' => 'Tests\Unit\Class1',
 			'actionEntity' => 'Tests\Unit\Class2',
 		], $this->finder->getEntityParameters($request));
 	}
@@ -51,7 +54,7 @@ class ParameterFinderTest extends Test
 			'do' => 'testHandle',
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Class1',
+			'persistent1' => 'Tests\Unit\Class1',
 			'renderEntity' => 'Tests\Unit\Class3',
 			'handleEntity' => 'Tests\Unit\Class4',
 		], $this->finder->getEntityParameters($request));
@@ -65,9 +68,9 @@ class ParameterFinderTest extends Test
 			'component-persistent' => 1,
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Class1',
+			'persistent1' => 'Tests\Unit\Class1',
 			'actionEntity' => 'Tests\Unit\Class2',
-			'component-persistent' => 'Class5',
+			'component-persistent' => 'Tests\Unit\Class5',
 			'component-handleEntity' => 'Tests\Unit\Class6',
 		], $this->finder->getEntityParameters($request));
 	}

@@ -10,6 +10,7 @@
 
 namespace Arachne\EntityLoader;
 
+use Arachne\ClassResolver\ClassResolver;
 use Arachne\EntityLoader\Exception\ClassNotFoundException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -32,6 +33,9 @@ class ParameterFinder extends Object
 	/** @var IPresenterFactory */
 	protected $presenterFactory;
 
+	/** @var ClassResolver */
+	protected $classResolver;
+
 	/** @var Cache */
 	protected $cache;
 
@@ -51,9 +55,10 @@ class ParameterFinder extends Object
 		'mixed',
 	];
 
-	public function __construct(IPresenterFactory $presenterFactory, IStorage $storage)
+	public function __construct(IPresenterFactory $presenterFactory, ClassResolver $classResolver, IStorage $storage)
 	{
 		$this->presenterFactory = $presenterFactory;
+		$this->classResolver = $classResolver;
 		$this->cache = new Cache($storage, 'Arachne.EntityLoader');
 	}
 
@@ -162,9 +167,7 @@ class ParameterFinder extends Object
 			if (!is_string($class)) {
 				return;
 			}
-			if ($class[0] != '\\') {
-				$class = $reflection->getNamespaceName() . '\\' . $class;
-			}
+			$class = $this->classResolver->expandClassName($class, $element->getDeclaringClass());
 			if (class_exists($class)) {
 				if (isset($subComponent)) {
 					return $this->createReflection(new ClassType($class), $subComponent);
@@ -210,10 +213,9 @@ class ParameterFinder extends Object
 		foreach ($reflection->getPersistentParams() as $persistent => $_) {
 			$parameter = new Property($reflection->getName(), $persistent);
 			if (!$parameter->isStatic() && $parameter->hasAnnotation('var')) {
-				// TODO: Use parser from Doctrine/Annotations to get correct class from use statements
 				$type = (string) $parameter->getAnnotation('var');
 				if (Strings::match($type, '/^[[:alnum:]_\\\\]++$/') && !in_array($type, $this->ignoredTypes)) {
-					$entities[$prefix . $persistent] = $type;
+					$entities[$prefix . $persistent] = $this->classResolver->expandClassName($type, $parameter->getDeclaringClass());
 				}
 			}
 		}
