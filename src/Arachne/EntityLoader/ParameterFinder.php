@@ -10,7 +10,6 @@
 
 namespace Arachne\EntityLoader;
 
-use Arachne\ClassResolver\ClassResolver;
 use Arachne\EntityLoader\Exception\ClassNotFoundException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
@@ -19,6 +18,7 @@ use Nette\Application\UI\PresenterComponentReflection;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Nette\Object;
+use Nette\Reflection\AnnotationsParser;
 use Nette\Reflection\ClassType;
 use Nette\Reflection\Method;
 use Nette\Reflection\Property;
@@ -32,9 +32,6 @@ class ParameterFinder extends Object
 
 	/** @var IPresenterFactory */
 	protected $presenterFactory;
-
-	/** @var ClassResolver */
-	protected $classResolver;
 
 	/** @var Cache */
 	protected $cache;
@@ -55,10 +52,9 @@ class ParameterFinder extends Object
 		'mixed',
 	];
 
-	public function __construct(IPresenterFactory $presenterFactory, ClassResolver $classResolver, IStorage $storage)
+	public function __construct(IPresenterFactory $presenterFactory, IStorage $storage)
 	{
 		$this->presenterFactory = $presenterFactory;
-		$this->classResolver = $classResolver;
 		$this->cache = new Cache($storage, 'Arachne.EntityLoader');
 	}
 
@@ -167,7 +163,7 @@ class ParameterFinder extends Object
 			if (!is_string($class)) {
 				return;
 			}
-			$class = $this->classResolver->expandClassName($class, $element->getDeclaringClass());
+			$class = AnnotationsParser::expandClassName($class, $element->getDeclaringClass());
 			if (class_exists($class)) {
 				if (isset($subComponent)) {
 					return $this->createReflection(new ClassType($class), $subComponent);
@@ -215,7 +211,7 @@ class ParameterFinder extends Object
 			if (!$parameter->isStatic() && $parameter->hasAnnotation('var')) {
 				$type = (string) $parameter->getAnnotation('var');
 				if (Strings::match($type, '/^[[:alnum:]_\\\\]++$/') && !in_array($type, $this->ignoredTypes)) {
-					$entities[$prefix . $persistent] = $this->classResolver->expandClassName($type, $parameter->getDeclaringClass());
+					$entities[$prefix . $persistent] = AnnotationsParser::expandClassName($type, $parameter->getDeclaringClass());
 				}
 			}
 		}
