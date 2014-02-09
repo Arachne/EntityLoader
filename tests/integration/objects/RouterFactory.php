@@ -5,6 +5,7 @@ namespace Tests\Integration;
 use Arachne\EntityLoader\Application\RouteList;
 use Arachne\EntityLoader\EntityEnvelope;
 use Arachne\EntityLoader\EntityLoader;
+use Nette\Application\IRouter;
 use Nette\Application\Routers\Route;
 use Nette\Object;
 
@@ -23,7 +24,7 @@ class RouterFactory extends Object
 	}
 
 	/**
-	 * @return \Nette\Application\IRouter
+	 * @return IRouter
 	 */
 	public function create()
 	{
