@@ -23,8 +23,8 @@
 		"mockery/mockery": "@dev"
 	},
 	"autoload": {
-		"psr-0": {
-			"Arachne\\EntityLoader": "src/"
+		"psr-4": {
+			"Arachne\\EntityLoader\\": "src/"
 		}
 	}
 }
