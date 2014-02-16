@@ -17,10 +17,11 @@
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "~1.4",
+		"mockery/mockery": "~0.9",
+		"codeception/codeception": "~1.8",
+		"codeception/mockery-module": "~0.1",
 		"arachne/coding-style": "@dev",
-		"codeception/codeception": "~1.6",
-		"arachne/codeception": "@dev",
-		"mockery/mockery": "@dev"
+		"arachne/codeception": "@dev"
 	},
 	"autoload": {
 		"psr-4": {
