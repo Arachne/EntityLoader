@@ -1,11 +1,7 @@
-/.idea/
-/nbproject/
+/vendor
+/tests/_log
+/tests/_temp
 
-/vendor/*
-/tests/_log/*
-/tests/_temp/*
-
-!.gitignore
 !.gitkeep
 
-composer.lock
+/composer.lock
