@@ -19,13 +19,19 @@
 		"squizlabs/php_codesniffer": "~1.4",
 		"mockery/mockery": "~0.9",
 		"codeception/codeception": "~1.8",
-		"codeception/mockery-module": "~0.1",
+		"codeception/mockery-module": "@dev",
 		"arachne/coding-style": "@dev",
 		"arachne/codeception": "@dev"
 	},
 	"autoload": {
 		"psr-4": {
 			"Arachne\\EntityLoader\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\Unit\\": "tests/unit/src",
+			"Tests\\Integration\\": "tests/integration/src"
 		}
 	}
 }

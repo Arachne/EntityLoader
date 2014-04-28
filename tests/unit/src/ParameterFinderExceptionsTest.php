@@ -21,7 +21,7 @@ class ParameterFinderExceptionsTest extends Test
 		$presenterFactory = Mockery::mock('Nette\Application\IPresenterFactory');
 		$presenterFactory->shouldReceive('getPresenterClass')
 			->once()
-			->andReturn('Tests\Unit\TestPresenter');
+			->andReturn('Tests\Unit\Classes\TestPresenter');
 		$storage = Mockery::mock('Nette\Caching\IStorage');
 		$storage->shouldReceive('read')
 			->once();
@@ -32,7 +32,7 @@ class ParameterFinderExceptionsTest extends Test
 
 	/**
 	 * @expectedException Arachne\EntityLoader\Exception\ClassNotFoundException
-	 * @expectedExceptionMessage Class 'Tests\Unit\NonexistentComponent' from Tests\Unit\TestPresenter::createComponentNonexistentComponent @return annotation not found.
+	 * @expectedExceptionMessage Class 'Tests\Unit\Classes\NonexistentComponent' from Tests\Unit\Classes\TestPresenter::createComponentNonexistentComponent @return annotation not found.
 	 */
 	public function testNonexistentComponent()
 	{

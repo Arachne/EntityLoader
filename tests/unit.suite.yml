@@ -5,9 +5,3 @@ class_name: UnitSuiteGuy
 modules:
     enabled:
         - Mockery
-        - Nette
-    config:
-        Nette:
-            tempDir: tests/_temp
-            robotLoader:
-                - tests/unit

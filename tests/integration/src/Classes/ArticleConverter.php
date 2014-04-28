@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration;
+namespace Tests\Integration\Classes;
 
 use Arachne\EntityLoader\IConverter;
 use InvalidArgumentException;
@@ -14,12 +14,12 @@ class ArticleConverter extends Object implements IConverter
 
 	public function canConvert($type)
 	{
-		return $type === 'Tests\Integration\Article';
+		return $type === __NAMESPACE__ . '\\Article';
 	}
 
 	public function entityToParameter($type, $entity)
 	{
-		if ($type !== 'Tests\Integration\Article') {
+		if ($type !== __NAMESPACE__ . '\\Article') {
 			throw new InvalidArgumentException("String '$type' is not allowed type.");
 		}
 		if (!$entity instanceof $type) {
@@ -30,7 +30,7 @@ class ArticleConverter extends Object implements IConverter
 
 	public function parameterToEntity($type, $value)
 	{
-		if ($type !== 'Tests\Integration\Article') {
+		if ($type !== __NAMESPACE__ . '\\Article') {
 			throw new InvalidArgumentException("String '$type' is not allowed type.");
 		}
 		return new Article($value);

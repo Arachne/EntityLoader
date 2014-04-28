@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityLoader;
-use Arachne\EntityLoader\EntityEnvelope;
 use Codeception\TestCase\Test;
 use Mockery;
 use Mockery\MockInterface;

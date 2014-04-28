@@ -7,6 +7,7 @@ use Nette\Application\IRouter;
 use Nette\Application\Request;
 use Nette\Http\Request as HttpRequest;
 use Nette\Http\UrlScript;
+use Tests\Integration\Classes\Article;
 
 /**
  * @author Jáchym Toušek
@@ -30,7 +31,7 @@ class ConverterTest extends Test
 		$this->assertInstanceOf('Nette\Application\Request', $request);
 		$parameters = $request->getParameters();
 		$this->assertArrayHasKey('entity', $parameters);
-		$this->assertInstanceOf('Tests\Integration\Article', $parameters['entity']);
+		$this->assertInstanceOf('Tests\Integration\Classes\Article', $parameters['entity']);
 		$this->assertSame('5', $parameters['entity']->getValue());
 	}
 

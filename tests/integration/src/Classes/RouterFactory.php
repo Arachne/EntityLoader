@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration;
+namespace Tests\Integration\Classes;
 
 use Arachne\EntityLoader\Application\RouteList;
 use Arachne\EntityLoader\EntityEnvelope;

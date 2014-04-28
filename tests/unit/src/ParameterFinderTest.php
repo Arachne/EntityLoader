@@ -21,7 +21,7 @@ class ParameterFinderTest extends Test
 		$presenterFactory = Mockery::mock('Nette\Application\IPresenterFactory');
 		$presenterFactory->shouldReceive('getPresenterClass')
 			->once()
-			->andReturn('Tests\Unit\TestPresenter');
+			->andReturn('Tests\Unit\Classes\TestPresenter');
 		$storage = Mockery::mock('Nette\Caching\IStorage');
 		$storage->shouldReceive('read')
 			->once();
@@ -39,8 +39,8 @@ class ParameterFinderTest extends Test
 			'persistent' => 0,
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Tests\Unit\Class1',
-			'actionEntity' => 'Tests\Unit\Class2',
+			'persistent1' => 'Tests\Unit\Classes\Class1',
+			'actionEntity' => 'Tests\Unit\Classes\Class2',
 		], $this->finder->getEntityParameters($request));
 	}
 
@@ -51,9 +51,9 @@ class ParameterFinderTest extends Test
 			'do' => 'testHandle',
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Tests\Unit\Class1',
-			'renderEntity' => 'Tests\Unit\Class3',
-			'handleEntity' => 'Tests\Unit\Class4',
+			'persistent1' => 'Tests\Unit\Classes\Class1',
+			'renderEntity' => 'Tests\Unit\Classes\Class3',
+			'handleEntity' => 'Tests\Unit\Classes\Class4',
 		], $this->finder->getEntityParameters($request));
 	}
 
@@ -65,10 +65,10 @@ class ParameterFinderTest extends Test
 			'component-persistent' => 1,
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Tests\Unit\Class1',
-			'actionEntity' => 'Tests\Unit\Class2',
-			'component-persistent' => 'Tests\Unit\Class5',
-			'component-handleEntity' => 'Tests\Unit\Class6',
+			'persistent1' => 'Tests\Unit\Classes\Class1',
+			'actionEntity' => 'Tests\Unit\Classes\Class2',
+			'component-persistent' => 'Tests\Unit\Classes\Class5',
+			'component-handleEntity' => 'Tests\Unit\Classes\Class6',
 		], $this->finder->getEntityParameters($request));
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Classes;
 
 use Exception;
 use Nette\Application\UI\Presenter;
