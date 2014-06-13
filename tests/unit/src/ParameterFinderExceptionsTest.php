@@ -5,7 +5,10 @@ namespace Tests\Unit;
 use Arachne\EntityLoader\ParameterFinder;
 use Codeception\TestCase\Test;
 use Mockery;
+use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
+use Nette\Caching\IStorage;
+use Tests\Unit\Classes\TestPresenter;
 
 /**
  * @author Jáchym Toušek
@@ -18,11 +21,11 @@ class ParameterFinderExceptionsTest extends Test
 
 	protected function _before()
 	{
-		$presenterFactory = Mockery::mock('Nette\Application\IPresenterFactory');
+		$presenterFactory = Mockery::mock(IPresenterFactory::class);
 		$presenterFactory->shouldReceive('getPresenterClass')
 			->once()
-			->andReturn('Tests\Unit\Classes\TestPresenter');
-		$storage = Mockery::mock('Nette\Caching\IStorage');
+			->andReturn(TestPresenter::class);
+		$storage = Mockery::mock(IStorage::class);
 		$storage->shouldReceive('read')
 			->once();
 		$storage->shouldReceive('lock')

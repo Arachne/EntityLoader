@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityLoader;
+use Arachne\EntityLoader\ParameterFinder;
 use Codeception\TestCase\Test;
 use Mockery;
 use Nette\Application\Request;
@@ -19,7 +20,7 @@ class EntityLoaderTest extends Test
 	 */
 	public function testConverterNotFound()
 	{
-		$finder = Mockery::mock('Arachne\EntityLoader\ParameterFinder');
+		$finder = Mockery::mock(ParameterFinder::class);
 		$finder->shouldReceive('getEntityParameters')
 			->once()
 			->andReturn([

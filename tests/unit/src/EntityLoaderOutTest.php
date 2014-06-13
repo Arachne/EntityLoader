@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\EntityEnvelope;
+use Arachne\EntityLoader\IConverter;
+use Arachne\EntityLoader\ParameterFinder;
 use Codeception\TestCase\Test;
 use Mockery;
 use Mockery\MockInterface;
@@ -23,14 +25,14 @@ class EntityLoaderOutTest extends Test
 
 	protected function _before()
 	{
-		$finder = Mockery::mock('Arachne\EntityLoader\ParameterFinder');
+		$finder = Mockery::mock(ParameterFinder::class);
 		$finder->shouldReceive('getEntityParameters')
 			->once()
 			->andReturn([
 				'entity' => 'Type1',
 				'component-entity' => 'Type2',
 			]);
-		$this->converter = Mockery::mock('Arachne\EntityLoader\IConverter');
+		$this->converter = Mockery::mock(IConverter::class);
 		$this->entityLoader = new EntityLoader([ $this->converter ], $finder);
 	}
 

@@ -21,17 +21,17 @@ class ConverterTest extends Test
 	public function _before()
 	{
 		parent::_before();
-		$this->router = $this->guy->grabService('Nette\Application\IRouter');
+		$this->router = $this->guy->grabService(IRouter::class);
 	}
 
 	public function testRouterIn()
 	{
 		$httpRequest = new HttpRequest($this->createUrlScript('5'));
 		$request = $this->router->match($httpRequest);
-		$this->assertInstanceOf('Nette\Application\Request', $request);
+		$this->assertInstanceOf(Request::class, $request);
 		$parameters = $request->getParameters();
 		$this->assertArrayHasKey('entity', $parameters);
-		$this->assertInstanceOf('Tests\Integration\Classes\Article', $parameters['entity']);
+		$this->assertInstanceOf(Article::class, $parameters['entity']);
 		$this->assertSame('5', $parameters['entity']->getValue());
 	}
 
