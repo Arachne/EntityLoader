@@ -19,9 +19,9 @@
 		"squizlabs/php_codesniffer": "~1.4",
 		"mockery/mockery": "~0.9",
 		"codeception/codeception": "~1.8",
-		"codeception/mockery-module": "@dev",
-		"arachne/coding-style": "@dev",
-		"arachne/codeception": "@dev"
+		"codeception/mockery-module": "dev-master",
+		"arachne/coding-style": "~0.1.0",
+		"arachne/codeception": "~0.2.0"
 	},
 	"autoload": {
 		"psr-4": {
