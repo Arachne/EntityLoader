@@ -21,7 +21,7 @@ class ConverterTest extends Test
 	public function _before()
 	{
 		parent::_before();
-		$this->router = $this->codeGuy->grabService('Nette\Application\IRouter');
+		$this->router = $this->guy->grabService('Nette\Application\IRouter');
 	}
 
 	public function testRouterIn()
