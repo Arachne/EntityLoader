@@ -13,15 +13,20 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"nette/nette": "~2.1.1"
+		"nette/application": "~2.2.0",
+		"nette/caching": "~2.2.0",
+		"nette/di": "~2.2.0",
+		"nette/reflection": "~2.2.0",
+		"nette/utils": "~2.2.0"
 	},
 	"require-dev": {
+		"nette/nette": "~2.2.0",
 		"squizlabs/php_codesniffer": "~1.4",
 		"mockery/mockery": "~0.9",
-		"codeception/codeception": "~1.8",
+		"codeception/codeception": "~2.0.0",
 		"codeception/mockery-module": "dev-master",
 		"arachne/coding-style": "~0.1.0",
-		"arachne/codeception": "~0.2.0"
+		"arachne/codeception": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
