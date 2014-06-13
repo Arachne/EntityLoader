@@ -25,7 +25,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Arachne\\EntityLoader\\": "src/"
+			"Arachne\\EntityLoader\\": "src"
 		}
 	},
 	"autoload-dev": {
