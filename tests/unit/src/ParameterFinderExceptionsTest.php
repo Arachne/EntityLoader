@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Arachne\EntityLoader\ParameterFinder;
+use Arachne\EntityLoader\Application\ParameterFinder;
 use Codeception\TestCase\Test;
 use Mockery;
 use Nette\Application\IPresenterFactory;
@@ -43,7 +43,7 @@ class ParameterFinderExceptionsTest extends Test
 			'action' => 'testAction',
 			'nonexistentComponent-persistent' => 1,
 		]);
-		$this->finder->getEntityParameters($request);
+		$this->finder->getMapping($request);
 	}
 
 }

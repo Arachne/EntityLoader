@@ -10,7 +10,7 @@
 
 namespace Arachne\EntityLoader\Application;
 
-use Arachne\EntityLoader\EntityLoader;
+use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Nette\Application\Request;
 use Nette\Application\Routers\RouteList as BaseRouteList;
 use Nette\Http\IRequest;
@@ -22,14 +22,14 @@ use Nette\Http\Url;
 class RouteList extends BaseRouteList
 {
 
-	/** @var EntityLoader */
+	/** @var RequestEntityLoader */
 	protected $loader;
 
 	/**
 	 * @param EntityLoader $loader
 	 * @param string $module
 	 */
-	public function __construct(EntityLoader $loader, $module = NULL)
+	public function __construct(RequestEntityLoader $loader, $module = NULL)
 	{
 		parent::__construct($module);
 		$this->loader = $loader;

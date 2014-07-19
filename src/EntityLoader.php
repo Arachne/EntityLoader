@@ -12,7 +12,6 @@ namespace Arachne\EntityLoader;
 
 use Arachne\EntityLoader\Exception\UnexpectedTypeException;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
-use Nette\Application\Request;
 use Nette\Object;
 
 /**
@@ -20,9 +19,6 @@ use Nette\Object;
  */
 class EntityLoader extends Object
 {
-
-	/** @var ParameterFinder */
-	private $finder;
 
 	/** @var IConverter[] */
 	private $converters;
@@ -34,25 +30,20 @@ class EntityLoader extends Object
 	 * @param IConverter[] $converters
 	 * @param ParameterFinder $finder
 	 */
-	public function __construct(array $converters, ParameterFinder $finder)
+	public function __construct(array $converters)
 	{
-		$this->finder = $finder;
 		$this->converters = $converters;
 		$this->cachedConverters = array();
 	}
 
 	/**
-	 * Replaces scalars in request by entities.
-	 * @param Request $request
+	 * Replaces scalars in array by entities.
+	 * @param array $parameters
+	 * @param array $mapping	 
 	 */
-	public function loadEntities(Request $request)
+	public function loadEntities(array $parameters, array $mapping)
 	{
-		$entities = $this->finder->getEntityParameters($request);
-		if (empty($entities)) {
-			return;
-		}
-		$parameters = $request->getParameters();
-		foreach ($entities as $name => $type) {
+		foreach ($mapping as $name => $type) {
 			if (isset($parameters[$name]) && !$parameters[$name] instanceof $type) {
 				$entity = $this->getConverter($type)->parameterToEntity($type, $parameters[$name]);
 				if (!$entity instanceof $type) {
@@ -61,22 +52,18 @@ class EntityLoader extends Object
 				$parameters[$name] = $entity;
 			}
 		}
-		$request->setParameters($parameters);
+		return $parameters;
 	}
 
 	/**
-	 * Replaces entities in request by scalars.
-	 * @param Request $request
+	 * Replaces entities in array by scalars.
+	 * @param array $parameters
+	 * @param array $mapping	 
 	 * @param bool $envelopes
 	 */
-	public function removeEntities(Request $request, $envelopes = FALSE)
+	public function removeEntities(array $parameters, array $mapping, $envelopes = FALSE)
 	{
-		$entities = $this->finder->getEntityParameters($request);
-		if (empty($entities)) {
-			return;
-		}
-		$parameters = $request->getParameters();
-		foreach ($entities as $name => $type) {
+		foreach ($mapping as $name => $type) {
 			if (isset($parameters[$name]) && $parameters[$name] instanceof $type) {
 				$parameter = $this->getConverter($type)->entityToParameter($type, $parameters[$name]);
 				if (!is_string($parameter)) {
@@ -85,7 +72,7 @@ class EntityLoader extends Object
 				$parameters[$name] = $envelopes ? new EntityEnvelope($parameters[$name], $parameter) : $parameter;
 			}
 		}
-		$request->setParameters($parameters);
+		return $parameters;
 	}
 
 	/**

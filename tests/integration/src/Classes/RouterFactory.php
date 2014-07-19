@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Classes;
 
+use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\Application\RouteList;
 use Arachne\EntityLoader\EntityEnvelope;
-use Arachne\EntityLoader\EntityLoader;
 use Nette\Application\IRouter;
 use Nette\Application\Routers\Route;
 use Nette\Object;
@@ -15,10 +15,10 @@ use Nette\Object;
 class RouterFactory extends Object
 {
 
-	/** @var EntityLoader */
+	/** @var RequestEntityLoader */
 	protected $loader;
 
-	public function __construct(EntityLoader $loader)
+	public function __construct(RequestEntityLoader $loader)
 	{
 		$this->loader = $loader;
 	}

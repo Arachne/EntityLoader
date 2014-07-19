@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader;
+namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Exception\ClassNotFoundException;
 use Nette\Application\IPresenterFactory;
@@ -62,10 +62,10 @@ class ParameterFinder extends Object
 	 * Returns entity parameters based on the request.
 	 * @return string[]
 	 */
-	public function getEntityParameters(Request $request)
+	public function getMapping(Request $request)
 	{
 		return $this->cache->load($this->getCacheKey($request), function (& $dependencies) use ($request) {
-			return $this->loadEntityParameters($request->getPresenterName(), $request->getParameters(), $dependencies);
+			return $this->loadMapping($request->getPresenterName(), $request->getParameters(), $dependencies);
 		});
 	}
 
@@ -75,7 +75,7 @@ class ParameterFinder extends Object
 	 * @param array $dependencies
 	 * @return string[]
 	 */
-	protected function loadEntityParameters($presenter, $parameters, & $dependencies)
+	protected function loadMapping($presenter, $parameters, & $dependencies)
 	{
 		$class = $this->presenterFactory->getPresenterClass($presenter);
 		$presenterReflection = new PresenterComponentReflection($class);

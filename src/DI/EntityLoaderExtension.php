@@ -24,11 +24,14 @@ class EntityLoaderExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$builder->addDefinition($this->prefix('parameterFinder'))
-			->setClass('Arachne\EntityLoader\ParameterFinder');
-
-		$builder->addDefinition($this->prefix('loader'))
+		$builder->addDefinition($this->prefix('entityLoader'))
 			->setClass('Arachne\EntityLoader\EntityLoader');
+
+		$builder->addDefinition($this->prefix('parameterFinder'))
+			->setClass('Arachne\EntityLoader\Application\ParameterFinder');
+
+		$builder->addDefinition($this->prefix('requestEntityLoader'))
+			->setClass('Arachne\EntityLoader\Application\RequestEntityLoader');
 	}
 
 	public function beforeCompile()
@@ -40,7 +43,7 @@ class EntityLoaderExtension extends CompilerExtension
 			$services[] = '@' . $name;
 		}
 
-		$builder->getDefinition($this->prefix('loader'))
+		$builder->getDefinition($this->prefix('entityLoader'))
 			->setArguments([ 'converters' => $services ]);
 	}
 

@@ -4,11 +4,9 @@ namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\IConverter;
-use Arachne\EntityLoader\ParameterFinder;
 use Codeception\TestCase\Test;
 use Mockery;
 use Mockery\MockInterface;
-use Nette\Application\Request;
 
 /**
  * @author Jáchym Toušek
@@ -22,28 +20,28 @@ class EntityLoaderInTest extends Test
 	/** @var MockInterface */
 	private $converter;
 
+	/** @var string[] */
+	private $mapping;
+
 	protected function _before()
 	{
-		$finder = Mockery::mock(ParameterFinder::class);
-		$finder->shouldReceive('getEntityParameters')
-			->once()
-			->andReturn([
-				'entity' => 'Type1',
-				'component-entity' => 'Type2',
-			]);
+		$this->mapping = [
+			'entity' => 'Type1',
+			'component-entity' => 'Type2',
+		];
 		$this->converter = Mockery::mock(IConverter::class);
-		$this->entityLoader = new EntityLoader([ $this->converter ], $finder);
+		$this->entityLoader = new EntityLoader([ $this->converter ]);
 	}
 
 	public function testLoadEntities()
 	{
-		$request = new Request('', 'GET', [
+		$mock1 = Mockery::mock('Type1');
+		$mock2 = Mockery::mock('Type2');
+		$parameters = [
 			'non-entity' => 0,
 			'entity' => 'value1',
 			'component-entity' => 'value2',
-		]);
-		$mock1 = Mockery::mock('Type1');
-		$mock2 = Mockery::mock('Type2');
+		];
 		$this->converter
 			->shouldReceive('canConvert')
 			->twice()
@@ -52,12 +50,11 @@ class EntityLoaderInTest extends Test
 			->shouldReceive('parameterToEntity')
 			->twice()
 			->andReturn($mock1, $mock2);
-		$this->entityLoader->loadEntities($request);
 		$this->assertEquals([
 			'non-entity' => 0,
 			'entity' => $mock1,
 			'component-entity' => $mock2,
-		], $request->getParameters());
+		], $this->entityLoader->loadEntities($parameters, $this->mapping));
 	}
 
 	/**
@@ -66,12 +63,12 @@ class EntityLoaderInTest extends Test
 	 */
 	public function testLoadEntitiesFail()
 	{
-		$request = new Request('', 'GET', [
+		$mock1 = Mockery::mock('Type1');
+		$parameters = [
 			'non-entity' => 0,
 			'entity' => 'value1',
 			'component-entity' => 'value2',
-		]);
-		$mock1 = Mockery::mock('Type1');
+		];
 		$this->converter
 			->shouldReceive('canConvert')
 			->twice()
@@ -80,7 +77,7 @@ class EntityLoaderInTest extends Test
 			->shouldReceive('parameterToEntity')
 			->twice()
 			->andReturn($mock1, NULL);
-		$this->entityLoader->loadEntities($request);
+		$this->entityLoader->loadEntities($parameters, $this->mapping);
 	}
 
 	/**
@@ -90,11 +87,11 @@ class EntityLoaderInTest extends Test
 	{
 		$mock1 = Mockery::mock('Type1');
 		$mock2 = Mockery::mock('Type2');
-		$request = new Request('', 'GET', [
+		$parameters = [
 			'non-entity' => 0,
 			'entity' => 'value1',
 			'component-entity' => $mock2,
-		]);
+		];
 		$this->converter
 			->shouldReceive('canConvert')
 			->once()
@@ -105,12 +102,11 @@ class EntityLoaderInTest extends Test
 			->with('Type1', 'value1')
 			->once()
 			->andReturn($mock1);
-		$this->entityLoader->loadEntities($request);
 		$this->assertEquals([
 			'non-entity' => 0,
 			'entity' => $mock1,
 			'component-entity' => $mock2,
-		], $request->getParameters());
+		], $this->entityLoader->loadEntities($parameters, $this->mapping));
 	}
 
 }

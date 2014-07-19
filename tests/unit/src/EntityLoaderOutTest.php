@@ -5,11 +5,9 @@ namespace Tests\Unit;
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\EntityEnvelope;
 use Arachne\EntityLoader\IConverter;
-use Arachne\EntityLoader\ParameterFinder;
 use Codeception\TestCase\Test;
 use Mockery;
 use Mockery\MockInterface;
-use Nette\Application\Request;
 
 /**
  * @author Jáchym Toušek
@@ -23,26 +21,26 @@ class EntityLoaderOutTest extends Test
 	/** @var MockInterface */
 	private $converter;
 
+	/** @var string[] */
+	private $mapping;
+
 	protected function _before()
 	{
-		$finder = Mockery::mock(ParameterFinder::class);
-		$finder->shouldReceive('getEntityParameters')
-			->once()
-			->andReturn([
-				'entity' => 'Type1',
-				'component-entity' => 'Type2',
-			]);
+		$this->mapping = [
+			'entity' => 'Type1',
+			'component-entity' => 'Type2',
+		];
 		$this->converter = Mockery::mock(IConverter::class);
-		$this->entityLoader = new EntityLoader([ $this->converter ], $finder);
+		$this->entityLoader = new EntityLoader([ $this->converter ]);
 	}
 
 	public function testRemoveEntities()
 	{
-		$request = new Request('', 'GET', [
+		$parameters = [
 			'non-entity' => 0,
 			'entity' => Mockery::mock('Type1'),
 			'component-entity' => Mockery::mock('Type2'),
-		]);
+		];
 		$this->converter
 			->shouldReceive('canConvert')
 			->twice()
@@ -51,23 +49,22 @@ class EntityLoaderOutTest extends Test
 			->shouldReceive('entityToParameter')
 			->twice()
 			->andReturn('1', '2');
-		$this->entityLoader->removeEntities($request);
 		$this->assertEquals([
 			'non-entity' => 0,
 			'entity' => 1,
 			'component-entity' => 2,
-		], $request->getParameters());
+		], $this->entityLoader->removeEntities($parameters, $this->mapping));
 	}
 
 	public function testRemoveEntitiesProxies()
 	{
 		$mock1 = Mockery::mock('Type1');
 		$mock2 = Mockery::mock('Type2');
-		$request = new Request('', 'GET', [
+		$parameters = [
 			'non-entity' => 0,
 			'entity' => $mock1,
 			'component-entity' => $mock2,
-		]);
+		];
 		$this->converter
 			->shouldReceive('canConvert')
 			->twice()
@@ -76,12 +73,11 @@ class EntityLoaderOutTest extends Test
 			->shouldReceive('entityToParameter')
 			->twice()
 			->andReturn('1', '2');
-		$this->entityLoader->removeEntities($request, TRUE);
 		$this->assertEquals([
 			'non-entity' => 0,
 			'entity' => new EntityEnvelope($mock1, 1),
 			'component-entity' => new EntityEnvelope($mock2, 2),
-		], $request->getParameters());
+		], $this->entityLoader->removeEntities($parameters, $this->mapping, TRUE));
 	}
 
 	/**
@@ -90,11 +86,11 @@ class EntityLoaderOutTest extends Test
 	 */
 	public function testRemoveEntitiesFail()
 	{
-		$request = new Request('', 'GET', [
+		$parameters = [
 			'non-entity' => 0,
 			'entity' => Mockery::mock('Type1'),
 			'component-entity' => Mockery::mock('Type2'),
-		]);
+		];
 		$this->converter
 			->shouldReceive('canConvert')
 			->twice()
@@ -103,17 +99,17 @@ class EntityLoaderOutTest extends Test
 			->shouldReceive('entityToParameter')
 			->twice()
 			->andReturn('1', NULL);
-		$this->entityLoader->removeEntities($request);
+		$this->entityLoader->removeEntities($parameters, $this->mapping);
 	}
 
 	public function testRemoveEntitiesIgnore()
 	{
 		$mock1 = Mockery::mock('Type1');
-		$request = new Request('', 'GET', [
+		$parameters = [
 			'non-entity' => 0,
 			'entity' => $mock1,
 			'component-entity' => 'value2',
-		]);
+		];
 		$this->converter
 			->shouldReceive('canConvert')
 			->once()
@@ -124,12 +120,11 @@ class EntityLoaderOutTest extends Test
 			->once()
 			->with('Type1', $mock1)
 			->andReturn('1');
-		$this->entityLoader->removeEntities($request);
 		$this->assertEquals([
 			'non-entity' => 0,
 			'entity' => 1,
 			'component-entity' => 'value2',
-		], $request->getParameters());
+		], $this->entityLoader->removeEntities($parameters, $this->mapping));
 	}
 
 }

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Arachne\EntityLoader\ParameterFinder;
+use Arachne\EntityLoader\Application\ParameterFinder;
 use Codeception\TestCase\Test;
 use Mockery;
 use Nette\Application\IPresenterFactory;
@@ -44,7 +44,7 @@ class ParameterFinderTest extends Test
 		$this->assertEquals([
 			'persistent1' => 'Tests\Unit\Classes\Class1',
 			'actionEntity' => 'Tests\Unit\Classes\Class2',
-		], $this->finder->getEntityParameters($request));
+		], $this->finder->getMapping($request));
 	}
 
 	public function testRenderAndHandle()
@@ -57,7 +57,7 @@ class ParameterFinderTest extends Test
 			'persistent1' => 'Tests\Unit\Classes\Class1',
 			'renderEntity' => 'Tests\Unit\Classes\Class3',
 			'handleEntity' => 'Tests\Unit\Classes\Class4',
-		], $this->finder->getEntityParameters($request));
+		], $this->finder->getMapping($request));
 	}
 
 	public function testComponent()
@@ -72,7 +72,7 @@ class ParameterFinderTest extends Test
 			'actionEntity' => 'Tests\Unit\Classes\Class2',
 			'component-persistent' => 'Tests\Unit\Classes\Class5',
 			'component-handleEntity' => 'Tests\Unit\Classes\Class6',
-		], $this->finder->getEntityParameters($request));
+		], $this->finder->getMapping($request));
 	}
 
 }

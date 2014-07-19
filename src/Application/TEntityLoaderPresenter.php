@@ -10,7 +10,7 @@
 
 namespace Arachne\EntityLoader\Application;
 
-use Arachne\EntityLoader\EntityLoader;
+use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\ForwardResponse;
@@ -22,10 +22,10 @@ use Nette\Utils\Strings;
 trait TEntityLoaderPresenter
 {
 
-	/** @var EntityLoader */
+	/** @var RequestEntityLoader */
 	private $loader;
 
-	final public function injectEntityLoader(EntityLoader $loader)
+	final public function injectEntityLoader(RequestEntityLoader $loader)
 	{
 		$this->loader = $loader;
 	}
