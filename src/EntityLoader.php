@@ -28,7 +28,6 @@ class EntityLoader extends Object
 
 	/**
 	 * @param IConverter[] $converters
-	 * @param ParameterFinder $finder
 	 */
 	public function __construct(array $converters)
 	{
