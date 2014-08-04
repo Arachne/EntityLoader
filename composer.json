@@ -25,7 +25,7 @@
 		"mockery/mockery": "~0.9",
 		"codeception/codeception": "~2.0.0",
 		"codeception/mockery-module": "dev-master",
-		"arachne/coding-style": "~0.1.0",
+		"arachne/coding-style": "~0.2.0",
 		"arachne/codeception": "dev-master"
 	},
 	"autoload": {
