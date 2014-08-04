@@ -38,9 +38,10 @@ trait TEntityLoaderPresenter
 	 */
 	public function storeRequest($request = NULL, $expiration = '+ 10 minutes')
 	{
+		// both parameters are optional
 		if ($request === NULL) {
 			$request = $this->request;
-		} elseif (!$request instanceof Request) { // first parameter is optional
+		} elseif (!$request instanceof Request) {
 			$expiration = $request;
 			$request = $this->request;
 		}
