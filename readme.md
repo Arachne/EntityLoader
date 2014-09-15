@@ -1,14 +1,6 @@
 Arachne/EntityLoader
 ====
 
-Requirements
-----
-
-Arachne/EntityLoader requires:
-
-- PHP 5.4.0 or higher
-- [Nette Framework](https://github.com/nette/nette) 2.1.0 or higher
-
 Installation
 ----
 
