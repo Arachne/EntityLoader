@@ -19,7 +19,7 @@ use Nette\Utils\Strings;
 /**
  * @author Jáchym Toušek
  */
-trait TEntityLoaderPresenter
+trait EntityLoaderPresenterTrait
 {
 
 	/** @var RequestEntityLoader */
