@@ -42,7 +42,7 @@ class RouterFactory extends Object
 			'presenter' => 'Article',
 			'action' => 'array',
 		]);
-		$router[] = new Route('/<action>/<parameter>', [
+		$router[] = new Route('/<action>[/<parameter>]', [
 			'presenter' => 'Article',
 		]);
 		return $router;

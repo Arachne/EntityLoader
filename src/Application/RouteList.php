@@ -11,9 +11,12 @@
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Application\RequestEntityLoader;
+use Arachne\EntityLoader\Exception\UnexpectedValueException;
+use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Routers\RouteList as BaseRouteList;
 use Nette\Http\IRequest;
+use Nette\Http\IResponse;
 use Nette\Http\Url;
 
 /**
@@ -39,12 +42,17 @@ class RouteList extends BaseRouteList
 	 * Maps HTTP request to a Request object.
 	 * @param IRequest $httpRequest
 	 * @return Request|NULL
+	 * @throws BadRequestException
 	 */
 	public function match(IRequest $httpRequest)
 	{
 		$request = parent::match($httpRequest);
 		if ($request instanceof Request) {
-			$this->loader->filterIn($request);
+			try {
+				$this->loader->filterIn($request);
+			} catch (UnexpectedValueException $e) {
+				throw new BadRequestException('Request has invalid parameter.', IResponse::S404_NOT_FOUND, $e);
+			}
 		}
 		return $request;
 	}

@@ -59,4 +59,12 @@ class ArticlePresenter extends Presenter
 	{
 	}
 
+	public function actionNullable(Article $entity = NULL)
+	{
+	}
+
+	public function actionNotNullable(Article $entity)
+	{
+	}
+
 }
