@@ -15,14 +15,8 @@ use Nette\Application\BadRequestException;
 /**
  * @author Jáchym Toušek
  */
-interface IConverter
+interface ConverterInterface
 {
-
-	/**
-	 * @param string $type
-	 * @return bool
-	 */
-	public function canConvert($type);
 
 	/**
 	 * @param string $type
@@ -30,13 +24,13 @@ interface IConverter
 	 * @return object
 	 * @throws BadRequestException
 	 */
-	public function parameterToEntity($type, $value);
+	public function filterIn($type, $value);
 
 	/**
 	 * @param string $type
-	 * @param object $entity
-	 * @return string
+	 * @param object $value
+	 * @return string|string[]
 	 */
-	public function entityToParameter($type, $entity);
+	public function filterOut($type, $value);
 
 }

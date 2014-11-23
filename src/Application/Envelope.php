@@ -8,38 +8,46 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader;
+namespace Arachne\EntityLoader\Application;
 
 use Nette\Object;
 
 /**
  * @author Jáchym Toušek
  */
-class EntityEnvelope extends Object
+class Envelope extends Object
 {
 
-	/** @var object */
-	private $entity;
+	/** @var array|object|resource */
+	private $value;
 
-	/** @var string */
+	/** @var string|int */
 	private $identifier;
 
 	/**
-	 * @param object $entity
-	 * @param string $identifier
+	 * @param array|object|resource $value
+	 * @param string|int $identifier
 	 */
-	public function __construct($entity, $identifier)
+	public function __construct($value, $identifier)
 	{
-		$this->entity = $entity;
+		$this->value = $value;
 		$this->identifier = $identifier;
 	}
 
 	/**
-	 * @return object
+	 * @return array|object|resource
 	 */
-	public function getEntity()
+	public function getValue()
 	{
-		return $this->entity;
+		return $this->value;
+	}
+
+	/**
+	 * @return string|int
+	 */
+	public function getIdentifier()
+	{
+		return $this->identifier;
 	}
 
 	/**

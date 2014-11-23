@@ -14,3 +14,8 @@ settings:
 extensions:
     enabled:
         - Arachne\Codeception\Tracy\Logger
+
+coverage:
+    enabled: true
+    include:
+        - src/*

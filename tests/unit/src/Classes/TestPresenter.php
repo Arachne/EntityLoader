@@ -40,6 +40,24 @@ class TestPresenter extends Presenter
 	{
 	}
 
+	/**
+	 * @param $invalid
+	 */
+	public function handleInvalidTypehintHandle($handleEntity)
+	{
+	}
+
+	/**
+	 * @param type $another
+	 */
+	public function handleMissingTypehintHandle($handleEntity)
+	{
+	}
+
+	public function handleNoTypehintHandle($handleEntity)
+	{
+	}
+
 	public function actionNonexistentParameter($entity)
 	{
 	}
@@ -52,9 +70,20 @@ class TestPresenter extends Presenter
 	}
 
 	/**
+	 * @return InvalidComponent
+	 */
+	protected function createComponentInvalid()
+	{
+	}
+
+	/**
 	 * @return NonexistentComponent
 	 */
 	protected function createComponentNonexistentComponent()
+	{
+	}
+
+	protected function createComponentMissingTypehint()
 	{
 	}
 

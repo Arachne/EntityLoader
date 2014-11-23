@@ -44,7 +44,7 @@ class RouteList extends BaseRouteList
 	{
 		$request = parent::match($httpRequest);
 		if ($request instanceof Request) {
-			$this->loader->loadEntities($request);
+			$this->loader->filterIn($request);
 		}
 		return $request;
 	}
@@ -58,7 +58,7 @@ class RouteList extends BaseRouteList
 	public function constructUrl(Request $request, Url $refUrl)
 	{
 		$request = clone $request;
-		$this->loader->removeEntities($request, TRUE);
+		$this->loader->filterOut($request, TRUE);
 		return parent::constructUrl($request, $refUrl);
 	}
 

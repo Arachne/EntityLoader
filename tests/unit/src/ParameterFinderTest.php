@@ -8,6 +8,7 @@ use Mockery;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Caching\IStorage;
+use StdClass;
 use Tests\Unit\Classes\TestPresenter;
 
 /**
@@ -42,8 +43,9 @@ class ParameterFinderTest extends Test
 			'persistent' => 0,
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Tests\Unit\Classes\Class1',
-			'actionEntity' => 'Tests\Unit\Classes\Class2',
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', TRUE),
+			'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', FALSE),
+			'persistent2' => $this->createInfoObject('string', TRUE),
 		], $this->finder->getMapping($request));
 	}
 
@@ -54,9 +56,10 @@ class ParameterFinderTest extends Test
 			'do' => 'testHandle',
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Tests\Unit\Classes\Class1',
-			'renderEntity' => 'Tests\Unit\Classes\Class3',
-			'handleEntity' => 'Tests\Unit\Classes\Class4',
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', TRUE),
+			'renderEntity' => $this->createInfoObject('Tests\Unit\Classes\Class3', FALSE),
+			'handleEntity' => $this->createInfoObject('Tests\Unit\Classes\Class4', FALSE),
+			'persistent2' => $this->createInfoObject('string', TRUE),
 		], $this->finder->getMapping($request));
 	}
 
@@ -68,11 +71,25 @@ class ParameterFinderTest extends Test
 			'component-persistent' => 1,
 		]);
 		$this->assertEquals([
-			'persistent1' => 'Tests\Unit\Classes\Class1',
-			'actionEntity' => 'Tests\Unit\Classes\Class2',
-			'component-persistent' => 'Tests\Unit\Classes\Class5',
-			'component-handleEntity' => 'Tests\Unit\Classes\Class6',
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', TRUE),
+			'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', FALSE),
+			'component-persistent' => $this->createInfoObject('Tests\Unit\Classes\Class5', TRUE),
+			'component-handleEntity' => $this->createInfoObject('Tests\Unit\Classes\Class6', FALSE),
+			'persistent2' => $this->createInfoObject('string', TRUE),
 		], $this->finder->getMapping($request));
+	}
+
+	/**
+	 * @param string $type
+	 * @param bool $nullable
+	 * @return StdClass
+	 */
+	private function createInfoObject($type, $nullable)
+	{
+		$object = new StdClass();
+		$object->type = $type;
+		$object->nullable = $nullable;
+		return $object;
 	}
 
 }

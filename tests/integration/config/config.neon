@@ -1,5 +1,5 @@
 extensions:
-	arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
+	arachne.EntityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
 
 nette:
 	application:

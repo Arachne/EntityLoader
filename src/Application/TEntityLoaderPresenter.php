@@ -47,7 +47,7 @@ trait TEntityLoaderPresenter
 		}
 
 		$request = clone $request;
-		$this->loader->removeEntities($request);
+		$this->loader->filterOut($request);
 
 		$session = $this->getSession('Arachne.Application/requests');
 		do {
@@ -73,7 +73,7 @@ trait TEntityLoaderPresenter
 		unset($session[$key]);
 
 		try {
-			$this->loader->loadEntities($request);
+			$this->loader->filterIn($request);
 		} catch (BadRequestException $e) {
 			return;
 		}

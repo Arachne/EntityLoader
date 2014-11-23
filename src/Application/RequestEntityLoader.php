@@ -11,6 +11,7 @@
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\EntityLoader;
+use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Nette\Application\Request;
 use Nette\Object;
 
@@ -37,31 +38,44 @@ class RequestEntityLoader extends Object
 	}
 
 	/**
-	 * Replaces scalars in request by entities.
 	 * @param Request $request
 	 */
-	public function loadEntities(Request $request)
+	public function filterIn(Request $request)
 	{
 		$mapping = $this->finder->getMapping($request);
-		if (empty($mapping)) {
-			return;
+		$parameters = $request->getParameters();
+		foreach ($mapping as $name => $info) {
+			if (!isset($parameters[$name])) {
+				if ($info->nullable) {
+					continue;
+				} else {
+					throw new UnexpectedValueException("Parameter '$name' can't be null.");
+				}
+			}
+			$parameters[$name] = $this->entityLoader->filterIn($info->type, $parameters[$name]);
 		}
-		$parameters = $this->entityLoader->loadEntities($request->getParameters(), $mapping);
 		$request->setParameters($parameters);
 	}
 
 	/**
-	 * Replaces entities in request by scalars.
 	 * @param Request $request
 	 * @param bool $envelopes
 	 */
-	public function removeEntities(Request $request, $envelopes = FALSE)
+	public function filterOut(Request $request, $envelopes = FALSE)
 	{
 		$mapping = $this->finder->getMapping($request);
-		if (empty($mapping)) {
-			return;
+		$parameters = $request->getParameters();
+		foreach ($mapping as $name => $info) {
+			if (!isset($parameters[$name])) {
+				if ($info->nullable) {
+					continue;
+				} else {
+					throw new UnexpectedValueException("Parameter '$name' can't be null.");
+				}
+			}
+			$parameter = $this->entityLoader->filterOut($info->type, $parameters[$name]);
+			$parameters[$name] = $envelopes && is_object($parameters[$name]) ? new Envelope($parameters[$name], $parameter) : $parameter;
 		}
-		$parameters = $this->entityLoader->removeEntities($request->getParameters(), $mapping, $envelopes);
 		$request->setParameters($parameters);
 	}
 

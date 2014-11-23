@@ -2,33 +2,28 @@
 
 namespace Tests\Integration\Classes;
 
-use Arachne\EntityLoader\IConverter;
+use Arachne\EntityLoader\ConverterInterface;
 use InvalidArgumentException;
 use Nette\Object;
 
 /**
  * @author Jáchym Toušek
  */
-class ArticleConverter extends Object implements IConverter
+class ArticleConverter extends Object implements ConverterInterface
 {
 
-	public function canConvert($type)
-	{
-		return $type === __NAMESPACE__ . '\\Article';
-	}
-
-	public function entityToParameter($type, $entity)
+	public function filterOut($type, $value)
 	{
 		if ($type !== __NAMESPACE__ . '\\Article') {
 			throw new InvalidArgumentException("String '$type' is not allowed type.");
 		}
-		if (!$entity instanceof $type) {
+		if (!$value instanceof $type) {
 			throw new InvalidArgumentException("Entity is not an instance of '$type'.");
 		}
-		return $entity->getValue();
+		return $value->getValue();
 	}
 
-	public function parameterToEntity($type, $value)
+	public function filterIn($type, $value)
 	{
 		if ($type !== __NAMESPACE__ . '\\Article') {
 			throw new InvalidArgumentException("String '$type' is not allowed type.");

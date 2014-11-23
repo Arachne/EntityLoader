@@ -10,7 +10,7 @@
 
 namespace Arachne\EntityLoader\Application;
 
-use Arachne\EntityLoader\Exception\ClassNotFoundException;
+use Arachne\EntityLoader\Exception\TypeHintException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\UI\Presenter;
@@ -21,8 +21,10 @@ use Nette\Object;
 use Nette\Reflection\AnnotationsParser;
 use Nette\Reflection\ClassType;
 use Nette\Reflection\Method;
+use Nette\Reflection\Parameter;
 use Nette\Reflection\Property;
 use Nette\Utils\Strings;
+use StdClass;
 
 /**
  * @author Jáchym Toušek
@@ -30,37 +32,37 @@ use Nette\Utils\Strings;
 class ParameterFinder extends Object
 {
 
+	/** @var string[] */
+	public static $simpleTypes = [
+		'int' => 'int',
+		'integer' => 'int',
+		'float' => 'float',
+		'double' => 'float',
+		'bool' => 'bool',
+		'boolean' => 'bool',
+		'string' => 'string',
+		'array' => 'array',
+		'object' => 'object',
+		'resource' => 'resource',
+		'callable' => 'callable',
+		'mixed' => 'mixed',
+	];
+
 	/** @var IPresenterFactory */
 	protected $presenterFactory;
 
 	/** @var Cache */
 	protected $cache;
 
-	/** @var string[] */
-	protected $ignoredTypes = [
-		'int',
-		'integer',
-		'float',
-		'double',
-		'bool',
-		'boolean',
-		'string',
-		'array',
-		'object',
-		'resource',
-		'null',
-		'mixed',
-	];
-
 	public function __construct(IPresenterFactory $presenterFactory, IStorage $storage)
 	{
 		$this->presenterFactory = $presenterFactory;
-		$this->cache = new Cache($storage, 'Arachne.EntityLoader');
+		$this->cache = new Cache($storage, 'Arachne.ParameterFinder');
 	}
 
 	/**
-	 * Returns entity parameters based on the request.
-	 * @return string[]
+	 * Returns parameters information based on the request.
+	 * @return StdClass[]
 	 */
 	public function getMapping(Request $request)
 	{
@@ -73,7 +75,7 @@ class ParameterFinder extends Object
 	 * @param string $presenter
 	 * @param array $parameters
 	 * @param array $dependencies
-	 * @return string[]
+	 * @return StdClass[]
 	 */
 	protected function loadMapping($presenter, $parameters, & $dependencies)
 	{
@@ -81,11 +83,11 @@ class ParameterFinder extends Object
 		$presenterReflection = new PresenterComponentReflection($class);
 		$files = [];
 
-		// Presenter persistent entities
-		$entities = $this->getPersistentEntities($presenterReflection);
+		// Presenter persistent parameters
+		$info = $this->getPersistentParameters($presenterReflection);
 		$files[] = $presenterReflection->getFileName();
 
-		// Action entities
+		// Action parameters
 		$action = $parameters[Presenter::ACTION_KEY];
 		$method = 'action' . $action;
 		$element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : NULL;
@@ -94,11 +96,11 @@ class ParameterFinder extends Object
 			$element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : NULL;
 		}
 		if ($element) {
-			$entities += $this->getMethodEntities($element);
+			$info += $this->getMethodParameters($element);
 			$files[] = $element->getFileName();
 		}
 
-		// Persistent component entities
+		// Persistent component parameters
 		$components = [];
 		foreach ($parameters as $key => $_) {
 			$pos = strrpos($key, '-');
@@ -109,13 +111,13 @@ class ParameterFinder extends Object
 					$components[$component] = TRUE;
 					if ($reflection) {
 						$files[] = $reflection->getFileName();
-						$entities += $this->getPersistentEntities($reflection, $component . '-');
+						$info += $this->getPersistentParameters($reflection, $component . '-');
 					}
 				}
 			}
 		}
 
-		// Signal entities
+		// Signal parameters
 		if (isset($parameters[Presenter::SIGNAL_KEY])) {
 			$signal = $parameters[Presenter::SIGNAL_KEY];
 			$pos = strrpos($signal, '-');
@@ -131,7 +133,7 @@ class ParameterFinder extends Object
 			$method = 'handle' . ucfirst($signal);
 			if ($reflection && $reflection->hasCallableMethod($method)) {
 				$element = $reflection->getMethod($method);
-				$entities += $this->getMethodEntities($element, $prefix);
+				$info += $this->getMethodParameters($element, $prefix);
 				$files[] = $element->getFileName();
 			}
 		}
@@ -141,7 +143,7 @@ class ParameterFinder extends Object
 			Cache::FILES => $files,
 		];
 
-		return $entities;
+		return $info;
 	}
 
 	/**
@@ -160,19 +162,16 @@ class ParameterFinder extends Object
 		if ($reflection->hasMethod($method)) {
 			$element = $reflection->getMethod($method);
 			$class = $element->getAnnotation('return');
-			if (!is_string($class)) {
-				return;
+			if (!Strings::match($class, '/^[[:alnum:]_\\\\]++$/')) {
+				throw new TypeHintException("No @return annotation found for method $element.");
 			}
 			$class = AnnotationsParser::expandClassName($class, $element->getDeclaringClass());
-			if (class_exists($class)) {
-				if (isset($subComponent)) {
-					return $this->createReflection(new ClassType($class), $subComponent);
-				} else {
-					return new PresenterComponentReflection($class);
-				}
-			} else {
-				throw new ClassNotFoundException("Class '$class' from $reflection->name::$method @return annotation not found.");
+			if (!class_exists($class)) {
+				throw new TypeHintException("Class '$class' from $reflection->name::$method @return annotation not found.");
 			}
+			return isset($subComponent)
+				? $this->createReflection(new ClassType($class), $subComponent)
+				: new PresenterComponentReflection($class);
 		}
 	}
 
@@ -180,42 +179,95 @@ class ParameterFinder extends Object
 	 * @param Method $element
 	 * @param string $prefix
 	 * @param string $default
-	 * @return string[]
+	 * @return StdClass[]
 	 */
-	protected function getMethodEntities(Method $reflection, $prefix = NULL)
+	protected function getMethodParameters(Method $reflection, $prefix = NULL)
 	{
 		$parameters = [];
 		foreach ($reflection->getParameters() as $parameter) {
 			$parameters[] = $parameter->getName();
 		}
-		$entities = [];
+		$info = [];
 		foreach ($reflection->getParameters() as $parameter) {
-			$type = $parameter->getClassName();
-			if ($type) {
-				$entities[$prefix . $parameter->getName()] = $type;
+			$type = $this->getParameterType($reflection, $parameter);
+			$nullable = $parameter->isOptional() && $parameter->getDefaultValue() === NULL;
+			$info[$prefix . $parameter->getName()] = $this->createInfoObject($type, $nullable);
+		}
+		return $info;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getParameterType(Method $method, Parameter $parameter)
+	{
+		$type = $parameter->getClassName();
+		if ($type) {
+			return $type;
+		}
+		if ($parameter->isArray()) {
+			return 'array';
+		}
+		if ($parameter->isCallable()) {
+			return 'callable';
+		}
+		// no typehint, check the @param annotation
+		if (isset($method->getAnnotations()['param'])) {
+			foreach ($method->getAnnotations()['param'] as $annotation) {
+				$matches = Strings::match($annotation, '/^([[:alnum:]_\\\\]++)\\s++\\$([[:alnum:]]++)$/');
+				if (!$matches) {
+					throw new TypeHintException("Annotation '@param $annotation' is not valid. The correct format is '@param type \$name'. Only alphanumeric characters, '_' and '\' are allowed for the type hint.");
+				}
+				if ($matches[2] === $parameter->getName()) {
+					return $this->normalizeType($matches[1], $method->getDeclaringClass());
+				}
 			}
 		}
-		return $entities;
+		throw new TypeHintException("No type hint found for $parameter. Specify it or use '@param mixed \${$parameter->getName()}' to allow any type.");
 	}
 
 	/**
 	 * @param PresenterComponentReflection $reflection
 	 * @param string
-	 * @return string[]
+	 * @return StdClass[]
 	 */
-	protected function getPersistentEntities(PresenterComponentReflection $reflection, $prefix = NULL)
+	protected function getPersistentParameters(PresenterComponentReflection $reflection, $prefix = NULL)
 	{
-		$entities = [];
+		$info = [];
 		foreach ($reflection->getPersistentParams() as $persistent => $_) {
 			$parameter = new Property($reflection->getName(), $persistent);
 			if (!$parameter->isStatic() && $parameter->hasAnnotation('var')) {
 				$type = (string) $parameter->getAnnotation('var');
-				if (Strings::match($type, '/^[[:alnum:]_\\\\]++$/') && !in_array($type, $this->ignoredTypes)) {
-					$entities[$prefix . $persistent] = AnnotationsParser::expandClassName($type, $parameter->getDeclaringClass());
+				if (!Strings::match($type, '/^[[:alnum:]_\\\\]++$/')) {
+					throw new TypeHintException("Type hint '$type' is not valid. Only alphanumeric characters, '_' and '\' are allowed.");
 				}
+				$info[$prefix . $persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), TRUE);
 			}
 		}
-		return $entities;
+		return $info;
+	}
+
+	/**
+	 * @param string $type
+	 * @param ClassType $class
+	 * @return string
+	 */
+	protected function normalizeType($type, ClassType $class)
+	{
+		return isset(self::$simpleTypes[$type]) ? self::$simpleTypes[$type] : AnnotationsParser::expandClassName($type, $class);
+	}
+
+	/**
+	 * @param string $type
+	 * @param bool $nullable
+	 * @return StdClass
+	 */
+	protected function createInfoObject($type, $nullable)
+	{
+		$object = new StdClass();
+		$object->type = $type;
+		$object->nullable = $nullable;
+		return $object;
 	}
 
 	/**

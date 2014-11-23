@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Arachne\EntityLoader\Application\Envelope;
 use Arachne\EntityLoader\Application\ParameterFinder;
 use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\EntityLoader;
@@ -32,7 +33,7 @@ class RequestEntityLoaderTest extends Test
 		$this->requestEntityLoader = new RequestEntityLoader($this->entityLoader, $this->finder);
 	}
 
-	public function testLoadEntities()
+	public function testFilterIn()
 	{
 		$expected = [
 			'entity' => 'value2',
@@ -41,22 +42,24 @@ class RequestEntityLoaderTest extends Test
 			'entity' => 'value1',
 		]);
 		$mapping = [
-			'entity' => 'Type1',
+			'entity' => (object) [
+				'type' => 'Type1',
+			]
 		];
 		$this->finder->shouldReceive('getMapping')
 			->once()
 			->with($request)
 			->andReturn($mapping);
 		$this->entityLoader
-			->shouldReceive('loadEntities')
+			->shouldReceive('filterIn')
 			->once()
-			->with($request->getParameters(), $mapping)
-			->andReturn($expected);
-		$this->requestEntityLoader->loadEntities($request);
+			->with('Type1', 'value1')
+			->andReturn('value2');
+		$this->requestEntityLoader->filterIn($request);
 		$this->assertEquals($expected, $request->getParameters());
 	}
 
-	public function testLoadEntitiesEmptyMapping()
+	public function testFilterInEmptyMapping()
 	{
 		$expected = [
 			'entity' => 'value1',
@@ -67,11 +70,55 @@ class RequestEntityLoaderTest extends Test
 			->once()
 			->with($request)
 			->andReturn($mapping);
-		$this->requestEntityLoader->loadEntities($request);
+		$this->requestEntityLoader->filterIn($request);
 		$this->assertEquals($expected, $request->getParameters());
 	}
 
-	public function testRemoveEntities()
+	public function testFilterInNullable()
+	{
+		$expected = [
+			'entity' => NULL,
+		];
+		$request = new Request('', 'GET', [
+			'entity' => NULL,
+		]);
+		$mapping = [
+			'entity' => (object) [
+				'type' => 'Type1',
+				'nullable' => TRUE,
+			]
+		];
+		$this->finder->shouldReceive('getMapping')
+			->once()
+			->with($request)
+			->andReturn($mapping);
+		$this->requestEntityLoader->filterIn($request);
+		$this->assertEquals($expected, $request->getParameters());
+	}
+
+	/**
+	 * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
+	 * @expectedExceptionMessage Parameter 'entity' can't be null.
+	 */
+	public function testFilterInNullableException()
+	{
+		$request = new Request('', 'GET', [
+			'entity' => NULL,
+		]);
+		$mapping = [
+			'entity' => (object) [
+				'type' => 'Type1',
+				'nullable' => FALSE,
+			]
+		];
+		$this->finder->shouldReceive('getMapping')
+			->once()
+			->with($request)
+			->andReturn($mapping);
+		$this->requestEntityLoader->filterIn($request);
+	}
+
+	public function testFilterOut()
 	{
 		$expected = [
 			'entity' => 'value2',
@@ -80,22 +127,24 @@ class RequestEntityLoaderTest extends Test
 			'entity' => 'value1',
 		]);
 		$mapping = [
-			'entity' => 'Type1',
+			'entity' => (object) [
+				'type' => 'Type1',
+			]
 		];
 		$this->finder->shouldReceive('getMapping')
 			->once()
 			->with($request)
 			->andReturn($mapping);
 		$this->entityLoader
-			->shouldReceive('removeEntities')
+			->shouldReceive('filterOut')
 			->once()
-			->with($request->getParameters(), $mapping, FALSE)
-			->andReturn($expected);
-		$this->requestEntityLoader->removeEntities($request);
+			->with('Type1', 'value1')
+			->andReturn('value2');
+		$this->requestEntityLoader->filterOut($request);
 		$this->assertEquals($expected, $request->getParameters());
 	}
 
-	public function testRemoveEntitiesEmptyMapping()
+	public function testFilterOutEmptyMapping()
 	{
 		$expected = [
 			'entity' => 'value1',
@@ -106,32 +155,81 @@ class RequestEntityLoaderTest extends Test
 			->once()
 			->with($request)
 			->andReturn($mapping);
-		$this->requestEntityLoader->removeEntities($request);
+		$this->requestEntityLoader->filterOut($request);
 		$this->assertEquals($expected, $request->getParameters());
 	}
 
-	public function testRemoveEntitiesEnvelopes()
+	public function testFilterOutEnvelopes()
 	{
 		$expected = [
-			'entity' => 'value2',
+			'entity' => new Envelope('value1', 'value2')
 		];
 		$request = new Request('', 'GET', [
 			'entity' => 'value1',
 		]);
 		$mapping = [
-			'entity' => 'Type1',
+			'entity' => (object) [
+				'type' => 'Type1',
+			]
 		];
 		$this->finder->shouldReceive('getMapping')
 			->once()
 			->with($request)
 			->andReturn($mapping);
 		$this->entityLoader
-			->shouldReceive('removeEntities')
+			->shouldReceive('filterOut')
 			->once()
-			->with($request->getParameters(), $mapping, TRUE)
-			->andReturn($expected);
-		$this->requestEntityLoader->removeEntities($request, TRUE);
+			->with('Type1', 'value1')
+			->andReturn('value2');
+		$this->requestEntityLoader->filterOut($request, TRUE);
 		$this->assertEquals($expected, $request->getParameters());
+	}
+
+	public function testFilterOutNullable()
+	{
+		$expected = [
+			'entity' => NULL,
+		];
+		$request = new Request('', 'GET', [
+			'entity' => NULL,
+		]);
+		$mapping = [
+			'entity' => (object) [
+				'type' => 'Type1',
+				'nullable' => TRUE,
+			]
+		];
+		$this->finder->shouldReceive('getMapping')
+			->once()
+			->with($request)
+			->andReturn($mapping);
+		$this->requestEntityLoader->filterOut($request);
+		$this->assertEquals($expected, $request->getParameters());
+	}
+
+	/**
+	 * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
+	 * @expectedExceptionMessage Parameter 'entity' can't be null.
+	 */
+	public function testFilterOutNullableException()
+	{
+		$expected = [
+			'entity' => NULL,
+		];
+		$request = new Request('', 'GET', [
+			'entity' => NULL,
+		]);
+		$mapping = [
+			'entity' => (object) [
+				'type' => 'Type1',
+				'nullable' => FALSE,
+			]
+		];
+		$this->finder->shouldReceive('getMapping')
+			->once()
+			->with($request)
+			->andReturn($mapping);
+		$this->requestEntityLoader->filterOut($request);
 	}
 
 }

@@ -13,6 +13,7 @@ namespace Arachne\EntityLoader;
 use Arachne\EntityLoader\Exception\UnexpectedTypeException;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Nette\Object;
+use Nette\Utils\Callback;
 
 /**
  * @author Jáchym Toušek
@@ -20,76 +21,96 @@ use Nette\Object;
 class EntityLoader extends Object
 {
 
-	/** @var IConverter[] */
-	private $converters;
-
-	/** @var IConverter[] */
-	private $cachedConverters;
+	/** @var callable */
+	private $converterResolver;
 
 	/**
-	 * @param IConverter[] $converters
+	 * @param callable $converterResolver
 	 */
-	public function __construct(array $converters)
+	public function __construct(callable $converterResolver)
 	{
-		$this->converters = $converters;
-		$this->cachedConverters = array();
-	}
-
-	/**
-	 * Replaces scalars in array by entities.
-	 * @param array $parameters
-	 * @param array $mapping	 
-	 */
-	public function loadEntities(array $parameters, array $mapping)
-	{
-		foreach ($mapping as $name => $type) {
-			if (isset($parameters[$name]) && !$parameters[$name] instanceof $type) {
-				$entity = $this->getConverter($type)->parameterToEntity($type, $parameters[$name]);
-				if (!$entity instanceof $type) {
-					throw new UnexpectedValueException("Converter did not return an instance of '$type'.");
-				}
-				$parameters[$name] = $entity;
-			}
-		}
-		return $parameters;
-	}
-
-	/**
-	 * Replaces entities in array by scalars.
-	 * @param array $parameters
-	 * @param array $mapping	 
-	 * @param bool $envelopes
-	 */
-	public function removeEntities(array $parameters, array $mapping, $envelopes = FALSE)
-	{
-		foreach ($mapping as $name => $type) {
-			if (isset($parameters[$name]) && $parameters[$name] instanceof $type) {
-				$parameter = $this->getConverter($type)->entityToParameter($type, $parameters[$name]);
-				if (!is_string($parameter)) {
-					throw new UnexpectedValueException("Converter for '$type' did not return a string.");
-				}
-				$parameters[$name] = $envelopes ? new EntityEnvelope($parameters[$name], $parameter) : $parameter;
-			}
-		}
-		return $parameters;
+		$this->converterResolver = $converterResolver;
 	}
 
 	/**
 	 * @param string $type
-	 * @return IConverter
+	 * @param mixed $parameter
+	 * @return mixed
+	 */
+	public function filterIn($type, $parameter)
+	{
+		if ($this->isType($type, $parameter)) {
+			return $parameter;
+		}
+		$value = $this->getConverter($type)->filterIn($type, $parameter);
+		if (!$this->isType($type, $value)) {
+			throw new UnexpectedValueException("Converter did not return an instance of '$type'.");
+		}
+		return $value;
+	}
+
+	/**
+	 * @param string $type
+	 * @param mixed $parameter
+	 * @return mixed
+	 */
+	public function filterOut($type, $parameter)
+	{
+		if (!$this->isType($type, $parameter)) {
+			if (!is_string($parameter) && !is_array($parameter)) {
+				throw new UnexpectedValueException("Invalid parameter value for type '$type'.");
+			}
+			return $parameter;
+		}
+		$value = $this->getConverter($type)->filterOut($type, $parameter);
+		if (!is_string($value) && !is_array($value)) {
+			throw new UnexpectedValueException("Converter for '$type' did not return a string nor an array.");
+		}
+		return $value;
+	}
+
+	/**
+	 * @param string $type
+	 * @return ConverterInterface
 	 */
 	private function getConverter($type)
 	{
-		if (!isset($this->cachedConverters[$type])) {
-			foreach ($this->converters as $converter) {
-				if ($converter->canConvert($type)) {
-					$this->cachedConverters[$type] = $converter;
-					return $converter;
-				}
-			}
+		$converter = Callback::invoke($this->converterResolver, $type);
+		if (!$converter) {
 			throw new UnexpectedTypeException("No converter found for type '$type'.");
 		}
-		return $this->cachedConverters[$type];
+		return $converter;
+	}
+
+	/**
+	 * @param string $type
+	 * @param mixed $value
+	 * @return bool
+	 */
+	private function isType($type, $value)
+	{
+		switch ($type) {
+			case 'int':
+				return is_int($value);
+			case 'float':
+				return is_float($value);
+			case 'bool':
+				return is_bool($value);
+			case 'string':
+				return is_string($value);
+			case 'array':
+				return is_array($value);
+			case 'object':
+				return is_object($value);
+			case 'resource':
+				return is_resource($value);
+			case 'callable':
+				return is_callable($value);
+			case 'mixed':
+				return TRUE;
+			default:
+				return $value instanceof $type;
+		}
 	}
 
 }
