@@ -33,7 +33,7 @@ class ParameterFinder extends Object
 {
 
 	/** @var string[] */
-	public static $simpleTypes = [
+	private static $simpleTypes = [
 		'int' => 'int',
 		'integer' => 'int',
 		'float' => 'float',
@@ -49,10 +49,10 @@ class ParameterFinder extends Object
 	];
 
 	/** @var IPresenterFactory */
-	protected $presenterFactory;
+	private $presenterFactory;
 
 	/** @var Cache */
-	protected $cache;
+	private $cache;
 
 	public function __construct(IPresenterFactory $presenterFactory, IStorage $storage)
 	{
@@ -77,7 +77,7 @@ class ParameterFinder extends Object
 	 * @param array $dependencies
 	 * @return StdClass[]
 	 */
-	protected function loadMapping($presenter, $parameters, & $dependencies)
+	private function loadMapping($presenter, $parameters, & $dependencies)
 	{
 		$class = $this->presenterFactory->getPresenterClass($presenter);
 		$presenterReflection = new PresenterComponentReflection($class);
@@ -151,7 +151,7 @@ class ParameterFinder extends Object
 	 * @param string $component
 	 * @return PresenterComponentReflection|NULL
 	 */
-	protected function createReflection(ClassType $reflection, $component)
+	private function createReflection(ClassType $reflection, $component)
 	{
 		$pos = strpos($component, '-');
 		if ($pos !== FALSE) {
@@ -181,7 +181,7 @@ class ParameterFinder extends Object
 	 * @param string $default
 	 * @return StdClass[]
 	 */
-	protected function getMethodParameters(Method $reflection, $prefix = NULL)
+	private function getMethodParameters(Method $reflection, $prefix = NULL)
 	{
 		$parameters = [];
 		foreach ($reflection->getParameters() as $parameter) {
@@ -199,7 +199,7 @@ class ParameterFinder extends Object
 	/**
 	 * @return string
 	 */
-	protected function getParameterType(Method $method, Parameter $parameter)
+	private function getParameterType(Method $method, Parameter $parameter)
 	{
 		$type = $parameter->getClassName();
 		if ($type) {
@@ -231,7 +231,7 @@ class ParameterFinder extends Object
 	 * @param string
 	 * @return StdClass[]
 	 */
-	protected function getPersistentParameters(PresenterComponentReflection $reflection, $prefix = NULL)
+	private function getPersistentParameters(PresenterComponentReflection $reflection, $prefix = NULL)
 	{
 		$info = [];
 		foreach ($reflection->getPersistentParams() as $persistent => $_) {
@@ -252,7 +252,7 @@ class ParameterFinder extends Object
 	 * @param ClassType $class
 	 * @return string
 	 */
-	protected function normalizeType($type, ClassType $class)
+	private function normalizeType($type, ClassType $class)
 	{
 		return isset(self::$simpleTypes[$type]) ? self::$simpleTypes[$type] : AnnotationsParser::expandClassName($type, $class);
 	}
@@ -262,7 +262,7 @@ class ParameterFinder extends Object
 	 * @param bool $nullable
 	 * @return StdClass
 	 */
-	protected function createInfoObject($type, $nullable)
+	private function createInfoObject($type, $nullable)
 	{
 		$object = new StdClass();
 		$object->type = $type;
@@ -274,7 +274,7 @@ class ParameterFinder extends Object
 	 * @param Request $request
 	 * @return string[]
 	 */
-	protected function getCacheKey(Request $request)
+	private function getCacheKey(Request $request)
 	{
 		$parameters = $request->getParameters();
 		$key = [

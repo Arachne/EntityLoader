@@ -26,7 +26,7 @@ class RouteList extends BaseRouteList
 {
 
 	/** @var RequestEntityLoader */
-	protected $loader;
+	private $loader;
 
 	/**
 	 * @param EntityLoader $loader
