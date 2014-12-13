@@ -50,10 +50,10 @@ class EntityLoaderExtension extends CompilerExtension
 				'converterResolver' => new Statement('?->create()', array($this->prefix('@converterResolverFactory'))),
 			]);
 
-		$builder->addDefinition($this->prefix('parameterFinder'))
+		$builder->addDefinition($this->prefix('application.parameterFinder'))
 			->setClass('Arachne\EntityLoader\Application\ParameterFinder');
 
-		$builder->addDefinition($this->prefix('requestEntityLoader'))
+		$builder->addDefinition($this->prefix('application.requestEntityLoader'))
 			->setClass('Arachne\EntityLoader\Application\RequestEntityLoader');
 	}
 
