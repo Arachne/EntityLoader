@@ -207,11 +207,7 @@ class RequestEntityLoaderTest extends Test
 		$this->assertEquals($expected, $request->getParameters());
 	}
 
-	/**
-	 * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
-	 * @expectedExceptionMessage Parameter 'entity' can't be null.
-	 */
-	public function testFilterOutNullableException()
+	public function testFilterOutNullableIgnored()
 	{
 		$expected = [
 			'entity' => NULL,
@@ -230,6 +226,7 @@ class RequestEntityLoaderTest extends Test
 			->with($request)
 			->andReturn($mapping);
 		$this->requestEntityLoader->filterOut($request);
+		$this->assertEquals($expected, $request->getParameters());
 	}
 
 }

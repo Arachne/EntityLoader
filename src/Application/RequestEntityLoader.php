@@ -67,11 +67,7 @@ class RequestEntityLoader extends Object
 		$parameters = $request->getParameters();
 		foreach ($mapping as $name => $info) {
 			if (!isset($parameters[$name])) {
-				if ($info->nullable) {
-					continue;
-				} else {
-					throw new UnexpectedValueException("Parameter '$name' can't be null.");
-				}
+				continue;
 			}
 			$parameter = $this->entityLoader->filterOut($info->type, $parameters[$name]);
 			$parameters[$name] = $envelopes && is_object($parameters[$name]) ? new Envelope($parameters[$name], $parameter) : $parameter;
