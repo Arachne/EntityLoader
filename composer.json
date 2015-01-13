@@ -18,7 +18,7 @@
 		"nette/http": "~2.2",
 		"nette/reflection": "~2.2",
 		"nette/utils": "~2.2",
-		"arachne/di": "~0.1"
+		"arachne/di": "~0.2"
 	},
 	"require-dev": {
 		"php": ">=5.5.0",

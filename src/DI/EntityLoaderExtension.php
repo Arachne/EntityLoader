@@ -40,14 +40,14 @@ class EntityLoaderExtension extends CompilerExtension
 				->addTag(self::TAG_CONVERTER, $type);
 		}
 
-		$builder->addDefinition($this->prefix('converterResolverFactory'))
-			->setFactory('Arachne\DI\Resolver\TagResolverFactory', [ 'tag' => self::TAG_CONVERTER ])
+		$builder->addDefinition($this->prefix('converterResolver'))
+			->setFactory('Arachne\DI\Resolver\TagResolver', [ 'tag' => self::TAG_CONVERTER ])
 			->setAutowired(FALSE);
 
 		$builder->addDefinition($this->prefix('entityLoader'))
 			->setClass('Arachne\EntityLoader\EntityLoader')
 			->setArguments([
-				'converterResolver' => new Statement('?->create()', array($this->prefix('@converterResolverFactory'))),
+				'converterResolver' => $this->prefix('@converterResolver'),
 			]);
 
 		$builder->addDefinition($this->prefix('application.parameterFinder'))
