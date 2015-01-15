@@ -2,8 +2,10 @@
 
 namespace Tests\Unit;
 
+use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\EntityLoader;
 use Codeception\TestCase\Test;
+use Mockery;
 
 /**
  * @author Jáchym Toušek
@@ -20,9 +22,14 @@ class EntityLoaderTest extends Test
 		$parameters = [
 			'entity' => 'value1',
 		];
-		$entityLoader = new EntityLoader(function () {
-			return NULL;
-		});
+
+		$resolver = Mockery::mock(ResolverInterface::class);
+		$resolver->shouldReceive('resolve')
+			->once()
+			->with('Type1')
+			->andReturn();
+
+		$entityLoader = new EntityLoader($resolver);
 		$entityLoader->filterIn('Type1', $parameters);
 	}
 

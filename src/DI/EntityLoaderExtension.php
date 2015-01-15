@@ -10,6 +10,7 @@
 
 namespace Arachne\EntityLoader\DI;
 
+use Arachne\DIHelpers\DI\DIHelpersExtension;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
 
@@ -41,7 +42,7 @@ class EntityLoaderExtension extends CompilerExtension
 		}
 
 		$builder->addDefinition($this->prefix('converterResolver'))
-			->setFactory('Arachne\DI\Resolver\TagResolver', [ 'tag' => self::TAG_CONVERTER ])
+			->addTag(DIHelpersExtension::TAG_RESOLVER, self::TAG_CONVERTER)
 			->setAutowired(FALSE);
 
 		$builder->addDefinition($this->prefix('entityLoader'))

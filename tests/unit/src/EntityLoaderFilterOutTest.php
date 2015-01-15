@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\ConverterInterface;
 use Codeception\TestCase\Test;
@@ -26,11 +27,8 @@ class EntityLoaderFilterOutTest extends Test
 	protected function _before()
 	{
 		$this->converter = Mockery::mock(ConverterInterface::class);
-		$this->converterResolver = Mockery::mock();
-		$resolver = function ($name) {
-			return $this->converterResolver->resolve($name);
-		};
-		$this->entityLoader = new EntityLoader($resolver);
+		$this->converterResolver = Mockery::mock(ResolverInterface::class);
+		$this->entityLoader = new EntityLoader($this->converterResolver);
 	}
 
 	public function testFilterOut()
