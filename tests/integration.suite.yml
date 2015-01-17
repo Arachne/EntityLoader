@@ -5,8 +5,3 @@ class_name: IntegrationSuiteGuy
 modules:
     enabled:
         - Nette
-    config:
-        Nette:
-            tempDir: tests/_temp
-            configFiles:
-                - tests/integration/config/config.neon

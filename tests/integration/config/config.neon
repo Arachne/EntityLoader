@@ -1,4 +1,5 @@
 extensions:
+	nette: Nette\Bridges\Framework\NetteExtension
 	arachne.dihelpers: Arachne\DIHelpers\DI\DIHelpersExtension
 	arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
 

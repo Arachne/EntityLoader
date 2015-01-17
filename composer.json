@@ -23,12 +23,12 @@
 	"require-dev": {
 		"php": ">=5.5.0",
 		"nette/nette": "~2.2",
-		"squizlabs/php_codesniffer": "~1.4",
+		"squizlabs/php_codesniffer": "~2.0",
 		"mockery/mockery": "~0.9",
 		"codeception/codeception": "~2.0",
 		"codeception/mockery-module": "~0.2",
 		"arachne/coding-style": "~0.2",
-		"arachne/codeception": "~0.3"
+		"arachne/codeception": "~0.4"
 	},
 	"autoload": {
 		"psr-4": {

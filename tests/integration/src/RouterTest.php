@@ -2,7 +2,6 @@
 
 namespace Tests\Integration;
 
-use Codeception\TestCase\Test;
 use Nette\Application\IRouter;
 use Nette\Application\Request;
 use Nette\Http\Request as HttpRequest;
