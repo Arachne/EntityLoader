@@ -12,23 +12,18 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
+		"arachne/di-helpers": "~0.1",
 		"nette/application": "~2.2",
 		"nette/caching": "~2.2",
 		"nette/di": "~2.2",
 		"nette/http": "~2.2",
 		"nette/reflection": "~2.2",
-		"nette/utils": "~2.2",
-		"arachne/di-helpers": "~0.1"
+		"nette/utils": "~2.2"
 	},
 	"require-dev": {
 		"php": ">=5.5.0",
-		"nette/nette": "~2.2",
-		"squizlabs/php_codesniffer": "~2.0",
-		"mockery/mockery": "~0.9",
-		"codeception/codeception": "~2.0",
-		"codeception/mockery-module": "~0.2",
-		"arachne/coding-style": "~0.2",
-		"arachne/codeception": "~0.4"
+		"arachne/devtools": "~0.1",
+		"nette/nette": "~2.2"
 	},
 	"autoload": {
 		"psr-4": {
