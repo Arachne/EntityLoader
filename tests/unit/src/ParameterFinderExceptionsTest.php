@@ -11,7 +11,7 @@ use Nette\Caching\IStorage;
 use Tests\Unit\Classes\TestPresenter;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class ParameterFinderExceptionsTest extends Test
 {

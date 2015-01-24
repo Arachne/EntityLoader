@@ -7,7 +7,7 @@ use InvalidArgumentException;
 use Nette\Object;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class ArticleConverter extends Object implements ConverterInterface
 {

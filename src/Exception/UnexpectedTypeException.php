@@ -11,7 +11,7 @@
 namespace Arachne\EntityLoader\Exception;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class UnexpectedTypeException extends LogicException
 {

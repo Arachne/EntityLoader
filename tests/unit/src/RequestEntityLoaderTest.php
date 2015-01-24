@@ -12,7 +12,7 @@ use Mockery\MockInterface;
 use Nette\Application\Request;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class RequestEntityLoaderTest extends Test
 {

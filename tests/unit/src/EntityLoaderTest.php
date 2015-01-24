@@ -8,7 +8,7 @@ use Codeception\TestCase\Test;
 use Mockery;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class EntityLoaderTest extends Test
 {

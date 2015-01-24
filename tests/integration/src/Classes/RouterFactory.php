@@ -10,7 +10,7 @@ use Nette\Application\Routers\Route;
 use Nette\Object;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class RouterFactory extends Object
 {

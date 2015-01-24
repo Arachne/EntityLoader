@@ -17,7 +17,7 @@ use Nette\Object;
 use Nette\Utils\Callback;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class EntityLoader extends Object
 {

@@ -12,7 +12,7 @@ use StdClass;
 use Tests\Unit\Classes\TestPresenter;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class ParameterFinderTest extends Test
 {

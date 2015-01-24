@@ -6,7 +6,7 @@ use Exception;
 use Nette\Application\UI\PresenterComponent;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class TestComponent extends PresenterComponent
 {

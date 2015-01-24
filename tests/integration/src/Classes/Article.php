@@ -5,7 +5,7 @@ namespace Tests\Integration\Classes;
 use Nette\Object;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class Article extends Object
 {

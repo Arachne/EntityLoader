@@ -6,7 +6,7 @@ use Arachne\Codeception\ConfigFilesInterface;
 use Codeception\TestCase\Test as BaseTest;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 abstract class Test extends BaseTest implements ConfigFilesInterface
 {

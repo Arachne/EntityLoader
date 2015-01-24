@@ -20,7 +20,7 @@ use Nette\Http\IResponse;
 use Nette\Http\Url;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class RouteList extends BaseRouteList
 {

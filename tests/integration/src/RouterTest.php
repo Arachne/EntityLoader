@@ -8,7 +8,7 @@ use Nette\Http\Request as HttpRequest;
 use Nette\Http\UrlScript;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class RouterTest extends Test
 {

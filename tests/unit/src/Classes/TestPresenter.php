@@ -6,7 +6,7 @@ use Exception;
 use Nette\Application\UI\Presenter;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class TestPresenter extends Presenter
 {

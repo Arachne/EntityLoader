@@ -15,7 +15,7 @@ use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class EntityLoaderExtension extends CompilerExtension
 {

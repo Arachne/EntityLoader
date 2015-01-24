@@ -14,7 +14,7 @@ use Arachne\EntityLoader\ConverterInterface;
 use Nette\Object;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class MixedConverter extends Object implements ConverterInterface
 {

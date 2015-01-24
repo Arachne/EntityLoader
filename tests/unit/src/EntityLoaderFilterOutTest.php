@@ -10,7 +10,7 @@ use Mockery;
 use Mockery\MockInterface;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class EntityLoaderFilterOutTest extends Test
 {

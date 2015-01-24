@@ -27,7 +27,7 @@ use Nette\Utils\Strings;
 use StdClass;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class ParameterFinder extends Object
 {

@@ -9,7 +9,7 @@ use Nette\Http\UrlScript;
 use Tests\Integration\Classes\Article;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class ConverterTest extends Test
 {

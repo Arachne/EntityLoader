@@ -17,7 +17,7 @@ use Nette\Application\Responses\ForwardResponse;
 use Nette\Utils\Strings;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 trait EntityLoaderPresenterTrait
 {
