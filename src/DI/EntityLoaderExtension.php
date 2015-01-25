@@ -10,9 +10,7 @@
 
 namespace Arachne\EntityLoader\DI;
 
-use Arachne\DIHelpers\DI\DIHelpersExtension;
-use Nette\DI\CompilerExtension;
-use Nette\DI\Statement;
+use Arachne\DIHelpers\CompilerExtension;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -41,14 +39,13 @@ class EntityLoaderExtension extends CompilerExtension
 				->addTag(self::TAG_CONVERTER, $type);
 		}
 
-		$builder->addDefinition($this->prefix('converterResolver'))
-			->addTag(DIHelpersExtension::TAG_RESOLVER, self::TAG_CONVERTER)
-			->setAutowired(FALSE);
+		$converterResolver = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')
+			->addResolver(self::TAG_CONVERTER, 'Arachne\EntityLoader\ConverterInterface');
 
 		$builder->addDefinition($this->prefix('entityLoader'))
 			->setClass('Arachne\EntityLoader\EntityLoader')
 			->setArguments([
-				'converterResolver' => $this->prefix('@converterResolver'),
+				'converterResolver' => '@' . $converterResolver,
 			]);
 
 		$builder->addDefinition($this->prefix('application.parameterFinder'))
