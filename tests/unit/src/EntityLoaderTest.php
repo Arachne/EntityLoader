@@ -14,7 +14,7 @@ class EntityLoaderTest extends Test
 {
 
 	/**
-	 * @expectedException Arachne\EntityLoader\Exception\UnexpectedTypeException
+	 * @expectedException Arachne\EntityLoader\Exception\UnexpectedValueException
 	 * @expectedExceptionMessage No converter found for type 'Type1'.
 	 */
 	public function testConverterNotFound()

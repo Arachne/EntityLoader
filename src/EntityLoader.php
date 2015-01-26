@@ -11,7 +11,6 @@
 namespace Arachne\EntityLoader;
 
 use Arachne\DIHelpers\ResolverInterface;
-use Arachne\EntityLoader\Exception\UnexpectedTypeException;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Nette\Object;
 use Nette\Utils\Callback;
@@ -78,7 +77,7 @@ class EntityLoader extends Object
 	{
 		$converter = $this->converterResolver->resolve($type);
 		if (!$converter) {
-			throw new UnexpectedTypeException("No converter found for type '$type'.");
+			throw new UnexpectedValueException("No converter found for type '$type'.");
 		}
 		return $converter;
 	}
