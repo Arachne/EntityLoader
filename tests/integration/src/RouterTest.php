@@ -22,7 +22,7 @@ class RouterTest extends Test
 		$this->router = $this->guy->grabService(IRouter::class);
 	}
 
-	public function testNullable()
+	public function testValidRequest()
 	{
 		$httpRequest = new HttpRequest($this->createUrlScript('nullable'));
 		$request = $this->router->match($httpRequest);
@@ -36,7 +36,7 @@ class RouterTest extends Test
 	 * @expectedExceptionCode 404
 	 * @expectedExceptionMessage Request has invalid parameter.
 	 */
-	public function testNotNullable()
+	public function testInvalidParameter()
 	{
 		$httpRequest = new HttpRequest($this->createUrlScript('notnullable'));
 		$this->router->match($httpRequest);
