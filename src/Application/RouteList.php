@@ -13,6 +13,7 @@ namespace Arachne\EntityLoader\Application;
 use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Nette\Application\BadRequestException;
+use Nette\Application\InvalidPresenterException;
 use Nette\Application\Request;
 use Nette\Application\Routers\RouteList as BaseRouteList;
 use Nette\Http\IRequest;
@@ -50,6 +51,8 @@ class RouteList extends BaseRouteList
 		if ($request instanceof Request) {
 			try {
 				$this->loader->filterIn($request);
+			} catch (InvalidPresenterException $e) {
+				throw new BadRequestException('Request has invalid presenter.', IResponse::S404_NOT_FOUND, $e);
 			} catch (UnexpectedValueException $e) {
 				throw new BadRequestException('Request has invalid parameter.', IResponse::S404_NOT_FOUND, $e);
 			}

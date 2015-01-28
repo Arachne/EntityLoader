@@ -29,6 +29,10 @@ class RouterFactory extends Object
 	public function create()
 	{
 		$router = new RouteList($this->loader);
+		$router[] = new Route('/wrong', [
+			'presenter' => 'Wrong',
+			'action' => 'detail',
+		]);
 		$router[] = new Route('/detail/<entity>', [
 			'presenter' => 'Article',
 			'action' => 'detail',

@@ -42,6 +42,17 @@ class RouterTest extends Test
 		$this->router->match($httpRequest);
 	}
 
+	/**
+	 * @expectedException \Nette\Application\BadRequestException
+	 * @expectedExceptionCode 404
+	 * @expectedExceptionMessage Request has invalid presenter.
+	 */
+	public function testInvalidPresenter()
+	{
+		$httpRequest = new HttpRequest($this->createUrlScript('wrong'));
+		$this->router->match($httpRequest);
+	}
+
 	private function createUrlScript($url, array $params = array())
 	{
 		$urlScript = new UrlScript('http://example.com/' . $url);
