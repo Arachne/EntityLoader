@@ -17,6 +17,7 @@ use Nette\Application\UI\Presenter;
 use Nette\Application\UI\PresenterComponentReflection;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
+use Nette\ComponentModel\IComponent;
 use Nette\Object;
 use Nette\Reflection\AnnotationsParser;
 use Nette\Reflection\ClassType;
@@ -103,7 +104,7 @@ class ParameterFinder extends Object
 		// Persistent component parameters
 		$components = [];
 		foreach ($parameters as $key => $_) {
-			$pos = strrpos($key, '-');
+			$pos = strrpos($key, IComponent::NAME_SEPARATOR);
 			if ($pos !== FALSE) {
 				$component = substr($key, 0, $pos);
 				if (!isset($components[$component])) {
@@ -111,7 +112,7 @@ class ParameterFinder extends Object
 					$components[$component] = TRUE;
 					if ($reflection) {
 						$files[] = $reflection->getFileName();
-						$info += $this->getPersistentParameters($reflection, $component . '-');
+						$info += $this->getPersistentParameters($reflection, $component . IComponent::NAME_SEPARATOR);
 					}
 				}
 			}
@@ -120,12 +121,12 @@ class ParameterFinder extends Object
 		// Signal parameters
 		if (isset($parameters[Presenter::SIGNAL_KEY])) {
 			$signal = $parameters[Presenter::SIGNAL_KEY];
-			$pos = strrpos($signal, '-');
+			$pos = strrpos($signal, IComponent::NAME_SEPARATOR);
 			if ($pos !== FALSE) {
 				$component = substr($signal, 0, $pos);
 				$signal = substr($signal, $pos + 1);
 				$reflection = $this->createReflection($presenterReflection, $component);
-				$prefix = $component . '-';
+				$prefix = $component . IComponent::NAME_SEPARATOR;
 			} else {
 				$reflection = $presenterReflection;
 				$prefix = '';
@@ -153,7 +154,7 @@ class ParameterFinder extends Object
 	 */
 	private function createReflection(ClassType $reflection, $component)
 	{
-		$pos = strpos($component, '-');
+		$pos = strpos($component, IComponent::NAME_SEPARATOR);
 		if ($pos !== FALSE) {
 			$subComponent = substr($component, $pos + 1);
 			$component = substr($component, 0, $pos);
