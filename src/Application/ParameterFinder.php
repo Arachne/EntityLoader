@@ -89,7 +89,7 @@ class ParameterFinder extends Object
 		$files[] = $presenterReflection->getFileName();
 
 		// Action parameters
-		$action = $parameters[Presenter::ACTION_KEY];
+		$action = isset($parameters[Presenter::ACTION_KEY]) ? $parameters[Presenter::ACTION_KEY] : Presenter::DEFAULT_ACTION;
 		$method = 'action' . $action;
 		$element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : NULL;
 		if (!$element) {
@@ -280,9 +280,11 @@ class ParameterFinder extends Object
 		$parameters = $request->getParameters();
 		$key = [
 			'presenter' => $request->getPresenterName(),
-			'action' => $parameters[Presenter::ACTION_KEY],
 		];
-		unset($parameters[Presenter::ACTION_KEY]);
+		if (isset($parameters[Presenter::ACTION_KEY])) {
+			$key['action'] = $parameters[Presenter::ACTION_KEY];
+			unset($parameters[Presenter::ACTION_KEY]);
+		}
 		if (isset($parameters[Presenter::SIGNAL_KEY])) {
 			$key['signal'] = $parameters[Presenter::SIGNAL_KEY];
 			unset($parameters[Presenter::SIGNAL_KEY]);

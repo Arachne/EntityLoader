@@ -33,6 +33,9 @@ class RouterFactory extends Object
 			'presenter' => 'Wrong',
 			'action' => 'detail',
 		]);
+		$router[] = new Route('/noaction', [
+			'presenter' => 'Wrong',
+		]);
 		$router[] = new Route('/detail/<entity>', [
 			'presenter' => 'Article',
 			'action' => 'detail',

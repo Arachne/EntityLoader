@@ -49,6 +49,17 @@ class ParameterFinderTest extends Test
 		], $this->finder->getMapping($request));
 	}
 
+	public function testNoAction()
+	{
+		$request = new Request('', 'GET', [
+			'persistent' => 0,
+		]);
+		$this->assertEquals([
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', TRUE),
+			'persistent2' => $this->createInfoObject('string', TRUE),
+		], $this->finder->getMapping($request));
+	}
+
 	public function testRenderAndHandle()
 	{
 		$request = new Request('', 'GET', [
