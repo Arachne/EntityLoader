@@ -44,6 +44,16 @@ class ConverterTest extends Test
 		$this->assertSame('http://example.com/detail/article-7', $url);
 	}
 
+	public function testEntityOutNoFilter()
+	{
+		$request = new Request('Article', 'GET', [
+			'action' => 'detail',
+			'article' => new Article('7'),
+		]);
+		$url = $this->router->constructUrl($request, $this->createUrlScript(''));
+		$this->assertSame('http://example.com/detail?article=7', $url);
+	}
+
 	public function testIntIn()
 	{
 		$httpRequest = new HttpRequest($this->createUrlScript('int/5'));

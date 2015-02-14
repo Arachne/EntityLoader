@@ -11,6 +11,12 @@ use Nette\Application\UI\Presenter;
 class ArticlePresenter extends Presenter
 {
 
+	/**
+	 * @var Article
+	 * @persistent
+	 */
+	public $article;
+
 	final public function __construct()
 	{
 		throw new Exception('This class is there for annotations only.');

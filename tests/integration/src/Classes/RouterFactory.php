@@ -4,9 +4,9 @@ namespace Tests\Integration\Classes;
 
 use Arachne\EntityLoader\Application\Envelope;
 use Arachne\EntityLoader\Application\RequestEntityLoader;
+use Arachne\EntityLoader\Application\Route;
 use Arachne\EntityLoader\Application\RouteList;
 use Nette\Application\IRouter;
-use Nette\Application\Routers\Route;
 use Nette\Object;
 
 /**
