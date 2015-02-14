@@ -161,11 +161,12 @@ class RequestEntityLoaderTest extends Test
 
 	public function testFilterOutEnvelopes()
 	{
+		$mock = Mockery::mock();
 		$expected = [
-			'entity' => new Envelope('value1', 'value2')
+			'entity' => new Envelope($mock, 'value2'),
 		];
 		$request = new Request('', 'GET', [
-			'entity' => 'value1',
+			'entity' => $mock,
 		]);
 		$mapping = [
 			'entity' => (object) [
@@ -179,7 +180,7 @@ class RequestEntityLoaderTest extends Test
 		$this->entityLoader
 			->shouldReceive('filterOut')
 			->once()
-			->with('Type1', 'value1')
+			->with('Type1', $mock)
 			->andReturn('value2');
 		$this->requestEntityLoader->filterOut($request, TRUE);
 		$this->assertEquals($expected, $request->getParameters());

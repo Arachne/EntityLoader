@@ -21,7 +21,7 @@ class RouteTest extends Test
 			'presenter' => 'Test',
 			'param1' => [
 				Route::FILTER_OUT => function (Envelope $envelope) {
-					return $envelope->getValue();
+					return $envelope->getObject();
 				},
 			],
 		]);
@@ -53,7 +53,7 @@ class RouteTest extends Test
 			'presenter' => 'Test',
 			'param1' => [
 				Route::FILTER_OUT => function (Envelope $envelope) {
-					return $envelope->getValue();
+					return $envelope->getObject();
 				},
 			],
 			NULL => [

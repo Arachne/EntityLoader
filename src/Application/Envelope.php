@@ -18,28 +18,28 @@ use Nette\Object;
 class Envelope extends Object
 {
 
-	/** @var array|object|resource */
-	private $value;
+	/** @var object */
+	private $object;
 
 	/** @var string|int */
 	private $identifier;
 
 	/**
-	 * @param array|object|resource $value
+	 * @param object $object
 	 * @param string|int $identifier
 	 */
-	public function __construct($value, $identifier)
+	public function __construct($object, $identifier)
 	{
-		$this->value = $value;
+		$this->object = $object;
 		$this->identifier = $identifier;
 	}
 
 	/**
-	 * @return array|object|resource
+	 * @return object
 	 */
-	public function getValue()
+	public function getObject()
 	{
-		return $this->value;
+		return $this->object;
 	}
 
 	/**
@@ -48,14 +48,6 @@ class Envelope extends Object
 	public function getIdentifier()
 	{
 		return $this->identifier;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return (string) $this->identifier;
 	}
 
 }

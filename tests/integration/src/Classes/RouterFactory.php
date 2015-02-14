@@ -41,7 +41,7 @@ class RouterFactory extends Object
 			'action' => 'detail',
 			'entity' => [
 				Route::FILTER_OUT => function (Envelope $envelope) {
-					return 'article-' . $envelope->getValue()->getValue();
+					return 'article-' . $envelope->getObject()->getValue();
 				},
 			],
 		]);
