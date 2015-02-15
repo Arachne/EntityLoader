@@ -13,7 +13,6 @@ namespace Arachne\EntityLoader;
 use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Nette\Object;
-use Nette\Utils\Callback;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
