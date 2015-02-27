@@ -37,10 +37,10 @@ class Route extends BaseRoute
 				'action' => $pos === strlen($metadata) - 1 ? NULL : substr($metadata, $pos + 1),
 			];
 		} elseif ($metadata instanceof Closure || $metadata instanceof Callback) {
-			$metadata = array(
+			$metadata = [
 				self::PRESENTER_KEY => 'Nette:Micro',
 				'callback' => $metadata,
-			);
+			];
 		}
 
 		// Filter for handling Envelopes correctly
