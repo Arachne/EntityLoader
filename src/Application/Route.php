@@ -10,7 +10,9 @@
 
 namespace Arachne\EntityLoader\Application;
 
+use Closure;
 use Nette\Application\Routers\Route as BaseRoute;
+use Nette\Callback;
 use Nette\InvalidArgumentException;
 
 /**
@@ -34,7 +36,7 @@ class Route extends BaseRoute
 				self::PRESENTER_KEY => substr($metadata, 0, $pos),
 				'action' => $pos === strlen($metadata) - 1 ? NULL : substr($metadata, $pos + 1),
 			];
-		} elseif ($metadata instanceof \Closure || $metadata instanceof Nette\Callback) {
+		} elseif ($metadata instanceof Closure || $metadata instanceof Callback) {
 			$metadata = array(
 				self::PRESENTER_KEY => 'Nette:Micro',
 				'callback' => $metadata,
