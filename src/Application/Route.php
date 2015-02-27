@@ -32,7 +32,7 @@ class Route extends BaseRoute
 			}
 			$metadata = [
 				self::PRESENTER_KEY => substr($metadata, 0, $pos),
-				'action' => $a === strlen($metadata) - 1 ? NULL : substr($metadata, $pos + 1),
+				'action' => $pos === strlen($metadata) - 1 ? NULL : substr($metadata, $pos + 1),
 			];
 		} elseif ($metadata instanceof \Closure || $metadata instanceof Nette\Callback) {
 			$metadata = array(
