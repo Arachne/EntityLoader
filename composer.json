@@ -14,17 +14,18 @@
 		"php": ">=5.4.0",
 		"arachne/di-helpers": "~0.2.0",
 		"kdyby/events": "~2.2",
-		"nette/application": "~2.2",
-		"nette/caching": "~2.2",
-		"nette/di": "~2.2",
-		"nette/http": "~2.2",
-		"nette/reflection": "~2.2",
-		"nette/utils": "~2.2"
+		"nette/application": "~2.3",
+		"nette/caching": "~2.3",
+		"nette/di": "~2.3",
+		"nette/http": "~2.3",
+		"nette/reflection": "~2.3",
+		"nette/utils": "~2.3"
 	},
 	"require-dev": {
 		"php": ">=5.5.0",
-		"arachne/devtools": "~0.1",
-		"nette/nette": "~2.2"
+		"arachne/devtools": "~0.1.0",
+		"nette/robot-loader": "~2.3",
+		"tracy/tracy": "~2.3"
 	},
 	"autoload": {
 		"psr-4": {

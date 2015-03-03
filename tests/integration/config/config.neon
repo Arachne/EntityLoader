@@ -1,16 +1,20 @@
 extensions:
-	nette: Nette\Bridges\Framework\NetteExtension
+	nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension( %debugMode%, [ %appDir% ])
+	nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
+	nette.di: Nette\DI\Extensions\DIExtension( %debugMode% )
+	nette.http: Nette\Bridges\HttpDI\HttpExtension
+	nette.reflection: Nette\Bridges\ReflectionDI\ReflectionExtension( %debugMode% )
+	nette.routing: Nette\Bridges\ApplicationDI\RoutingExtension( %debugMode% )
 	arachne.dihelpers: Arachne\DIHelpers\DI\DIHelpersExtension
 	arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
 
-nette:
-	application:
-		mapping:
-			*: Tests\Integration\Classes\*Presenter
+nette.application:
+	mapping:
+		*: Tests\Integration\Classes\*Presenter
 
 services:
 	routerFactory: Tests\Integration\Classes\RouterFactory
-	router: @routerFactory::create()
+	nette.routing.router: @routerFactory::create()
 	articleConverter:
 		class: Tests\Integration\Classes\ArticleConverter
 		tags:
