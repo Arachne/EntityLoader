@@ -10,8 +10,13 @@
 
 namespace Arachne\EntityLoader\Application;
 
+use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Kdyby\Events\Subscriber;
+use Nette\Application\Application;
+use Nette\Application\BadRequestException;
+use Nette\Application\InvalidPresenterException;
 use Nette\Application\Request;
+use Nette\Http\IResponse;
 use Nette\Object;
 
 /**
@@ -42,11 +47,19 @@ class RequestEntityLoaderListener extends Object implements Subscriber
 	}
 
 	/**
+	 * @param Application $application
 	 * @param Request $request
+	 * @throws BadRequestException
 	 */
-	public function requestHandler(Request $request)
+	public function requestHandler(Application $application, Request $request)
 	{
-		$this->loader->filterIn($request);
+		try {
+			$this->loader->filterIn($request);
+		} catch (InvalidPresenterException $e) {
+			throw new BadRequestException('Request has invalid presenter.', IResponse::S404_NOT_FOUND, $e);
+		} catch (UnexpectedValueException $e) {
+			throw new BadRequestException('Request has invalid parameter.', IResponse::S404_NOT_FOUND, $e);
+		}
 	}
 
 }
