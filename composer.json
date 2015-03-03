@@ -23,8 +23,13 @@
 	},
 	"require-dev": {
 		"php": ">=5.5.0",
-		"arachne/devtools": "~0.1.0",
+		"arachne/codeception": "~0.5.0",
+		"arachne/coding-style": "~0.2.0",
+		"codeception/codeception": "~2.0",
+		"codeception/mockery-module": "~0.2",
+		"mockery/mockery": "~0.9",
 		"nette/robot-loader": "~2.3",
+		"squizlabs/php_codesniffer": "~2.0",
 		"tracy/tracy": "~2.3"
 	},
 	"autoload": {
