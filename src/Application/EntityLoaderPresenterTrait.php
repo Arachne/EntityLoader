@@ -11,9 +11,7 @@
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Application\RequestEntityLoader;
-use Nette\Application\BadRequestException;
 use Nette\Application\Request;
-use Nette\Application\Responses\ForwardResponse;
 use Nette\Utils\Strings;
 
 /**
@@ -57,31 +55,6 @@ trait EntityLoaderPresenterTrait
 		$session[$key] = [ $this->getUser()->getId(), $request ];
 		$session->setExpiration($expiration, $key);
 		return $key;
-	}
-
-	/**
-	 * Restores current request to session.
-	 * @param string $key
-	 */
-	public function restoreRequest($key)
-	{
-		$session = $this->getSession('Arachne.Application/requests');
-		if (!isset($session[$key]) || ($session[$key][0] !== NULL && $session[$key][0] !== $this->getUser()->getId())) {
-			return;
-		}
-		$request = $session[$key][1];
-		unset($session[$key]);
-
-		try {
-			$this->loader->filterIn($request);
-		} catch (BadRequestException $e) {
-			return;
-		}
-		$request->setFlag(Request::RESTORED, TRUE);
-		$parameters = $request->getParameters();
-		$parameters[self::FLASH_KEY] = $this->getParameter(self::FLASH_KEY);
-		$request->setParameters($parameters);
-		$this->sendResponse(new ForwardResponse($request));
 	}
 
 }

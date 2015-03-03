@@ -11,6 +11,7 @@
 namespace Arachne\EntityLoader\DI;
 
 use Arachne\DIHelpers\CompilerExtension;
+use Kdyby\Events\DI\EventsExtension;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -53,6 +54,10 @@ class EntityLoaderExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('application.requestEntityLoader'))
 			->setClass('Arachne\EntityLoader\Application\RequestEntityLoader');
+
+		$builder->addDefinition($this->prefix('application.requestEntityLoaderListener'))
+			->setClass('Arachne\EntityLoader\Application\RequestEntityLoaderListener')
+			->addTag(EventsExtension::TAG_SUBSCRIBER);
 	}
 
 }
