@@ -20,6 +20,7 @@ class EntityLoaderExtension extends CompilerExtension
 {
 
 	const TAG_FILTER_IN = 'arachne.entityLoader.filterIn';
+	const TAG_FILTER_OUT = 'arachne.entityLoader.filterOut';
 
 	private static $filters = [
 		'Arachne\EntityLoader\FilterIn\ArrayFilterIn' => 'array',
@@ -37,6 +38,9 @@ class EntityLoaderExtension extends CompilerExtension
 		$filterInResolver = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')
 			->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
 
+		$filterOutResolver = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')
+			->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
+
 		foreach (self::$filters as $class => $type) {
 			$builder->addDefinition($this->prefix('filterIn.' . $type))
 				->setClass($class)
@@ -49,11 +53,24 @@ class EntityLoaderExtension extends CompilerExtension
 				'filterInResolver' => '@' . $filterInResolver,
 			]);
 
+		$builder->addDefinition($this->prefix('entityUnloader'))
+			->setClass('Arachne\EntityLoader\EntityUnloader')
+			->setArguments([
+				'filterOutResolver' => '@' . $filterOutResolver,
+			]);
+
+		$builder->addDefinition($this->prefix('typeDetector'))
+			->setClass('Arachne\EntityLoader\TypeDetectorInterface')
+			->setFactory('Arachne\EntityLoader\TypeDetector');
+
 		$builder->addDefinition($this->prefix('application.parameterFinder'))
 			->setClass('Arachne\EntityLoader\Application\ParameterFinder');
 
 		$builder->addDefinition($this->prefix('application.requestEntityLoader'))
 			->setClass('Arachne\EntityLoader\Application\RequestEntityLoader');
+
+		$builder->addDefinition($this->prefix('application.requestEntityUnloader'))
+			->setClass('Arachne\EntityLoader\Application\RequestEntityUnloader');
 
 		$builder->addDefinition($this->prefix('application.applicationListener'))
 			->setClass('Arachne\EntityLoader\Application\ApplicationListener')
