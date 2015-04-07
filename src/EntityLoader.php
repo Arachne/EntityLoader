@@ -21,14 +21,14 @@ class EntityLoader extends Object
 {
 
 	/** @var ResolverInterface */
-	private $converterResolver;
+	private $filterInResolver;
 
 	/**
-	 * @param ResolverInterface $converterResolver
+	 * @param ResolverInterface $filterInResolver
 	 */
-	public function __construct(ResolverInterface $converterResolver)
+	public function __construct(ResolverInterface $filterInResolver)
 	{
-		$this->converterResolver = $converterResolver;
+		$this->filterInResolver = $filterInResolver;
 	}
 
 	/**
@@ -41,24 +41,24 @@ class EntityLoader extends Object
 		if ($this->isType($type, $parameter)) {
 			return $parameter;
 		}
-		$value = $this->getConverter($type)->filterIn($type, $parameter);
+		$value = $this->getfilter($type)->filterIn($type, $parameter);
 		if (!$this->isType($type, $value)) {
-			throw new UnexpectedValueException("Converter did not return an instance of '$type'.");
+			throw new UnexpectedValueException("FilterIn did not return an instance of '$type'.");
 		}
 		return $value;
 	}
 
 	/**
 	 * @param string $type
-	 * @return ConverterInterface
+	 * @return filterInInterface
 	 */
-	private function getConverter($type)
+	private function getfilter($type)
 	{
-		$converter = $this->converterResolver->resolve($type);
-		if (!$converter) {
-			throw new UnexpectedValueException("No converter found for type '$type'.");
+		$filter = $this->filterInResolver->resolve($type);
+		if (!$filter) {
+			throw new UnexpectedValueException("No filter in found for type '$type'.");
 		}
-		return $converter;
+		return $filter;
 	}
 
 	/**

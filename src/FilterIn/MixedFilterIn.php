@@ -8,20 +8,20 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader\Converter;
+namespace Arachne\EntityLoader\FilterIn;
 
-use Arachne\EntityLoader\ConverterInterface;
+use Arachne\EntityLoader\FilterInInterface;
 use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class ArrayConverter extends Object implements ConverterInterface
+class MixedFilterIn extends Object implements FilterInInterface
 {
 
 	public function filterIn($type, $value)
 	{
-		return (array) $value;
+		return $value;
 	}
 
 }

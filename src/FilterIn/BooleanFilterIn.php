@@ -8,20 +8,20 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader\Converter;
+namespace Arachne\EntityLoader\FilterIn;
 
-use Arachne\EntityLoader\ConverterInterface;
+use Arachne\EntityLoader\FilterInInterface;
 use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class IntegerConverter extends Object implements ConverterInterface
+class BooleanFilterIn extends Object implements FilterInInterface
 {
 
 	public function filterIn($type, $value)
 	{
-		return (int) $value;
+		return (bool) $value;
 	}
 
 }

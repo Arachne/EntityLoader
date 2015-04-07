@@ -19,34 +19,34 @@ use Kdyby\Events\DI\EventsExtension;
 class EntityLoaderExtension extends CompilerExtension
 {
 
-	const TAG_CONVERTER = 'arachne.entityLoader.converter';
+	const TAG_FILTER_IN = 'arachne.entityLoader.filterIn';
 
-	private static $converters = [
-		'Arachne\EntityLoader\Converter\ArrayConverter' => 'array',
-		'Arachne\EntityLoader\Converter\BooleanConverter' => 'bool',
-		'Arachne\EntityLoader\Converter\FloatConverter' => 'float',
-		'Arachne\EntityLoader\Converter\IntegerConverter' => 'int',
-		'Arachne\EntityLoader\Converter\MixedConverter' => 'mixed',
-		'Arachne\EntityLoader\Converter\StringConverter' => 'string',
+	private static $filters = [
+		'Arachne\EntityLoader\FilterIn\ArrayFilterIn' => 'array',
+		'Arachne\EntityLoader\FilterIn\BooleanFilterIn' => 'bool',
+		'Arachne\EntityLoader\FilterIn\FloatFilterIn' => 'float',
+		'Arachne\EntityLoader\FilterIn\IntegerFilterIn' => 'int',
+		'Arachne\EntityLoader\FilterIn\MixedFilterIn' => 'mixed',
+		'Arachne\EntityLoader\FilterIn\StringFilterIn' => 'string',
 	];
 
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
 
-		foreach (self::$converters as $class => $type) {
-			$builder->addDefinition($this->prefix('converter.' . $type))
-				->setClass($class)
-				->addTag(self::TAG_CONVERTER, $type);
-		}
+		$filterInResolver = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')
+			->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
 
-		$converterResolver = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')
-			->addResolver(self::TAG_CONVERTER, 'Arachne\EntityLoader\ConverterInterface');
+		foreach (self::$filters as $class => $type) {
+			$builder->addDefinition($this->prefix('filterIn.' . $type))
+				->setClass($class)
+				->addTag(self::TAG_FILTER_IN, $type);
+		}
 
 		$builder->addDefinition($this->prefix('entityLoader'))
 			->setClass('Arachne\EntityLoader\EntityLoader')
 			->setArguments([
-				'converterResolver' => '@' . $converterResolver,
+				'filterInResolver' => '@' . $filterInResolver,
 			]);
 
 		$builder->addDefinition($this->prefix('application.parameterFinder'))

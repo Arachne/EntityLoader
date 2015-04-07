@@ -15,7 +15,7 @@ use Nette\Application\BadRequestException;
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-interface ConverterInterface
+interface FilterInInterface
 {
 
 	/**
