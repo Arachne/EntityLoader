@@ -8,8 +8,9 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Arachne\EntityLoader\Application;
+namespace Arachne\EntityLoader\Routing;
 
+use Arachne\EntityLoader\Application\Envelope;
 use Closure;
 use Nette\Application\Routers\Route as BaseRoute;
 use Nette\Callback;
@@ -53,11 +54,11 @@ class Route extends BaseRoute
 			return $parameters;
 		};
 
-		// Hack to invoke the filter after custom global filter
+		// Hack to invoke the filter after original global filter
 		if (isset($metadata[NULL][self::FILTER_OUT])) {
-			$custom = $metadata[NULL][self::FILTER_OUT];
-			$metadata[NULL][self::FILTER_OUT] = function (array $parameters) use ($custom, $filter) {
-				$parameters = call_user_func($custom, $parameters);
+			$original = $metadata[NULL][self::FILTER_OUT];
+			$metadata[NULL][self::FILTER_OUT] = function (array $parameters) use ($original, $filter) {
+				$parameters = call_user_func($original, $parameters);
 				if (!is_array($parameters)) {
 					return $parameters;
 				}
