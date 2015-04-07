@@ -55,8 +55,8 @@ class EntityLoaderExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('application.requestEntityLoader'))
 			->setClass('Arachne\EntityLoader\Application\RequestEntityLoader');
 
-		$builder->addDefinition($this->prefix('application.requestEntityLoaderListener'))
-			->setClass('Arachne\EntityLoader\Application\RequestEntityLoaderListener')
+		$builder->addDefinition($this->prefix('application.applicationListener'))
+			->setClass('Arachne\EntityLoader\Application\ApplicationListener')
 			->addTag(EventsExtension::TAG_SUBSCRIBER);
 	}
 

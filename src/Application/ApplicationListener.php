@@ -22,7 +22,7 @@ use Nette\Object;
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class RequestEntityLoaderListener extends Object implements Subscriber
+class ApplicationListener extends Object implements Subscriber
 {
 
 	/** @var RequestEntityLoader */
