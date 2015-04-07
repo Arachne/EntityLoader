@@ -2,10 +2,9 @@
 
 namespace Tests\Integration\Classes;
 
-use Arachne\EntityLoader\Application\Envelope;
-use Arachne\EntityLoader\Application\RequestEntityLoader;
-use Arachne\EntityLoader\Application\Route;
-use Arachne\EntityLoader\Application\RouteList;
+use Arachne\EntityLoader\Application\RequestEntityUnloader;
+use Arachne\EntityLoader\Routing\Route;
+use Arachne\EntityLoader\Routing\RouteList;
 use Nette\Application\IRouter;
 use Nette\Object;
 
@@ -15,12 +14,12 @@ use Nette\Object;
 class RouterFactory extends Object
 {
 
-	/** @var RequestEntityLoader */
-	protected $loader;
+	/** @var RequestEntityUnloader */
+	protected $unloader;
 
-	public function __construct(RequestEntityLoader $loader)
+	public function __construct(RequestEntityUnloader $unloader)
 	{
-		$this->loader = $loader;
+		$this->unloader = $unloader;
 	}
 
 	/**
@@ -28,27 +27,7 @@ class RouterFactory extends Object
 	 */
 	public function create()
 	{
-		$router = new RouteList($this->loader);
-		$router[] = new Route('/wrong', [
-			'presenter' => 'Wrong',
-			'action' => 'detail',
-		]);
-		$router[] = new Route('/noaction', [
-			'presenter' => 'Wrong',
-		]);
-		$router[] = new Route('/detail/<entity>', [
-			'presenter' => 'Article',
-			'action' => 'detail',
-			'entity' => [
-				Route::FILTER_OUT => function (Envelope $envelope) {
-					return 'article-' . $envelope->getObject()->getValue();
-				},
-			],
-		]);
-		$router[] = new Route('/array', [
-			'presenter' => 'Article',
-			'action' => 'array',
-		]);
+		$router = new RouteList($this->unloader);
 		$router[] = new Route('/<action>[/<parameter>]', [
 			'presenter' => 'Article',
 		]);

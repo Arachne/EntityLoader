@@ -27,6 +27,7 @@
 		"arachne/coding-style": "~0.2.0",
 		"codeception/codeception": "~2.0",
 		"codeception/mockery-module": "~0.2",
+		"enumag/application": "~0.3.4",
 		"mockery/mockery": "~0.9",
 		"nette/robot-loader": "~2.3",
 		"squizlabs/php_codesniffer": "~2.0",

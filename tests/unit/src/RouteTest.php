@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\Application\Envelope;
-use Arachne\EntityLoader\Application\Route;
+use Arachne\EntityLoader\Routing\Route;
 use Codeception\TestCase\Test;
 use Mockery;
 use Nette\Application\Request;

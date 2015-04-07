@@ -1,22 +1,28 @@
 extensions:
-	nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension( %debugMode%, [ %appDir% ])
+	nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension( %debugMode%, [ %appDir% ] )
 	nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
-	nette.di: Nette\DI\Extensions\DIExtension( %debugMode% )
 	nette.http: Nette\Bridges\HttpDI\HttpExtension
-	nette.reflection: Nette\Bridges\ReflectionDI\ReflectionExtension( %debugMode% )
-	nette.routing: Nette\Bridges\ApplicationDI\RoutingExtension( %debugMode% )
+	nette.session: Nette\Bridges\HttpDI\SessionExtension
 	arachne.dihelpers: Arachne\DIHelpers\DI\DIHelpersExtension
 	arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
+	kdyby.events: Kdyby\Events\DI\EventsExtension
+	enumag.application: Enumag\Application\DI\ApplicationExtension
 
 nette.application:
+	catchExceptions: null
 	mapping:
 		*: Tests\Integration\Classes\*Presenter
 
 services:
 	routerFactory: Tests\Integration\Classes\RouterFactory
-	nette.routing.router: @routerFactory::create()
-	articleConverter:
-		class: Tests\Integration\Classes\ArticleConverter
+	router: @routerFactory::create()
+	articleFilterIn:
+		class: Tests\Integration\Classes\ArticleFilterIn
 		tags:
-			arachne.entityLoader.converter:
+			arachne.entityLoader.filterIn:
+				- Tests\Integration\Classes\Article
+	articleFilterOut:
+		class: Tests\Integration\Classes\ArticleFilterOut
+		tags:
+			arachne.entityLoader.filterOut:
 				- Tests\Integration\Classes\Article
