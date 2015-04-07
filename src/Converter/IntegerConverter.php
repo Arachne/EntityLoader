@@ -24,9 +24,4 @@ class IntegerConverter extends Object implements ConverterInterface
 		return (int) $value;
 	}
 
-	public function filterOut($type, $value)
-	{
-		return (string) $value;
-	}
-
 }

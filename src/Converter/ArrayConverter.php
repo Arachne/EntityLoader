@@ -24,9 +24,4 @@ class ArrayConverter extends Object implements ConverterInterface
 		return (array) $value;
 	}
 
-	public function filterOut($type, $value)
-	{
-		return (array) $value;
-	}
-
 }

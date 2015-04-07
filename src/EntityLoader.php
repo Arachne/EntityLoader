@@ -50,26 +50,6 @@ class EntityLoader extends Object
 
 	/**
 	 * @param string $type
-	 * @param mixed $parameter
-	 * @return mixed
-	 */
-	public function filterOut($type, $parameter)
-	{
-		if (!$this->isType($type, $parameter)) {
-			if (!is_string($parameter) && !is_array($parameter)) {
-				throw new UnexpectedValueException("Invalid parameter value for type '$type'.");
-			}
-			return $parameter;
-		}
-		$value = $this->getConverter($type)->filterOut($type, $parameter);
-		if (!is_string($value) && !is_array($value)) {
-			throw new UnexpectedValueException("Converter for '$type' did not return a string nor an array.");
-		}
-		return $value;
-	}
-
-	/**
-	 * @param string $type
 	 * @return ConverterInterface
 	 */
 	private function getConverter($type)

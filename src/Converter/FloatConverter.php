@@ -24,9 +24,4 @@ class FloatConverter extends Object implements ConverterInterface
 		return (float) $value;
 	}
 
-	public function filterOut($type, $value)
-	{
-		return (string) $value;
-	}
-
 }

@@ -24,9 +24,4 @@ class StringConverter extends Object implements ConverterInterface
 		return (string) $value;
 	}
 
-	public function filterOut($type, $value)
-	{
-		return (string) $value;
-	}
-
 }

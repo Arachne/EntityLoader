@@ -57,22 +57,4 @@ class RequestEntityLoader extends Object
 		$request->setParameters($parameters);
 	}
 
-	/**
-	 * @param Request $request
-	 * @param bool $envelopes
-	 */
-	public function filterOut(Request $request, $envelopes = FALSE)
-	{
-		$mapping = $this->finder->getMapping($request);
-		$parameters = $request->getParameters();
-		foreach ($mapping as $name => $info) {
-			if (!isset($parameters[$name])) {
-				continue;
-			}
-			$parameter = $this->entityLoader->filterOut($info->type, $parameters[$name]);
-			$parameters[$name] = $envelopes && is_object($parameters[$name]) ? new Envelope($parameters[$name], $parameter) : $parameter;
-		}
-		$request->setParameters($parameters);
-	}
-
 }

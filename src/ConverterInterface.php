@@ -26,11 +26,4 @@ interface ConverterInterface
 	 */
 	public function filterIn($type, $value);
 
-	/**
-	 * @param string $type
-	 * @param object $value
-	 * @return string|string[]
-	 */
-	public function filterOut($type, $value);
-
 }

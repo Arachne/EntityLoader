@@ -24,9 +24,4 @@ class BooleanConverter extends Object implements ConverterInterface
 		return (bool) $value;
 	}
 
-	public function filterOut($type, $value)
-	{
-		return (string) (int) $value;
-	}
-
 }
