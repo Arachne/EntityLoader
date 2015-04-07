@@ -11,6 +11,7 @@
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Application\RequestEntityLoader;
+use Arachne\EntityLoader\Application\RequestEntityUnloader;
 use Nette\Application\Request;
 use Nette\Utils\Strings;
 
@@ -23,9 +24,17 @@ trait EntityLoaderPresenterTrait
 	/** @var RequestEntityLoader */
 	private $loader;
 
-	final public function injectEntityLoader(RequestEntityLoader $loader)
+	/** @var RequestEntityUnloader */
+	private $unloader;
+
+	/**
+	 * @param RequestEntityLoader $loader
+	 * @param RequestEntityUnloader $unloader
+	 */
+	final public function injectEntityLoader(RequestEntityLoader $loader, RequestEntityUnloader $unloader)
 	{
 		$this->loader = $loader;
+		$this->unloader = $unloader;
 	}
 
 	/**
@@ -45,7 +54,7 @@ trait EntityLoaderPresenterTrait
 		}
 
 		$request = clone $request;
-		$this->loader->filterOut($request);
+		$this->unloader->filterOut($request);
 
 		$session = $this->getSession('Arachne.Application/requests');
 		do {
@@ -55,6 +64,31 @@ trait EntityLoaderPresenterTrait
 		$session[$key] = [ $this->getUser()->getId(), $request ];
 		$session->setExpiration($expiration, $key);
 		return $key;
+	}
+
+	/**
+	 * Restores current request to session.
+	 * @param string $key
+	 */
+	public function restoreRequest($key)
+	{
+		$session = $this->getSession('Arachne.Application/requests');
+		if (!isset($session[$key]) || ($session[$key][0] !== NULL && $session[$key][0] !== $this->getUser()->getId())) {
+			return;
+		}
+		$request = clone $session[$key][1];
+		unset($session[$key]);
+
+		try {
+			$this->loader->filterIn($request);
+		} catch (BadRequestException $e) {
+			return;
+		}
+		$request->setFlag(Request::RESTORED, TRUE);
+		$parameters = $request->getParameters();
+		$parameters[self::FLASH_KEY] = $this->getParameter(self::FLASH_KEY);
+		$request->setParameters($parameters);
+		$this->sendResponse(new ForwardResponse($request));
 	}
 
 }
