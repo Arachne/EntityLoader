@@ -35,11 +35,9 @@ class EntityLoaderExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$filterInResolver = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')
-			->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
-
-		$filterOutResolver = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')
-			->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
+		$helpers = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
+		$filterInResolver = $helpers->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
+		$filterOutResolver = $helpers->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
 
 		foreach (self::$filters as $class => $type) {
 			$builder->addDefinition($this->prefix('filterIn.' . $type))
