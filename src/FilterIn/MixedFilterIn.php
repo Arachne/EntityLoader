@@ -19,7 +19,7 @@ use Nette\Object;
 class MixedFilterIn extends Object implements FilterInInterface
 {
 
-	public function filterIn($type, $value)
+	public function filterIn($value)
 	{
 		return $value;
 	}

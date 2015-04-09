@@ -19,7 +19,7 @@ use Nette\Object;
 class BooleanFilterIn extends Object implements FilterInInterface
 {
 
-	public function filterIn($type, $value)
+	public function filterIn($value)
 	{
 		return (bool) $value;
 	}

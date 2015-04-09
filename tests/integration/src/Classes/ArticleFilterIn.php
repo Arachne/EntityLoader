@@ -3,7 +3,6 @@
 namespace Tests\Integration\Classes;
 
 use Arachne\EntityLoader\FilterInInterface;
-use InvalidArgumentException;
 use Nette\Object;
 
 /**
@@ -12,11 +11,8 @@ use Nette\Object;
 class ArticleFilterIn extends Object implements FilterInInterface
 {
 
-	public function filterIn($type, $value)
+	public function filterIn($value)
 	{
-		if ($type !== __NAMESPACE__ . '\\Article') {
-			throw new InvalidArgumentException("String '$type' is not allowed type.");
-		}
 		return new Article($value);
 	}
 

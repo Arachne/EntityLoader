@@ -19,11 +19,10 @@ interface FilterInInterface
 {
 
 	/**
-	 * @param string $type
 	 * @param mixed $value
 	 * @return object
 	 * @throws BadRequestException
 	 */
-	public function filterIn($type, $value);
+	public function filterIn($value);
 
 }

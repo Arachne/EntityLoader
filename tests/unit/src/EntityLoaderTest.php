@@ -44,7 +44,7 @@ class EntityLoaderTest extends Test
 		$this->filter
 			->shouldReceive('filterIn')
 			->once()
-			->with('Type1', 1)
+			->with(1)
 			->andReturn($mock1);
 
 		$this->assertSame($mock1, $this->entityLoader->filterIn('Type1', 1));
@@ -65,7 +65,7 @@ class EntityLoaderTest extends Test
 		$this->filter
 			->shouldReceive('filterIn')
 			->once()
-			->with('Type1', 1)
+			->with(1)
 			->andReturn(NULL);
 
 		$this->entityLoader->filterIn('Type1', 1);
