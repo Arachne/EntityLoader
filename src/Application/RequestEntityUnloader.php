@@ -35,7 +35,7 @@ class RequestEntityUnloader extends Object
 	 * @param Request $request
 	 * @param bool $envelopes
 	 */
-	public function filterOut(Request $request, $envelopes = FALSE)
+	public function filterOut(Request $request, $envelopes = false)
 	{
 		$parameters = $request->getParameters();
 		foreach ($parameters as &$value) {

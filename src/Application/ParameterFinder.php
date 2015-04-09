@@ -91,10 +91,10 @@ class ParameterFinder extends Object
 		// Action parameters
 		$action = isset($parameters[Presenter::ACTION_KEY]) ? $parameters[Presenter::ACTION_KEY] : Presenter::DEFAULT_ACTION;
 		$method = 'action' . $action;
-		$element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : NULL;
+		$element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
 		if (!$element) {
 			$method = 'render' . $action;
-			$element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : NULL;
+			$element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
 		}
 		if ($element) {
 			$info += $this->getMethodParameters($element);
@@ -105,11 +105,11 @@ class ParameterFinder extends Object
 		$components = [];
 		foreach ($parameters as $key => $_) {
 			$pos = strrpos($key, IComponent::NAME_SEPARATOR);
-			if ($pos !== FALSE) {
+			if ($pos !== false) {
 				$component = substr($key, 0, $pos);
 				if (!isset($components[$component])) {
 					$reflection = $this->createReflection($presenterReflection, $component);
-					$components[$component] = TRUE;
+					$components[$component] = true;
 					if ($reflection) {
 						$files[] = $reflection->getFileName();
 						$info += $this->getPersistentParameters($reflection, $component . IComponent::NAME_SEPARATOR);
@@ -122,7 +122,7 @@ class ParameterFinder extends Object
 		if (isset($parameters[Presenter::SIGNAL_KEY])) {
 			$signal = $parameters[Presenter::SIGNAL_KEY];
 			$pos = strrpos($signal, IComponent::NAME_SEPARATOR);
-			if ($pos !== FALSE) {
+			if ($pos !== false) {
 				$component = substr($signal, 0, $pos);
 				$signal = substr($signal, $pos + 1);
 				$reflection = $this->createReflection($presenterReflection, $component);
@@ -150,12 +150,12 @@ class ParameterFinder extends Object
 	/**
 	 * @param ClassType $reflection
 	 * @param string $component
-	 * @return PresenterComponentReflection|NULL
+	 * @return PresenterComponentReflection|null
 	 */
 	private function createReflection(ClassType $reflection, $component)
 	{
 		$pos = strpos($component, IComponent::NAME_SEPARATOR);
-		if ($pos !== FALSE) {
+		if ($pos !== false) {
 			$subComponent = substr($component, $pos + 1);
 			$component = substr($component, 0, $pos);
 		}
@@ -182,7 +182,7 @@ class ParameterFinder extends Object
 	 * @param string $default
 	 * @return StdClass[]
 	 */
-	private function getMethodParameters(Method $reflection, $prefix = NULL)
+	private function getMethodParameters(Method $reflection, $prefix = null)
 	{
 		$parameters = [];
 		foreach ($reflection->getParameters() as $parameter) {
@@ -191,7 +191,7 @@ class ParameterFinder extends Object
 		$info = [];
 		foreach ($reflection->getParameters() as $parameter) {
 			$type = $this->getParameterType($reflection, $parameter);
-			$nullable = $parameter->isOptional() && $parameter->getDefaultValue() === NULL;
+			$nullable = $parameter->isOptional() && $parameter->getDefaultValue() === null;
 			$info[$prefix . $parameter->getName()] = $this->createInfoObject($type, $nullable);
 		}
 		return $info;
@@ -232,7 +232,7 @@ class ParameterFinder extends Object
 	 * @param string
 	 * @return StdClass[]
 	 */
-	private function getPersistentParameters(PresenterComponentReflection $reflection, $prefix = NULL)
+	private function getPersistentParameters(PresenterComponentReflection $reflection, $prefix = null)
 	{
 		$info = [];
 		foreach ($reflection->getPersistentParams() as $persistent => $_) {
@@ -242,7 +242,7 @@ class ParameterFinder extends Object
 				if (!Strings::match($type, '/^[[:alnum:]_\\\\]++$/')) {
 					throw new TypeHintException("Type hint '$type' is not valid. Only alphanumeric characters, '_' and '\' are allowed.");
 				}
-				$info[$prefix . $persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), TRUE);
+				$info[$prefix . $persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), true);
 			}
 		}
 		return $info;

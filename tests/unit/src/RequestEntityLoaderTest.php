@@ -76,15 +76,15 @@ class RequestEntityLoaderTest extends Test
 	public function testFilterInNullable()
 	{
 		$expected = [
-			'entity' => NULL,
+			'entity' => null,
 		];
 		$request = new Request('', 'GET', [
-			'entity' => NULL,
+			'entity' => null,
 		]);
 		$mapping = [
 			'entity' => (object) [
 				'type' => 'Type1',
-				'nullable' => TRUE,
+				'nullable' => true,
 			]
 		];
 		$this->finder->shouldReceive('getMapping')
@@ -102,12 +102,12 @@ class RequestEntityLoaderTest extends Test
 	public function testFilterInNullableException()
 	{
 		$request = new Request('', 'GET', [
-			'entity' => NULL,
+			'entity' => null,
 		]);
 		$mapping = [
 			'entity' => (object) [
 				'type' => 'Type1',
-				'nullable' => FALSE,
+				'nullable' => false,
 			]
 		];
 		$this->finder->shouldReceive('getMapping')

@@ -43,9 +43,9 @@ class ParameterFinderTest extends Test
 			'persistent' => 0,
 		]);
 		$this->assertEquals([
-			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', TRUE),
-			'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', FALSE),
-			'persistent2' => $this->createInfoObject('string', TRUE),
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
+			'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
+			'persistent2' => $this->createInfoObject('string', true),
 		], $this->finder->getMapping($request));
 	}
 
@@ -55,8 +55,8 @@ class ParameterFinderTest extends Test
 			'persistent' => 0,
 		]);
 		$this->assertEquals([
-			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', TRUE),
-			'persistent2' => $this->createInfoObject('string', TRUE),
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
+			'persistent2' => $this->createInfoObject('string', true),
 		], $this->finder->getMapping($request));
 	}
 
@@ -67,10 +67,10 @@ class ParameterFinderTest extends Test
 			'do' => 'testHandle',
 		]);
 		$this->assertEquals([
-			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', TRUE),
-			'renderEntity' => $this->createInfoObject('Tests\Unit\Classes\Class3', FALSE),
-			'handleEntity' => $this->createInfoObject('Tests\Unit\Classes\Class4', FALSE),
-			'persistent2' => $this->createInfoObject('string', TRUE),
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
+			'renderEntity' => $this->createInfoObject('Tests\Unit\Classes\Class3', false),
+			'handleEntity' => $this->createInfoObject('Tests\Unit\Classes\Class4', false),
+			'persistent2' => $this->createInfoObject('string', true),
 		], $this->finder->getMapping($request));
 	}
 
@@ -82,11 +82,11 @@ class ParameterFinderTest extends Test
 			'component-persistent' => 1,
 		]);
 		$this->assertEquals([
-			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', TRUE),
-			'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', FALSE),
-			'component-persistent' => $this->createInfoObject('Tests\Unit\Classes\Class5', TRUE),
-			'component-handleEntity' => $this->createInfoObject('Tests\Unit\Classes\Class6', FALSE),
-			'persistent2' => $this->createInfoObject('string', TRUE),
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
+			'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
+			'component-persistent' => $this->createInfoObject('Tests\Unit\Classes\Class5', true),
+			'component-handleEntity' => $this->createInfoObject('Tests\Unit\Classes\Class6', false),
+			'persistent2' => $this->createInfoObject('string', true),
 		], $this->finder->getMapping($request));
 	}
 

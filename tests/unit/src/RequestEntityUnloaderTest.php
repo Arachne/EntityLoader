@@ -70,17 +70,17 @@ class RequestEntityUnloaderTest extends Test
 			->once()
 			->with($mock)
 			->andReturn('value');
-		$this->requestEntityUnloader->filterOut($request, TRUE);
+		$this->requestEntityUnloader->filterOut($request, true);
 		$this->assertEquals($expected, $request->getParameters());
 	}
 
 	public function testFilterOutNullable()
 	{
 		$expected = [
-			'entity' => NULL,
+			'entity' => null,
 		];
 		$request = new Request('', 'GET', [
-			'entity' => NULL,
+			'entity' => null,
 		]);
 		$this->requestEntityUnloader->filterOut($request);
 		$this->assertEquals($expected, $request->getParameters());
@@ -89,10 +89,10 @@ class RequestEntityUnloaderTest extends Test
 	public function testFilterOutNullableIgnored()
 	{
 		$expected = [
-			'entity' => NULL,
+			'entity' => null,
 		];
 		$request = new Request('', 'GET', [
-			'entity' => NULL,
+			'entity' => null,
 		]);
 		$this->requestEntityUnloader->filterOut($request);
 		$this->assertEquals($expected, $request->getParameters());

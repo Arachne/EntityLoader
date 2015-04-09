@@ -43,7 +43,7 @@ class RouteTest extends Test
 			->with(Mockery::on(function ($parameters) {
 				$this->assertInstanceOf(Envelope::class, $parameters['param1']);
 				$this->assertInstanceOf(Envelope::class, $parameters['param2']);
-				return TRUE;
+				return true;
 			}))
 			->andReturnUsing(function ($parameters) {
 				return $parameters;
@@ -56,7 +56,7 @@ class RouteTest extends Test
 					return $envelope->getObject();
 				},
 			],
-			NULL => [
+			null => [
 				Route::FILTER_OUT => function ($params) use ($mock) {
 					return $mock->call($params);
 				},

@@ -66,7 +66,7 @@ class EntityLoaderTest extends Test
 			->shouldReceive('filterIn')
 			->once()
 			->with(1)
-			->andReturn(NULL);
+			->andReturn(null);
 
 		$this->entityLoader->filterIn('Type1', 1);
 	}

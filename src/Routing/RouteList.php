@@ -28,7 +28,7 @@ class RouteList extends BaseRouteList
 	 * @param RequestEntityUnloader $unloader
 	 * @param string $module
 	 */
-	public function __construct(RequestEntityUnloader $unloader, $module = NULL)
+	public function __construct(RequestEntityUnloader $unloader, $module = null)
 	{
 		parent::__construct($module);
 		$this->unloader = $unloader;
@@ -38,12 +38,12 @@ class RouteList extends BaseRouteList
 	 * Constructs absolute URL from Request object.
 	 * @param Request $request
 	 * @param Url $refUrl
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function constructUrl(Request $request, Url $refUrl)
 	{
 		$request = clone $request;
-		$this->unloader->filterOut($request, TRUE);
+		$this->unloader->filterOut($request, true);
 		return parent::constructUrl($request, $refUrl);
 	}
 

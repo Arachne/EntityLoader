@@ -86,7 +86,7 @@ class EntityLoader extends Object
 			case 'callable':
 				return is_callable($value);
 			case 'mixed':
-				return TRUE;
+				return true;
 			default:
 				return $value instanceof $type;
 		}

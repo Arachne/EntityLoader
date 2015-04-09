@@ -43,10 +43,10 @@ trait EntityLoaderPresenterTrait
 	 * @param mixed $expiration
 	 * @return string
 	 */
-	public function storeRequest($request = NULL, $expiration = '+ 10 minutes')
+	public function storeRequest($request = null, $expiration = '+ 10 minutes')
 	{
 		// both parameters are optional
-		if ($request === NULL) {
+		if ($request === null) {
 			$request = $this->request;
 		} elseif (!$request instanceof Request) {
 			$expiration = $request;
@@ -73,7 +73,7 @@ trait EntityLoaderPresenterTrait
 	public function restoreRequest($key)
 	{
 		$session = $this->getSession('Arachne.Application/requests');
-		if (!isset($session[$key]) || ($session[$key][0] !== NULL && $session[$key][0] !== $this->getUser()->getId())) {
+		if (!isset($session[$key]) || ($session[$key][0] !== null && $session[$key][0] !== $this->getUser()->getId())) {
 			return;
 		}
 		$request = clone $session[$key][1];
@@ -84,7 +84,7 @@ trait EntityLoaderPresenterTrait
 		} catch (BadRequestException $e) {
 			return;
 		}
-		$request->setFlag(Request::RESTORED, TRUE);
+		$request->setFlag(Request::RESTORED, true);
 		$parameters = $request->getParameters();
 		$parameters[self::FLASH_KEY] = $this->getParameter(self::FLASH_KEY);
 		$request->setParameters($parameters);

@@ -35,7 +35,7 @@ class Route extends BaseRoute
 			}
 			$metadata = [
 				self::PRESENTER_KEY => substr($metadata, 0, $pos),
-				'action' => $pos === strlen($metadata) - 1 ? NULL : substr($metadata, $pos + 1),
+				'action' => $pos === strlen($metadata) - 1 ? null : substr($metadata, $pos + 1),
 			];
 		} elseif ($metadata instanceof Closure || $metadata instanceof Callback) {
 			$metadata = [
@@ -55,9 +55,9 @@ class Route extends BaseRoute
 		};
 
 		// Hack to invoke the filter after original global filter
-		if (isset($metadata[NULL][self::FILTER_OUT])) {
-			$original = $metadata[NULL][self::FILTER_OUT];
-			$metadata[NULL][self::FILTER_OUT] = function (array $parameters) use ($original, $filter) {
+		if (isset($metadata[null][self::FILTER_OUT])) {
+			$original = $metadata[null][self::FILTER_OUT];
+			$metadata[null][self::FILTER_OUT] = function (array $parameters) use ($original, $filter) {
 				$parameters = call_user_func($original, $parameters);
 				if (!is_array($parameters)) {
 					return $parameters;
@@ -65,7 +65,7 @@ class Route extends BaseRoute
 				return call_user_func($filter, $parameters);
 			};
 		} else {
-			$metadata[NULL][self::FILTER_OUT] = $filter;
+			$metadata[null][self::FILTER_OUT] = $filter;
 		}
 
 		parent::__construct($mask, $metadata, $flags);
