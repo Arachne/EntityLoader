@@ -23,17 +23,12 @@ class EntityUnloader extends Object
 	/** @var ResolverInterface */
 	private $filterOutResolver;
 
-	/** @var TypeDetectorInterface */
-	private $typeDetector;
-
 	/**
 	 * @param ResolverInterface $filterOutResolver
-	 * @param TypeDetectorInterface $typeDetector
 	 */
-	public function __construct(ResolverInterface $filterOutResolver, TypeDetectorInterface $typeDetector)
+	public function __construct(ResolverInterface $filterOutResolver)
 	{
 		$this->filterOutResolver = $filterOutResolver;
-		$this->typeDetector = $typeDetector;
 	}
 
 	/**
@@ -42,8 +37,7 @@ class EntityUnloader extends Object
 	 */
 	public function filterOut($object)
 	{
-		$type = $this->typeDetector->detectType($object);
-		return $this->getFilter($type)->filterOut($object);
+		return $this->getFilter(get_class($object))->filterOut($object);
 	}
 
 	/**

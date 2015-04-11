@@ -51,10 +51,6 @@ class EntityLoaderExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('entityUnloader'))
 			->setClass('Arachne\EntityLoader\EntityUnloader');
 
-		$builder->addDefinition($this->prefix('typeDetector'))
-			->setClass('Arachne\EntityLoader\TypeDetectorInterface')
-			->setFactory('Arachne\EntityLoader\TypeDetector');
-
 		$builder->addDefinition($this->prefix('application.parameterFinder'))
 			->setClass('Arachne\EntityLoader\Application\ParameterFinder');
 
