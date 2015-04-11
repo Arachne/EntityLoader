@@ -36,8 +36,8 @@ class EntityLoaderExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$helpers = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
-		$filterInResolver = $helpers->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
-		$filterOutResolver = $helpers->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
+		$helpers->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
+		$helpers->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
 
 		foreach (self::$filters as $class => $type) {
 			$builder->addDefinition($this->prefix('filterIn.' . $type))
@@ -46,16 +46,10 @@ class EntityLoaderExtension extends CompilerExtension
 		}
 
 		$builder->addDefinition($this->prefix('entityLoader'))
-			->setClass('Arachne\EntityLoader\EntityLoader')
-			->setArguments([
-				'filterInResolver' => '@' . $filterInResolver,
-			]);
+			->setClass('Arachne\EntityLoader\EntityLoader');
 
 		$builder->addDefinition($this->prefix('entityUnloader'))
-			->setClass('Arachne\EntityLoader\EntityUnloader')
-			->setArguments([
-				'filterOutResolver' => '@' . $filterOutResolver,
-			]);
+			->setClass('Arachne\EntityLoader\EntityUnloader');
 
 		$builder->addDefinition($this->prefix('typeDetector'))
 			->setClass('Arachne\EntityLoader\TypeDetectorInterface')
@@ -73,6 +67,22 @@ class EntityLoaderExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('application.applicationListener'))
 			->setClass('Arachne\EntityLoader\Application\ApplicationListener')
 			->addTag(EventsExtension::TAG_SUBSCRIBER);
+	}
+
+	public function beforeCompile()
+	{
+		$builder = $this->getContainerBuilder();
+		$helpers = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
+
+		$builder->getDefinition($this->prefix('entityLoader'))
+			->setArguments([
+				'filterInResolver' => '@' . $helpers->getResolver(self::TAG_FILTER_IN),
+			]);
+
+		$builder->getDefinition($this->prefix('entityUnloader'))
+			->setArguments([
+				'filterOutResolver' => '@' . $helpers->getResolver(self::TAG_FILTER_OUT),
+			]);
 	}
 
 }
