@@ -2,6 +2,7 @@
 
 namespace Tests\Integration;
 
+use Codeception\TestCase\Test;
 use Nette\Application\Application;
 use Tests\Integration\Classes\Article;
 

@@ -31,7 +31,7 @@ nette_2.2 < common:
 
 nette_2.3 < common:
 	extensions:
-		nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension( %debugMode%, [ %appDir% ] )
+		nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
 		nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
 		nette.http: Nette\Bridges\HttpDI\HttpExtension
 
