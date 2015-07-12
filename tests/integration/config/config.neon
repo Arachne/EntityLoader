@@ -4,6 +4,7 @@ common:
 		arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
 		enumag.application: Enumag\Application\DI\ApplicationExtension
 		kdyby.events: Kdyby\Events\DI\EventsExtension
+		oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
 
 	services:
 		routerFactory: Tests\Integration\Classes\RouterFactory

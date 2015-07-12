@@ -16,7 +16,6 @@ use Nette\Application\Request;
 use Nette\Application\UI\Presenter;
 use Nette\Application\UI\PresenterComponentReflection;
 use Nette\Caching\Cache;
-use Nette\Caching\IStorage;
 use Nette\ComponentModel\IComponent;
 use Nette\Object;
 use Nette\Reflection\AnnotationsParser;
@@ -26,6 +25,7 @@ use Nette\Reflection\Parameter;
 use Nette\Reflection\Property;
 use Nette\Utils\Strings;
 use StdClass;
+use Oops\CacheFactory\Caching\CacheFactory;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -55,10 +55,10 @@ class ParameterFinder extends Object
 	/** @var Cache */
 	private $cache;
 
-	public function __construct(IPresenterFactory $presenterFactory, IStorage $storage)
+	public function __construct(IPresenterFactory $presenterFactory, CacheFactory $cacheFactory)
 	{
 		$this->presenterFactory = $presenterFactory;
-		$this->cache = new Cache($storage, 'Arachne.ParameterFinder');
+		$this->cache = $cacheFactory->create('Arachne.ParameterFinder');
 	}
 
 	/**

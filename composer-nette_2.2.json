@@ -8,7 +8,8 @@
 		"nette/di": "~2.2.0",
 		"nette/http": "~2.2.0",
 		"nette/reflection": "~2.2.0",
-		"nette/utils": "~2.2.0"
+		"nette/utils": "~2.2.0",
+		"oops/cache-factory": "~1.0"
 	},
 	"require-dev": {
 		"php": ">=5.5.0",

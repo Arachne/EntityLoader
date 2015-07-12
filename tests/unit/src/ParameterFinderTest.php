@@ -7,8 +7,9 @@ use Codeception\TestCase\Test;
 use Mockery;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
-use Nette\Caching\IStorage;
+use Nette\Caching\Cache;
 use StdClass;
+use Oops\CacheFactory\Caching\CacheFactory;
 use Tests\Unit\Classes\TestPresenter;
 
 /**
@@ -26,14 +27,21 @@ class ParameterFinderTest extends Test
 		$presenterFactory->shouldReceive('getPresenterClass')
 			->once()
 			->andReturn(TestPresenter::class);
-		$storage = Mockery::mock(IStorage::class);
-		$storage->shouldReceive('read')
-			->once();
-		$storage->shouldReceive('lock')
-			->once();
-		$storage->shouldReceive('write')
-			->once();
-		$this->finder = new ParameterFinder($presenterFactory, $storage);
+
+		$cache = Mockery::mock(Cache::class);
+		$cache->shouldReceive('load')
+			->once()
+			->with(Mockery::any(), Mockery::type('callable'))
+			->andReturnUsing(function ($key, $callback) {
+				return $callback($dependencies);
+			});
+
+		$cacheFactory = Mockery::mock(CacheFactory::class);
+		$cacheFactory->shouldReceive('create')
+			->once()
+			->andReturn($cache);
+
+		$this->finder = new ParameterFinder($presenterFactory, $cacheFactory);
 	}
 
 	public function testAction()
