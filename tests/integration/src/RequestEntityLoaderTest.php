@@ -31,6 +31,16 @@ class RequestEntityLoaderTest extends Test
 		], $request->getParameters());
 	}
 
+	public function testIntWithDefault()
+	{
+		$this->guy->amOnPage('/int');
+		$request = $this->guy->grabService(Application::class)->getPresenter()->getRequest();
+		$this->assertSame([
+			'action' => 'int',
+			'parameter' => null,
+		], $request->getParameters());
+	}
+
 	public function testEntity()
 	{
 		$this->guy->amOnPage('/entity/5');

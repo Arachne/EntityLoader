@@ -191,7 +191,7 @@ class ParameterFinder extends Object
 		$info = [];
 		foreach ($reflection->getParameters() as $parameter) {
 			$type = $this->getParameterType($reflection, $parameter);
-			$nullable = $parameter->isOptional() && $parameter->getDefaultValue() === null;
+			$nullable = $parameter->isOptional();
 			$info[$prefix . $parameter->getName()] = $this->createInfoObject($type, $nullable);
 		}
 		return $info;
