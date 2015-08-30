@@ -98,6 +98,19 @@ class ParameterFinderTest extends Test
 		], $this->finder->getMapping($request));
 	}
 
+	public function testNamelessComponent()
+	{
+		$request = new Request('', 'GET', [
+			'action' => 'testAction',
+			'-persistent' => 1,
+		]);
+		$this->assertEquals([
+			'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
+			'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
+			'persistent2' => $this->createInfoObject('string', true),
+		], $this->finder->getMapping($request));
+	}
+
 	/**
 	 * @param string $type
 	 * @param bool $nullable

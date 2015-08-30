@@ -159,6 +159,9 @@ class ParameterFinder extends Object
 			$subComponent = substr($component, $pos + 1);
 			$component = substr($component, 0, $pos);
 		}
+		if ($component === '') {
+			return;
+		}
 		$method = 'createComponent' . ucfirst($component);
 		if ($reflection->hasMethod($method)) {
 			$element = $reflection->getMethod($method);
