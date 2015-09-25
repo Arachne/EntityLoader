@@ -6,7 +6,7 @@ How to run tests
 cd <project_dir>
 
 # install dependencies
-php composer.phar update
+composer update
 
 # run the coding style checker and all tests
 sh ./tests/run.sh
@@ -44,7 +44,7 @@ If you want to run the tests with Nette 2.2 use these commands to install the de
 set COMPOSER=composer-nette_2.2.json
 
 # install dependencies
-php composer.phar update
+composer update
 
 # reset the environment variable to normal
 set COMPOSER=composer.json
