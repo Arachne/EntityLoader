@@ -1,7 +1,7 @@
 common:
 	extensions:
 		arachne.codeception: Arachne\Codeception\DI\CodeceptionExtension
-		arachne.dihelpers: Arachne\DIHelpers\DI\DIHelpersExtension
+		arachne.dihelpers.resolvers: Arachne\DIHelpers\DI\ResolversExtension
 		arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
 		enumag.application: Enumag\Application\DI\ApplicationExtension
 		kdyby.events: Kdyby\Events\DI\EventsExtension

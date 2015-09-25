@@ -12,7 +12,7 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"arachne/di-helpers": "~0.2.0|~0.3.0",
+		"arachne/di-helpers": "~0.2.0|~0.3.0|~0.4.0",
 		"kdyby/events": "~2.2",
 		"nette/application": "~2.2",
 		"nette/caching": "~2.2",

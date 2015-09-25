@@ -12,6 +12,7 @@ namespace Arachne\EntityLoader\DI;
 
 use Arachne\DIHelpers\CompilerExtension;
 use Kdyby\Events\DI\EventsExtension;
+use Nette\Utils\AssertionException;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -22,7 +23,7 @@ class EntityLoaderExtension extends CompilerExtension
 	const TAG_FILTER_IN = 'arachne.entityLoader.filterIn';
 	const TAG_FILTER_OUT = 'arachne.entityLoader.filterOut';
 
-	private static $filters = [
+	private $filters = [
 		'Arachne\EntityLoader\FilterIn\ArrayFilterIn' => 'array',
 		'Arachne\EntityLoader\FilterIn\BooleanFilterIn' => 'bool',
 		'Arachne\EntityLoader\FilterIn\FloatFilterIn' => 'float',
@@ -35,11 +36,17 @@ class EntityLoaderExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$helpers = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
-		$helpers->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
-		$helpers->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
+		if ($extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension')) {
+			$extension->add(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
+			$extension->add(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
+		} elseif ($extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')) {
+			$extension->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
+			$extension->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
+		} else {
+			throw new AssertionException('Cannot add resolvers because arachne/di-helpers is not properly installed.');
+		}
 
-		foreach (self::$filters as $class => $type) {
+		foreach ($this->filters as $class => $type) {
 			$builder->addDefinition($this->prefix('filterIn.' . $type))
 				->setClass($class)
 				->addTag(self::TAG_FILTER_IN, $type);
@@ -68,16 +75,23 @@ class EntityLoaderExtension extends CompilerExtension
 	public function beforeCompile()
 	{
 		$builder = $this->getContainerBuilder();
-		$helpers = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
+
+		if ($extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension')) {
+			$filterInResolver = $extension->get(self::TAG_FILTER_IN);
+			$filterOutResolver = $extension->get(self::TAG_FILTER_OUT);
+		} elseif ($extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')) {
+			$filterInResolver = $extension->getResolver(self::TAG_FILTER_IN);
+			$filterOutResolver = $extension->getResolver(self::TAG_FILTER_OUT);
+		}
 
 		$builder->getDefinition($this->prefix('entityLoader'))
 			->setArguments([
-				'filterInResolver' => '@' . $helpers->getResolver(self::TAG_FILTER_IN),
+				'filterInResolver' => '@' . $filterInResolver,
 			]);
 
 		$builder->getDefinition($this->prefix('entityUnloader'))
 			->setArguments([
-				'filterOutResolver' => '@' . $helpers->getResolver(self::TAG_FILTER_OUT),
+				'filterOutResolver' => '@' . $filterOutResolver,
 			]);
 	}
 
