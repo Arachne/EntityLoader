@@ -13,10 +13,10 @@
 	},
 	"require-dev": {
 		"php": ">=5.5.0",
-		"arachne/codeception": "~0.6.0",
+		"arachne/codeception": "~0.6.3",
 		"arachne/coding-style": "~0.3.0",
 		"codeception/codeception": "~2.1.0",
-		"codeception/mockery-module": "~0.2",
+		"codeception/mockery-module": "~0.2.2",
 		"enumag/application": "~0.3.5",
 		"mockery/mockery": "~0.9",
 		"nette/nette": "~2.2.0",

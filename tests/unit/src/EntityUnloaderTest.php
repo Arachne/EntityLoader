@@ -6,7 +6,7 @@ use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\EntityUnloader;
 use Arachne\EntityLoader\FilterOutInterface;
 use Arachne\EntityLoader\TypeDetectorInterface;
-use Codeception\TestCase\Test;
+use Codeception\MockeryModule\Test;
 use Mockery;
 use Mockery\MockInterface;
 

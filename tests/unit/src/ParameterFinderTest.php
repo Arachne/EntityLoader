@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\Application\ParameterFinder;
-use Codeception\TestCase\Test;
+use Codeception\MockeryModule\Test;
 use Mockery;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;

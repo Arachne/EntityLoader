@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Arachne\EntityLoader\Application\Envelope;
 use Arachne\EntityLoader\Routing\Route;
-use Codeception\TestCase\Test;
+use Codeception\MockeryModule\Test;
 use Mockery;
 use Nette\Application\Request;
 use Nette\Http\Url;

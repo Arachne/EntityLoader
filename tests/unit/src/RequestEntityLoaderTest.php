@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Arachne\EntityLoader\Application\ParameterFinder;
 use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\EntityLoader;
-use Codeception\TestCase\Test;
+use Codeception\MockeryModule\Test;
 use Mockery;
 use Mockery\MockInterface;
 use Nette\Application\Request;

@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\FilterInInterface;
-use Codeception\TestCase\Test;
+use Codeception\MockeryModule\Test;
 use Mockery;
 use Mockery\MockInterface;
 
