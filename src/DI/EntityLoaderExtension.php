@@ -36,10 +36,10 @@ class EntityLoaderExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		if ($extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension')) {
+		if ($extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension', false)) {
 			$extension->add(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
 			$extension->add(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
-		} elseif ($extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')) {
+		} elseif ($extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension', false)) {
 			$extension->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
 			$extension->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
 		} else {
@@ -76,10 +76,10 @@ class EntityLoaderExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		if ($extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension')) {
+		if ($extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension', false)) {
 			$filterInResolver = $extension->get(self::TAG_FILTER_IN);
 			$filterOutResolver = $extension->get(self::TAG_FILTER_OUT);
-		} elseif ($extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension')) {
+		} elseif ($extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension', false)) {
 			$filterInResolver = $extension->getResolver(self::TAG_FILTER_IN);
 			$filterOutResolver = $extension->getResolver(self::TAG_FILTER_OUT);
 		}
