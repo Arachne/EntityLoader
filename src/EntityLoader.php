@@ -41,7 +41,7 @@ class EntityLoader extends Object
 		if ($this->isType($type, $parameter)) {
 			return $parameter;
 		}
-		$value = $this->getfilter($type)->filterIn($parameter);
+		$value = $this->getFilter($type)->filterIn($parameter);
 		if (!$this->isType($type, $value)) {
 			throw new UnexpectedValueException("FilterIn did not return an instance of '$type'.");
 		}
@@ -52,7 +52,7 @@ class EntityLoader extends Object
 	 * @param string $type
 	 * @return filterInInterface
 	 */
-	private function getfilter($type)
+	private function getFilter($type)
 	{
 		$filter = $this->filterInResolver->resolve($type);
 		if (!$filter) {
