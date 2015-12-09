@@ -37,7 +37,8 @@ class EntityUnloader extends Object
 	 */
 	public function filterOut($object)
 	{
-		return $this->getFilter(get_class($object))->filterOut($object);
+		$type = $object instanceof EntityInterface ? $object->getBaseType() : get_class($object);
+		return $this->getFilter($type)->filterOut($object);
 	}
 
 	/**

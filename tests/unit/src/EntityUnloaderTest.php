@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Arachne\DIHelpers\ResolverInterface;
+use Arachne\EntityLoader\EntityInterface;
 use Arachne\EntityLoader\EntityUnloader;
 use Arachne\EntityLoader\FilterOutInterface;
 use Arachne\EntityLoader\TypeDetectorInterface;
@@ -39,7 +40,30 @@ class EntityUnloaderTest extends Test
 			->once()
 			->andReturn($this->filter);
 
-		$mock1 = Mockery::mock('Type1');
+		$mock1 = Mockery::mock();
+
+		$this->filter
+			->shouldReceive('filterOut')
+			->once()
+			->with($mock1)
+			->andReturn('1');
+
+		$this->assertSame('1', $this->entityUnloader->filterOut($mock1));
+	}
+
+	public function testFilterOutEntityInterface()
+	{
+		$this->filterResolver
+			->shouldReceive('resolve')
+			->with(EntityInterface::class)
+			->once()
+			->andReturn($this->filter);
+
+		$mock1 = Mockery::mock(EntityInterface::class);
+		$mock1
+			->shouldReceive('getBaseType')
+			->once()
+			->andReturn(EntityInterface::class);
 
 		$this->filter
 			->shouldReceive('filterOut')
