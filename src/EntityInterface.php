@@ -21,5 +21,4 @@ interface EntityInterface
 	 */
 	public function getBaseType();
 
-} 
-
+}
