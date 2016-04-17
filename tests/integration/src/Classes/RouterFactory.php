@@ -4,8 +4,9 @@ namespace Tests\Integration\Classes;
 
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
 use Arachne\EntityLoader\Routing\Route;
-use Arachne\EntityLoader\Routing\RouteList;
+use Arachne\EntityLoader\Routing\RouterWrapper;
 use Nette\Application\IRouter;
+use Nette\Application\Routers\RouteList;
 use Nette\Object;
 
 /**
@@ -27,11 +28,11 @@ class RouterFactory extends Object
 	 */
 	public function create()
 	{
-		$router = new RouteList($this->unloader);
+		$router = new RouteList();
 		$router[] = new Route('/<action>[/<parameter>]', [
 			'presenter' => 'Article',
 		]);
-		return $router;
+		return new RouterWrapper($router, $this->unloader);
 	}
 
 }

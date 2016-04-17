@@ -12,27 +12,44 @@ namespace Arachne\EntityLoader\Routing;
 
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
 use Nette\Application\Request;
-use Nette\Application\Routers\RouteList as BaseRouteList;
+use Nette\Application\IRouter;
+use Nette\Http\IRequest;
 use Nette\Http\Url;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
- * @deprecated Use Arachne\EntityLoader\Routing\RouterWrapper instead.
  */
-class RouteList extends BaseRouteList
+class RouterWrapper implements IRouter
 {
+
+	/** @var IRouter */
+	private $router;
 
 	/** @var RequestEntityUnloader */
 	private $unloader;
 
+	/** @var bool */
+	private $envelopes;
+
 	/**
+	 * @param IRouter $router
 	 * @param RequestEntityUnloader $unloader
-	 * @param string $module
+	 * @param bool $envelopes
 	 */
-	public function __construct(RequestEntityUnloader $unloader, $module = null)
+	public function __construct(IRouter $router, RequestEntityUnloader $unloader, $envelopes = false)
 	{
-		parent::__construct($module);
+		$this->router = $router;
 		$this->unloader = $unloader;
+		$this->envelopes = $envelopes;
+	}
+
+	/**
+	 * Maps HTTP request to a Request object.
+	 * @return Request|null
+	 */
+	public function match(IRequest $httpRequest)
+	{
+		return $this->router->match($httpRequest);
 	}
 
 	/**
@@ -44,8 +61,8 @@ class RouteList extends BaseRouteList
 	public function constructUrl(Request $request, Url $refUrl)
 	{
 		$request = clone $request;
-		$this->unloader->filterOut($request, true);
-		return parent::constructUrl($request, $refUrl);
+		$this->unloader->filterOut($request, $this->envelopes);
+		return $this->router->constructUrl($request, $refUrl);
 	}
 
 }
