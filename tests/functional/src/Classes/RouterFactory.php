@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Classes;
+namespace Tests\Functional\Classes;
 
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
 use Arachne\EntityLoader\Routing\Route;

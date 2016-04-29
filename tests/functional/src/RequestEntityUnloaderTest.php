@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Integration;
+namespace Tests\Functional;
 
 use Codeception\TestCase\Test;
 use Nette\Application\Application;
-use Tests\Integration\Classes\Article;
+use Tests\Functional\Classes\Article;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>

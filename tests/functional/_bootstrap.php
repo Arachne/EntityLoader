@@ -10,8 +10,7 @@ $configurator->setTempDirectory(__DIR__ . '/../_temp');
 $configurator->setDebugMode(true);
 
 // Create Dependency Injection container from config.neon file
-$section = class_exists(NetteExtension::class) ? 'nette_2.2' : 'nette_2.3';
-$configurator->addConfig(__DIR__ . '/config/config.neon', $section);
+$configurator->addConfig(__DIR__ . '/config/config.neon');
 
 // Don't use this instance for anything else than console commands!
 $container = $configurator->createContainer();

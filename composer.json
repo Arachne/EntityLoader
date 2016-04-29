@@ -46,7 +46,7 @@
 	"autoload-dev": {
 		"psr-4": {
 			"Tests\\Unit\\": "tests/unit/src",
-			"Tests\\Integration\\": "tests/integration/src"
+			"Tests\\Functional\\": "tests/functional/src"
 		}
 	}
 }

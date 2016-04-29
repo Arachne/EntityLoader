@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Integration;
+namespace Tests\Functional;
 
 use Codeception\TestCase\Test;
 use Nette\Application\Application;
-use Tests\Integration\Classes\Article;
+use Tests\Functional\Classes\Article;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -13,7 +13,7 @@ class RequestEntityLoaderTest extends Test
 {
     /**
      * @expectedException Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage No type hint found for $parameter in Tests\Integration\Classes\ArticlePresenter::actionUntyped(). Specify it or use '@param mixed $parameter' to allow any type.
+     * @expectedExceptionMessage No type hint found for $parameter in Tests\Functional\Classes\ArticlePresenter::actionUntyped(). Specify it or use '@param mixed $parameter' to allow any type.
      */
     public function testUntyped()
     {

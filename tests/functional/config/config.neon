@@ -1,0 +1,29 @@
+extensions:
+    arachne.codeception: Arachne\Codeception\DI\CodeceptionExtension
+    arachne.dihelpers.resolvers: Arachne\DIHelpers\DI\ResolversExtension
+    arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    enumag.application: Enumag\Application\DI\ApplicationExtension
+    kdyby.events: Kdyby\Events\DI\EventsExtension
+    nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
+    nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
+    nette.http: Nette\Bridges\HttpDI\HttpExtension
+    oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
+
+nette.application:
+    catchExceptions: null
+    mapping:
+        *: Tests\Functional\Classes\*Presenter
+
+services:
+    routerFactory: Tests\Functional\Classes\RouterFactory
+    router: @routerFactory::create()
+    articleFilterIn:
+        class: Tests\Functional\Classes\ArticleFilterIn
+        tags:
+            arachne.entityLoader.filterIn:
+                - Tests\Functional\Classes\Article
+    articleFilterOut:
+        class: Tests\Functional\Classes\ArticleFilterOut
+        tags:
+            arachne.entityLoader.filterOut:
+                - Tests\Functional\Classes\Article
