@@ -36,15 +36,9 @@ class EntityLoaderExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		if ($extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension', false)) {
-			$extension->add(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
-			$extension->add(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
-		} elseif ($extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension', false)) {
-			$extension->addResolver(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
-			$extension->addResolver(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
-		} else {
-			throw new AssertionException('Cannot add resolvers because arachne/di-helpers is not properly installed.');
-		}
+		$extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension');
+		$extension->add(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
+		$extension->add(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
 
 		foreach ($this->filters as $class => $type) {
 			$builder->addDefinition($this->prefix('filterIn.' . $type))
@@ -76,22 +70,16 @@ class EntityLoaderExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		if ($extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension', false)) {
-			$filterInResolver = $extension->get(self::TAG_FILTER_IN);
-			$filterOutResolver = $extension->get(self::TAG_FILTER_OUT);
-		} elseif ($extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension', false)) {
-			$filterInResolver = $extension->getResolver(self::TAG_FILTER_IN);
-			$filterOutResolver = $extension->getResolver(self::TAG_FILTER_OUT);
-		}
+		$extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension');
 
 		$builder->getDefinition($this->prefix('entityLoader'))
 			->setArguments([
-				'filterInResolver' => '@' . $filterInResolver,
+				'filterInResolver' => '@' . $extension->get(self::TAG_FILTER_IN),
 			]);
 
 		$builder->getDefinition($this->prefix('entityUnloader'))
 			->setArguments([
-				'filterOutResolver' => '@' . $filterOutResolver,
+				'filterOutResolver' => '@' . $extension->get(self::TAG_FILTER_OUT),
 			]);
 	}
 

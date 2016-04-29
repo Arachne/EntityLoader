@@ -12,14 +12,14 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"arachne/di-helpers": "~0.2.0|~0.3.0|~0.4.0",
+		"arachne/di-helpers": "~0.4.0",
 		"kdyby/events": "~2.2|~3.0",
-		"nette/application": "~2.2",
-		"nette/caching": "~2.2",
-		"nette/di": "~2.2",
-		"nette/http": "~2.2",
-		"nette/reflection": "~2.2",
-		"nette/utils": "~2.2",
+		"nette/application": "~2.3",
+		"nette/caching": "~2.3",
+		"nette/di": "~2.3",
+		"nette/http": "~2.3",
+		"nette/reflection": "~2.3",
+		"nette/utils": "~2.3",
 		"oops/cache-factory": "~1.0"
 	},
 	"require-dev": {
@@ -50,11 +50,5 @@
 			"Tests\\Unit\\": "tests/unit/src",
 			"Tests\\Integration\\": "tests/integration/src"
 		}
-	},
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "http://packages.m33.cz"
-		}
-	]
+	}
 }
