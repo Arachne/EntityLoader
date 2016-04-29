@@ -19,39 +19,37 @@ use Nette\Object;
  */
 class EntityUnloader extends Object
 {
+    /** @var ResolverInterface */
+    private $filterOutResolver;
 
-	/** @var ResolverInterface */
-	private $filterOutResolver;
+    /**
+     * @param ResolverInterface $filterOutResolver
+     */
+    public function __construct(ResolverInterface $filterOutResolver)
+    {
+        $this->filterOutResolver = $filterOutResolver;
+    }
 
-	/**
-	 * @param ResolverInterface $filterOutResolver
-	 */
-	public function __construct(ResolverInterface $filterOutResolver)
-	{
-		$this->filterOutResolver = $filterOutResolver;
-	}
+    /**
+     * @param object $object
+     * @return string|array
+     */
+    public function filterOut($object)
+    {
+        $type = $object instanceof EntityInterface ? $object->getBaseType() : get_class($object);
+        return $this->getFilter($type)->filterOut($object);
+    }
 
-	/**
-	 * @param object $object
-	 * @return string|array
-	 */
-	public function filterOut($object)
-	{
-		$type = $object instanceof EntityInterface ? $object->getBaseType() : get_class($object);
-		return $this->getFilter($type)->filterOut($object);
-	}
-
-	/**
-	 * @param string $type
-	 * @return FilterOutInterface
-	 */
-	private function getFilter($type)
-	{
-		$filter = $this->filterOutResolver->resolve($type);
-		if (!$filter) {
-			throw new UnexpectedValueException("No filter out found for type '$type'.");
-		}
-		return $filter;
-	}
-
+    /**
+     * @param string $type
+     * @return FilterOutInterface
+     */
+    private function getFilter($type)
+    {
+        $filter = $this->filterOutResolver->resolve($type);
+        if (!$filter) {
+            throw new UnexpectedValueException("No filter out found for type '$type'.");
+        }
+        return $filter;
+    }
 }

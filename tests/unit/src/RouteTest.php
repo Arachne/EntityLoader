@@ -14,62 +14,60 @@ use Nette\Http\Url;
  */
 class RouteTest extends Test
 {
+    public function testNoGlobalFilterOut()
+    {
+        $route = new Route('', [
+            'presenter' => 'Test',
+            'param1' => [
+                Route::FILTER_OUT => function (Envelope $envelope) {
+                    return $envelope->getObject();
+                },
+            ],
+        ]);
 
-	public function testNoGlobalFilterOut()
-	{
-		$route = new Route('', [
-			'presenter' => 'Test',
-			'param1' => [
-				Route::FILTER_OUT => function (Envelope $envelope) {
-					return $envelope->getObject();
-				},
-			],
-		]);
+        $request = new Request('Test', 'GET', [
+            'param1' => new Envelope('param1_value', 'param1_id'),
+            'param2' => new Envelope('param2_value', 'param2_id'),
+        ]);
 
-		$request = new Request('Test', 'GET', [
-			'param1' => new Envelope('param1_value', 'param1_id'),
-			'param2' => new Envelope('param2_value', 'param2_id'),
-		]);
+        $url = new Url('/');
+        $this->assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
+    }
 
-		$url = new Url('/');
-		$this->assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
-	}
+    public function testGlobalFilterOut()
+    {
+        $mock = Mockery::mock();
+        $mock->shouldReceive('call')
+            ->once()
+            ->with(Mockery::on(function ($parameters) {
+                $this->assertInstanceOf(Envelope::class, $parameters['param1']);
+                $this->assertInstanceOf(Envelope::class, $parameters['param2']);
+                return true;
+            }))
+            ->andReturnUsing(function ($parameters) {
+                return $parameters;
+            });
 
-	public function testGlobalFilterOut()
-	{
-		$mock = Mockery::mock();
-		$mock->shouldReceive('call')
-			->once()
-			->with(Mockery::on(function ($parameters) {
-				$this->assertInstanceOf(Envelope::class, $parameters['param1']);
-				$this->assertInstanceOf(Envelope::class, $parameters['param2']);
-				return true;
-			}))
-			->andReturnUsing(function ($parameters) {
-				return $parameters;
-			});
+        $route = new Route('', [
+            'presenter' => 'Test',
+            'param1' => [
+                Route::FILTER_OUT => function (Envelope $envelope) {
+                    return $envelope->getObject();
+                },
+            ],
+            null => [
+                Route::FILTER_OUT => function ($params) use ($mock) {
+                    return $mock->call($params);
+                },
+            ],
+        ]);
 
-		$route = new Route('', [
-			'presenter' => 'Test',
-			'param1' => [
-				Route::FILTER_OUT => function (Envelope $envelope) {
-					return $envelope->getObject();
-				},
-			],
-			null => [
-				Route::FILTER_OUT => function ($params) use ($mock) {
-					return $mock->call($params);
-				},
-			],
-		]);
+        $request = new Request('Test', 'GET', [
+            'param1' => new Envelope('param1_value', 'param1_id'),
+            'param2' => new Envelope('param2_value', 'param2_id'),
+        ]);
 
-		$request = new Request('Test', 'GET', [
-			'param1' => new Envelope('param1_value', 'param1_id'),
-			'param2' => new Envelope('param2_value', 'param2_id'),
-		]);
-
-		$url = new Url('/');
-		$this->assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
-	}
-
+        $url = new Url('/');
+        $this->assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
+    }
 }

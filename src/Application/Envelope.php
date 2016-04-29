@@ -17,37 +17,35 @@ use Nette\Object;
  */
 class Envelope extends Object
 {
+    /** @var object */
+    private $object;
 
-	/** @var object */
-	private $object;
+    /** @var string|int */
+    private $identifier;
 
-	/** @var string|int */
-	private $identifier;
+    /**
+     * @param object $object
+     * @param string|int $identifier
+     */
+    public function __construct($object, $identifier)
+    {
+        $this->object = $object;
+        $this->identifier = $identifier;
+    }
 
-	/**
-	 * @param object $object
-	 * @param string|int $identifier
-	 */
-	public function __construct($object, $identifier)
-	{
-		$this->object = $object;
-		$this->identifier = $identifier;
-	}
+    /**
+     * @return object
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
 
-	/**
-	 * @return object
-	 */
-	public function getObject()
-	{
-		return $this->object;
-	}
-
-	/**
-	 * @return string|int
-	 */
-	public function getIdentifier()
-	{
-		return $this->identifier;
-	}
-
+    /**
+     * @return string|int
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
 }

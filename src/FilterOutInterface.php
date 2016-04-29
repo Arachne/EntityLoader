@@ -15,11 +15,9 @@ namespace Arachne\EntityLoader;
  */
 interface FilterOutInterface
 {
-
-	/**
-	 * @param object $value
-	 * @return string|array
-	 */
-	public function filterOut($value);
-
+    /**
+     * @param object $value
+     * @return string|array
+     */
+    public function filterOut($value);
 }

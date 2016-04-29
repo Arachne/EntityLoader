@@ -17,12 +17,10 @@ use Nette\Application\BadRequestException;
  */
 interface FilterInInterface
 {
-
-	/**
-	 * @param mixed $value
-	 * @return object
-	 * @throws BadRequestException
-	 */
-	public function filterIn($value);
-
+    /**
+     * @param mixed $value
+     * @return object
+     * @throws BadRequestException
+     */
+    public function filterIn($value);
 }

@@ -18,10 +18,8 @@ use Nette\Object;
  */
 class StringFilterIn extends Object implements FilterInInterface
 {
-
-	public function filterIn($value)
-	{
-		return (string) $value;
-	}
-
+    public function filterIn($value)
+    {
+        return (string) $value;
+    }
 }

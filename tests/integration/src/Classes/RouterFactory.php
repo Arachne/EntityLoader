@@ -14,25 +14,23 @@ use Nette\Object;
  */
 class RouterFactory extends Object
 {
+    /** @var RequestEntityUnloader */
+    protected $unloader;
 
-	/** @var RequestEntityUnloader */
-	protected $unloader;
+    public function __construct(RequestEntityUnloader $unloader)
+    {
+        $this->unloader = $unloader;
+    }
 
-	public function __construct(RequestEntityUnloader $unloader)
-	{
-		$this->unloader = $unloader;
-	}
-
-	/**
-	 * @return IRouter
-	 */
-	public function create()
-	{
-		$router = new RouteList();
-		$router[] = new Route('/<action>[/<parameter>]', [
-			'presenter' => 'Article',
-		]);
-		return new RouterWrapper($router, $this->unloader);
-	}
-
+    /**
+     * @return IRouter
+     */
+    public function create()
+    {
+        $router = new RouteList();
+        $router[] = new Route('/<action>[/<parameter>]', [
+            'presenter' => 'Article',
+        ]);
+        return new RouterWrapper($router, $this->unloader);
+    }
 }

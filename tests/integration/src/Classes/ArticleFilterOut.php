@@ -11,13 +11,11 @@ use Nette\Object;
  */
 class ArticleFilterOut extends Object implements FilterOutInterface
 {
-
-	public function filterOut($value)
-	{
-		if (!$value instanceof Article) {
-			throw new InvalidArgumentException("Entity is not an instance of 'Article'.");
-		}
-		return $value->getValue();
-	}
-
+    public function filterOut($value)
+    {
+        if (!$value instanceof Article) {
+            throw new InvalidArgumentException("Entity is not an instance of 'Article'.");
+        }
+        return $value->getValue();
+    }
 }

@@ -18,10 +18,8 @@ use Nette\Object;
  */
 class ArrayFilterIn extends Object implements FilterInInterface
 {
-
-	public function filterIn($value)
-	{
-		return (array) $value;
-	}
-
+    public function filterIn($value)
+    {
+        return (array) $value;
+    }
 }

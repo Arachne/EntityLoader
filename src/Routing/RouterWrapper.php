@@ -21,48 +21,46 @@ use Nette\Http\Url;
  */
 class RouterWrapper implements IRouter
 {
+    /** @var IRouter */
+    private $router;
 
-	/** @var IRouter */
-	private $router;
+    /** @var RequestEntityUnloader */
+    private $unloader;
 
-	/** @var RequestEntityUnloader */
-	private $unloader;
+    /** @var bool */
+    private $envelopes;
 
-	/** @var bool */
-	private $envelopes;
+    /**
+     * @param IRouter $router
+     * @param RequestEntityUnloader $unloader
+     * @param bool $envelopes
+     */
+    public function __construct(IRouter $router, RequestEntityUnloader $unloader, $envelopes = false)
+    {
+        $this->router = $router;
+        $this->unloader = $unloader;
+        $this->envelopes = $envelopes;
+    }
 
-	/**
-	 * @param IRouter $router
-	 * @param RequestEntityUnloader $unloader
-	 * @param bool $envelopes
-	 */
-	public function __construct(IRouter $router, RequestEntityUnloader $unloader, $envelopes = false)
-	{
-		$this->router = $router;
-		$this->unloader = $unloader;
-		$this->envelopes = $envelopes;
-	}
+    /**
+     * Maps HTTP request to a Request object.
+     * @return Request|null
+     */
+    public function match(IRequest $httpRequest)
+    {
+        return $this->router->match($httpRequest);
+    }
 
-	/**
-	 * Maps HTTP request to a Request object.
-	 * @return Request|null
-	 */
-	public function match(IRequest $httpRequest)
-	{
-		return $this->router->match($httpRequest);
-	}
-
-	/**
-	 * Constructs absolute URL from Request object.
-	 * @param Request $request
-	 * @param Url $refUrl
-	 * @return string|null
-	 */
-	public function constructUrl(Request $request, Url $refUrl)
-	{
-		$request = clone $request;
-		$this->unloader->filterOut($request, $this->envelopes);
-		return $this->router->constructUrl($request, $refUrl);
-	}
-
+    /**
+     * Constructs absolute URL from Request object.
+     * @param Request $request
+     * @param Url $refUrl
+     * @return string|null
+     */
+    public function constructUrl(Request $request, Url $refUrl)
+    {
+        $request = clone $request;
+        $this->unloader->filterOut($request, $this->envelopes);
+        return $this->router->constructUrl($request, $refUrl);
+    }
 }

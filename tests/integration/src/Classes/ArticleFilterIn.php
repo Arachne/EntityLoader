@@ -10,10 +10,8 @@ use Nette\Object;
  */
 class ArticleFilterIn extends Object implements FilterInInterface
 {
-
-	public function filterIn($value)
-	{
-		return new Article($value);
-	}
-
+    public function filterIn($value)
+    {
+        return new Article($value);
+    }
 }

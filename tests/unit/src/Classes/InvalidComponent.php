@@ -10,16 +10,14 @@ use Nette\Application\UI\PresenterComponent;
  */
 class InvalidComponent extends PresenterComponent
 {
+    /**
+     * @persistent
+     * @var $invalid
+     */
+    public $persistent;
 
-	/**
-	 * @persistent
-	 * @var $invalid
-	 */
-	public $persistent;
-
-	final public function __construct()
-	{
-		throw new Exception('This class is there for annotations only.');
-	}
-
+    final public function __construct()
+    {
+        throw new Exception('This class is there for annotations only.');
+    }
 }

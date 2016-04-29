@@ -20,41 +20,39 @@ use Nette\Object;
  */
 class RequestEntityLoader extends Object
 {
+    /** @var EntityLoader */
+    private $entityLoader;
 
-	/** @var EntityLoader */
-	private $entityLoader;
+    /** @var ParameterFinder */
+    private $finder;
 
-	/** @var ParameterFinder */
-	private $finder;
+    /**
+     * @param EntityLoader $entityLoader
+     * @param ParameterFinder $finder
+     */
+    public function __construct(EntityLoader $entityLoader, ParameterFinder $finder)
+    {
+        $this->entityLoader = $entityLoader;
+        $this->finder = $finder;
+    }
 
-	/**
-	 * @param EntityLoader $entityLoader
-	 * @param ParameterFinder $finder
-	 */
-	public function __construct(EntityLoader $entityLoader, ParameterFinder $finder)
-	{
-		$this->entityLoader = $entityLoader;
-		$this->finder = $finder;
-	}
-
-	/**
-	 * @param Request $request
-	 */
-	public function filterIn(Request $request)
-	{
-		$mapping = $this->finder->getMapping($request);
-		$parameters = $request->getParameters();
-		foreach ($mapping as $name => $info) {
-			if (!isset($parameters[$name])) {
-				if ($info->nullable) {
-					continue;
-				} else {
-					throw new UnexpectedValueException("Parameter '$name' can't be null.");
-				}
-			}
-			$parameters[$name] = $this->entityLoader->filterIn($info->type, $parameters[$name]);
-		}
-		$request->setParameters($parameters);
-	}
-
+    /**
+     * @param Request $request
+     */
+    public function filterIn(Request $request)
+    {
+        $mapping = $this->finder->getMapping($request);
+        $parameters = $request->getParameters();
+        foreach ($mapping as $name => $info) {
+            if (!isset($parameters[$name])) {
+                if ($info->nullable) {
+                    continue;
+                } else {
+                    throw new UnexpectedValueException("Parameter '$name' can't be null.");
+                }
+            }
+            $parameters[$name] = $this->entityLoader->filterIn($info->type, $parameters[$name]);
+        }
+        $request->setParameters($parameters);
+    }
 }

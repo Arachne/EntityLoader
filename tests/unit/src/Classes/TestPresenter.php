@@ -10,81 +10,79 @@ use Nette\Application\UI\Presenter;
  */
 class TestPresenter extends Presenter
 {
+    /**
+     * @persistent
+     * @var Class1
+     */
+    public $persistent1;
 
-	/**
-	 * @persistent
-	 * @var Class1
-	 */
-	public $persistent1;
+    /**
+     * @persistent
+     * @var string
+     */
+    public $persistent2;
 
-	/**
-	 * @persistent
-	 * @var string
-	 */
-	public $persistent2;
+    final public function __construct()
+    {
+        throw new Exception('This class is there for annotations only.');
+    }
 
-	final public function __construct()
-	{
-		throw new Exception('This class is there for annotations only.');
-	}
+    public function actionTestAction(Class2 $actionEntity)
+    {
+    }
 
-	public function actionTestAction(Class2 $actionEntity)
-	{
-	}
+    public function renderTestRender(Class3 $renderEntity)
+    {
+    }
 
-	public function renderTestRender(Class3 $renderEntity)
-	{
-	}
+    public function handleTestHandle(Class4 $handleEntity)
+    {
+    }
 
-	public function handleTestHandle(Class4 $handleEntity)
-	{
-	}
+    /**
+     * @param $invalid
+     */
+    public function handleInvalidTypehintHandle($handleEntity)
+    {
+    }
 
-	/**
-	 * @param $invalid
-	 */
-	public function handleInvalidTypehintHandle($handleEntity)
-	{
-	}
+    /**
+     * @param type $another
+     */
+    public function handleMissingTypehintHandle($handleEntity)
+    {
+    }
 
-	/**
-	 * @param type $another
-	 */
-	public function handleMissingTypehintHandle($handleEntity)
-	{
-	}
+    public function handleNoTypehintHandle($handleEntity)
+    {
+    }
 
-	public function handleNoTypehintHandle($handleEntity)
-	{
-	}
+    public function actionNonexistentParameter($entity)
+    {
+    }
 
-	public function actionNonexistentParameter($entity)
-	{
-	}
+    /**
+     * @return TestComponent
+     */
+    protected function createComponentComponent()
+    {
+    }
 
-	/**
-	 * @return TestComponent
-	 */
-	protected function createComponentComponent()
-	{
-	}
+    /**
+     * @return InvalidComponent
+     */
+    protected function createComponentInvalid()
+    {
+    }
 
-	/**
-	 * @return InvalidComponent
-	 */
-	protected function createComponentInvalid()
-	{
-	}
+    /**
+     * @return NonexistentComponent
+     */
+    protected function createComponentNonexistentComponent()
+    {
+    }
 
-	/**
-	 * @return NonexistentComponent
-	 */
-	protected function createComponentNonexistentComponent()
-	{
-	}
-
-	protected function createComponentMissingTypehint()
-	{
-	}
-
+    protected function createComponentMissingTypehint()
+    {
+    }
 }

@@ -1,43 +1,43 @@
 common:
-	extensions:
-		arachne.codeception: Arachne\Codeception\DI\CodeceptionExtension
-		arachne.dihelpers.resolvers: Arachne\DIHelpers\DI\ResolversExtension
-		arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
-		enumag.application: Enumag\Application\DI\ApplicationExtension
-		kdyby.events: Kdyby\Events\DI\EventsExtension
-		oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
+    extensions:
+        arachne.codeception: Arachne\Codeception\DI\CodeceptionExtension
+        arachne.dihelpers.resolvers: Arachne\DIHelpers\DI\ResolversExtension
+        arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
+        enumag.application: Enumag\Application\DI\ApplicationExtension
+        kdyby.events: Kdyby\Events\DI\EventsExtension
+        oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
 
-	services:
-		routerFactory: Tests\Integration\Classes\RouterFactory
-		router: @routerFactory::create()
-		articleFilterIn:
-			class: Tests\Integration\Classes\ArticleFilterIn
-			tags:
-				arachne.entityLoader.filterIn:
-					- Tests\Integration\Classes\Article
-		articleFilterOut:
-			class: Tests\Integration\Classes\ArticleFilterOut
-			tags:
-				arachne.entityLoader.filterOut:
-					- Tests\Integration\Classes\Article
+    services:
+        routerFactory: Tests\Integration\Classes\RouterFactory
+        router: @routerFactory::create()
+        articleFilterIn:
+            class: Tests\Integration\Classes\ArticleFilterIn
+            tags:
+                arachne.entityLoader.filterIn:
+                    - Tests\Integration\Classes\Article
+        articleFilterOut:
+            class: Tests\Integration\Classes\ArticleFilterOut
+            tags:
+                arachne.entityLoader.filterOut:
+                    - Tests\Integration\Classes\Article
 
 nette_2.2 < common:
-	extensions:
-		nette: Nette\Bridges\Framework\NetteExtension
+    extensions:
+        nette: Nette\Bridges\Framework\NetteExtension
 
-	nette:
-		application:
-			catchExceptions: null
-			mapping:
-				*: Tests\Integration\Classes\*Presenter
+    nette:
+        application:
+            catchExceptions: null
+            mapping:
+                *: Tests\Integration\Classes\*Presenter
 
 nette_2.3 < common:
-	extensions:
-		nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
-		nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
-		nette.http: Nette\Bridges\HttpDI\HttpExtension
+    extensions:
+        nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
+        nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
+        nette.http: Nette\Bridges\HttpDI\HttpExtension
 
-	nette.application:
-		catchExceptions: null
-		mapping:
-			*: Tests\Integration\Classes\*Presenter
+    nette.application:
+        catchExceptions: null
+        mapping:
+            *: Tests\Integration\Classes\*Presenter

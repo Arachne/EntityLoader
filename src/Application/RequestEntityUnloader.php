@@ -19,32 +19,30 @@ use Nette\Object;
  */
 class RequestEntityUnloader extends Object
 {
+    /** @var EntityUnloader */
+    private $entityUnloader;
 
-	/** @var EntityUnloader */
-	private $entityUnloader;
+    /**
+     * @param EntityUnloader $entityUnloader
+     */
+    public function __construct(EntityUnloader $entityUnloader)
+    {
+        $this->entityUnloader = $entityUnloader;
+    }
 
-	/**
-	 * @param EntityUnloader $entityUnloader
-	 */
-	public function __construct(EntityUnloader $entityUnloader)
-	{
-		$this->entityUnloader = $entityUnloader;
-	}
-
-	/**
-	 * @param Request $request
-	 * @param bool $envelopes
-	 */
-	public function filterOut(Request $request, $envelopes = false)
-	{
-		$parameters = $request->getParameters();
-		foreach ($parameters as &$value) {
-			if (is_object($value)) {
-				$parameter = $this->entityUnloader->filterOut($value);
-				$value = $envelopes ? new Envelope($value, $parameter) : $parameter;
-			}
-		}
-		$request->setParameters($parameters);
-	}
-
+    /**
+     * @param Request $request
+     * @param bool $envelopes
+     */
+    public function filterOut(Request $request, $envelopes = false)
+    {
+        $parameters = $request->getParameters();
+        foreach ($parameters as &$value) {
+            if (is_object($value)) {
+                $parameter = $this->entityUnloader->filterOut($value);
+                $value = $envelopes ? new Envelope($value, $parameter) : $parameter;
+            }
+        }
+        $request->setParameters($parameters);
+    }
 }

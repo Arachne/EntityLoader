@@ -21,31 +21,29 @@ use Nette\Http\Url;
  */
 class RouteList extends BaseRouteList
 {
+    /** @var RequestEntityUnloader */
+    private $unloader;
 
-	/** @var RequestEntityUnloader */
-	private $unloader;
+    /**
+     * @param RequestEntityUnloader $unloader
+     * @param string $module
+     */
+    public function __construct(RequestEntityUnloader $unloader, $module = null)
+    {
+        parent::__construct($module);
+        $this->unloader = $unloader;
+    }
 
-	/**
-	 * @param RequestEntityUnloader $unloader
-	 * @param string $module
-	 */
-	public function __construct(RequestEntityUnloader $unloader, $module = null)
-	{
-		parent::__construct($module);
-		$this->unloader = $unloader;
-	}
-
-	/**
-	 * Constructs absolute URL from Request object.
-	 * @param Request $request
-	 * @param Url $refUrl
-	 * @return string|null
-	 */
-	public function constructUrl(Request $request, Url $refUrl)
-	{
-		$request = clone $request;
-		$this->unloader->filterOut($request, true);
-		return parent::constructUrl($request, $refUrl);
-	}
-
+    /**
+     * Constructs absolute URL from Request object.
+     * @param Request $request
+     * @param Url $refUrl
+     * @return string|null
+     */
+    public function constructUrl(Request $request, Url $refUrl)
+    {
+        $request = clone $request;
+        $this->unloader->filterOut($request, true);
+        return parent::constructUrl($request, $refUrl);
+    }
 }

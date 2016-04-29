@@ -18,10 +18,8 @@ use Nette\Object;
  */
 class FloatFilterIn extends Object implements FilterInInterface
 {
-
-	public function filterIn($value)
-	{
-		return (float) $value;
-	}
-
+    public function filterIn($value)
+    {
+        return (float) $value;
+    }
 }

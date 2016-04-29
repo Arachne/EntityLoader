@@ -24,42 +24,40 @@ use Nette\Object;
  */
 class ApplicationListener extends Object implements Subscriber
 {
+    /** @var RequestEntityLoader */
+    private $loader;
 
-	/** @var RequestEntityLoader */
-	private $loader;
+    /**
+     * @param RequestEntityLoader $loader
+     */
+    public function __construct(RequestEntityLoader $loader)
+    {
+        $this->loader = $loader;
+    }
 
-	/**
-	 * @param RequestEntityLoader $loader
-	 */
-	public function __construct(RequestEntityLoader $loader)
-	{
-		$this->loader = $loader;
-	}
+    /**
+     * @return array
+     */
+    public function getSubscribedEvents()
+    {
+        return [
+            'Nette\Application\Application::onRequest' => 'requestHandler',
+        ];
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getSubscribedEvents()
-	{
-		return [
-			'Nette\Application\Application::onRequest' => 'requestHandler',
-		];
-	}
-
-	/**
-	 * @param Application $application
-	 * @param Request $request
-	 * @throws BadRequestException
-	 */
-	public function requestHandler(Application $application, Request $request)
-	{
-		try {
-			$this->loader->filterIn($request);
-		} catch (InvalidPresenterException $e) {
-			throw new BadRequestException('Request has invalid presenter.', IResponse::S404_NOT_FOUND, $e);
-		} catch (UnexpectedValueException $e) {
-			throw new BadRequestException('Request has invalid parameter.', IResponse::S404_NOT_FOUND, $e);
-		}
-	}
-
+    /**
+     * @param Application $application
+     * @param Request $request
+     * @throws BadRequestException
+     */
+    public function requestHandler(Application $application, Request $request)
+    {
+        try {
+            $this->loader->filterIn($request);
+        } catch (InvalidPresenterException $e) {
+            throw new BadRequestException('Request has invalid presenter.', IResponse::S404_NOT_FOUND, $e);
+        } catch (UnexpectedValueException $e) {
+            throw new BadRequestException('Request has invalid parameter.', IResponse::S404_NOT_FOUND, $e);
+        }
+    }
 }

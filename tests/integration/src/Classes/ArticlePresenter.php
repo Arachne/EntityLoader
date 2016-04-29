@@ -9,25 +9,23 @@ use Nette\Application\UI\Presenter;
  */
 class ArticlePresenter extends Presenter
 {
+    public function startup()
+    {
+        $this->terminate();
+    }
 
-	public function startup()
-	{
-		$this->terminate();
-	}
+    public function actionUntyped($parameter)
+    {
+    }
 
-	public function actionUntyped($parameter)
-	{
-	}
+    /**
+     * @param int $parameter
+     */
+    public function actionInt($parameter = 1)
+    {
+    }
 
-	/**
-	 * @param int $parameter
-	 */
-	public function actionInt($parameter = 1)
-	{
-	}
-
-	public function actionEntity(Article $parameter)
-	{
-	}
-
+    public function actionEntity(Article $parameter)
+    {
+    }
 }
