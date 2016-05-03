@@ -71,7 +71,7 @@ trait EntityLoaderPresenterTrait
     }
 
     /**
-     * Restores current request to session.
+     * Restores request from session.
      * @param string $key
      */
     public function restoreRequest($key)
