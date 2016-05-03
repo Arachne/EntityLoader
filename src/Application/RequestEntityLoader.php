@@ -20,16 +20,16 @@ use Nette\Object;
  */
 class RequestEntityLoader extends Object
 {
-    /** @var EntityLoader */
+    /**
+     * @var EntityLoader
+     */
     private $entityLoader;
 
-    /** @var ParameterFinder */
+    /**
+     * @var ParameterFinder
+     */
     private $finder;
 
-    /**
-     * @param EntityLoader $entityLoader
-     * @param ParameterFinder $finder
-     */
     public function __construct(EntityLoader $entityLoader, ParameterFinder $finder)
     {
         $this->entityLoader = $entityLoader;

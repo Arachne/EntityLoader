@@ -21,13 +21,19 @@ use Nette\Http\Url;
  */
 class RouterWrapper implements IRouter
 {
-    /** @var IRouter */
+    /**
+     * @var IRouter
+     */
     private $router;
 
-    /** @var RequestEntityUnloader */
+    /**
+     * @var RequestEntityUnloader
+     */
     private $unloader;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     private $envelopes;
 
     /**
@@ -44,6 +50,7 @@ class RouterWrapper implements IRouter
 
     /**
      * Maps HTTP request to a Request object.
+     *
      * @return Request|null
      */
     public function match(IRequest $httpRequest)
@@ -53,6 +60,7 @@ class RouterWrapper implements IRouter
 
     /**
      * Constructs absolute URL from Request object.
+     *
      * @param Request $request
      * @param Url $refUrl
      * @return string|null

@@ -17,10 +17,14 @@ use Nette\Object;
  */
 class Envelope extends Object
 {
-    /** @var object */
+    /**
+     * @var object
+     */
     private $object;
 
-    /** @var string|int */
+    /**
+     * @var string|int
+     */
     private $identifier;
 
     /**

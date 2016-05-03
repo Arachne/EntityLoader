@@ -26,7 +26,7 @@ class Route extends BaseRoute
      */
     public function __construct($mask, $metadata = [], $flags = 0)
     {
-        // Copied from Nette\Application\Routers\Route::__construct()
+        // Copied from Nette\Application\Routers\Route::__construct().
         if (is_string($metadata)) {
             $pos = strrpos($metadata, ':');
             if (!$pos) {
@@ -43,7 +43,7 @@ class Route extends BaseRoute
             ];
         }
 
-        // Filter for handling Envelopes correctly
+        // Filter for handling Envelopes correctly.
         $filter = function (array $parameters) use ($metadata) {
             foreach ($parameters as $key => & $value) {
                 if ($value instanceof Envelope && !isset($metadata[$key][self::FILTER_OUT])) {
@@ -53,7 +53,7 @@ class Route extends BaseRoute
             return $parameters;
         };
 
-        // Hack to invoke the filter after original global filter
+        // Hack to invoke the filter after original global filter.
         if (isset($metadata[null][self::FILTER_OUT])) {
             $original = $metadata[null][self::FILTER_OUT];
             $metadata[null][self::FILTER_OUT] = function (array $parameters) use ($original, $filter) {

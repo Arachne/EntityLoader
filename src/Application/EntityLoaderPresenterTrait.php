@@ -21,19 +21,21 @@ use Nette\Security\User;
  */
 trait EntityLoaderPresenterTrait
 {
-    /** @var RequestEntityLoader */
+    /**
+     * @var RequestEntityLoader
+     */
     private $loader;
 
-    /** @var RequestEntityUnloader */
+    /**
+     * @var RequestEntityUnloader
+     */
     private $unloader;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     private $user;
 
-    /**
-     * @param RequestEntityLoader $loader
-     * @param RequestEntityUnloader $unloader
-     */
     final public function injectEntityLoader(RequestEntityLoader $loader, RequestEntityUnloader $unloader, User $user = null)
     {
         $this->loader = $loader;
@@ -43,6 +45,7 @@ trait EntityLoaderPresenterTrait
 
     /**
      * Stores request to session.
+     *
      * @param Request $request
      * @param mixed $expiration
      * @return string
@@ -72,6 +75,7 @@ trait EntityLoaderPresenterTrait
 
     /**
      * Restores request from session.
+     *
      * @param string $key
      */
     public function restoreRequest($key)

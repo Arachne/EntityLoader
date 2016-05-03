@@ -32,7 +32,9 @@ use Oops\CacheFactory\Caching\CacheFactory;
  */
 class ParameterFinder extends Object
 {
-    /** @var string[] */
+    /**
+     * @var string[]
+     */
     private static $simpleTypes = [
         'int' => 'int',
         'integer' => 'int',
@@ -48,10 +50,14 @@ class ParameterFinder extends Object
         'mixed' => 'mixed',
     ];
 
-    /** @var IPresenterFactory */
+    /**
+     * @var IPresenterFactory
+     */
     private $presenterFactory;
 
-    /** @var Cache */
+    /**
+     * @var Cache
+     */
     private $cache;
 
     public function __construct(IPresenterFactory $presenterFactory, CacheFactory $cacheFactory)
@@ -62,6 +68,7 @@ class ParameterFinder extends Object
 
     /**
      * Returns parameters information based on the request.
+     *
      * @return StdClass[]
      */
     public function getMapping(Request $request)

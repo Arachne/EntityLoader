@@ -15,13 +15,19 @@ use Nette\Application\Request;
  */
 class RequestEntityLoaderTest extends Test
 {
-    /** @var RequestEntityLoader */
+    /**
+     * @var RequestEntityLoader
+     */
     private $requestEntityLoader;
 
-    /** @var MockInterface */
+    /**
+     * @var MockInterface
+     */
     private $entityLoader;
 
-    /** @var MockInterface */
+    /**
+     * @var MockInterface
+     */
     private $finder;
 
     protected function _before()

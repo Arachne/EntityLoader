@@ -19,12 +19,11 @@ use Nette\Object;
  */
 class EntityLoader extends Object
 {
-    /** @var ResolverInterface */
+    /**
+     * @var ResolverInterface
+     */
     private $filterInResolver;
 
-    /**
-     * @param ResolverInterface $filterInResolver
-     */
     public function __construct(ResolverInterface $filterInResolver)
     {
         $this->filterInResolver = $filterInResolver;

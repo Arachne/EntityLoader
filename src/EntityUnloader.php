@@ -19,12 +19,11 @@ use Nette\Object;
  */
 class EntityUnloader extends Object
 {
-    /** @var ResolverInterface */
+    /**
+     * @var ResolverInterface
+     */
     private $filterOutResolver;
 
-    /**
-     * @param ResolverInterface $filterOutResolver
-     */
     public function __construct(ResolverInterface $filterOutResolver)
     {
         $this->filterOutResolver = $filterOutResolver;

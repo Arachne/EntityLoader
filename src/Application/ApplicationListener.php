@@ -24,12 +24,11 @@ use Nette\Object;
  */
 class ApplicationListener extends Object implements Subscriber
 {
-    /** @var RequestEntityLoader */
+    /**
+     * @var RequestEntityLoader
+     */
     private $loader;
 
-    /**
-     * @param RequestEntityLoader $loader
-     */
     public function __construct(RequestEntityLoader $loader)
     {
         $this->loader = $loader;

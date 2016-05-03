@@ -16,7 +16,9 @@ use Tests\Unit\Classes\TestPresenter;
  */
 class ParameterFinderExceptionsTest extends Test
 {
-    /** @var ParameterFinder */
+    /**
+     * @var ParameterFinder
+     */
     private $finder;
 
     protected function _before()

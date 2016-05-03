@@ -14,13 +14,19 @@ use Mockery\MockInterface;
  */
 class EntityLoaderTest extends Test
 {
-    /** @var EntityLoader */
+    /**
+     * @var EntityLoader
+     */
     private $entityLoader;
 
-    /** @var MockInterface */
+    /**
+     * @var MockInterface
+     */
     private $filter;
 
-    /** @var MockInterface */
+    /**
+     * @var MockInterface
+     */
     private $filterResolver;
 
     protected function _before()
@@ -70,11 +76,9 @@ class EntityLoaderTest extends Test
         $this->entityLoader->filterIn('Type1', 1);
     }
 
-    /**
-     * Make sure that the converter is not called at all if the parameter already has the desired type.
-     */
     public function testFilterInIgnore()
     {
+        // Make sure that the converter is not called at all if the parameter already has the desired type.
         $mock1 = Mockery::mock('Type1');
         $this->assertSame($mock1, $this->entityLoader->filterIn('Type1', $mock1));
     }

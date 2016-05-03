@@ -19,12 +19,11 @@ use Nette\Object;
  */
 class RequestEntityUnloader extends Object
 {
-    /** @var EntityUnloader */
+    /**
+     * @var EntityUnloader
+     */
     private $entityUnloader;
 
-    /**
-     * @param EntityUnloader $entityUnloader
-     */
     public function __construct(EntityUnloader $entityUnloader)
     {
         $this->entityUnloader = $entityUnloader;

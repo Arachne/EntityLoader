@@ -16,13 +16,19 @@ use Mockery\MockInterface;
  */
 class EntityUnloaderTest extends Test
 {
-    /** @var EntityUnloader */
+    /**
+     * @var EntityUnloader
+     */
     private $entityUnloader;
 
-    /** @var MockInterface */
+    /**
+     * @var MockInterface
+     */
     private $filter;
 
-    /** @var MockInterface */
+    /**
+     * @var MockInterface
+     */
     private $filterResolver;
 
     protected function _before()

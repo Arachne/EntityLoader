@@ -15,10 +15,14 @@ use Nette\Application\Request;
  */
 class RequestEntityUnloaderTest extends Test
 {
-    /** @var RequestEntityUnloader */
+    /**
+     * @var RequestEntityUnloader
+     */
     private $requestEntityUnloader;
 
-    /** @var MockInterface */
+    /**
+     * @var MockInterface
+     */
     private $entityUnloader;
 
     protected function _before()

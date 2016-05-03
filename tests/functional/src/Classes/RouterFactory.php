@@ -14,7 +14,9 @@ use Nette\Object;
  */
 class RouterFactory extends Object
 {
-    /** @var RequestEntityUnloader */
+    /**
+     * var RequestEntityUnloader
+     */
     protected $unloader;
 
     public function __construct(RequestEntityUnloader $unloader)

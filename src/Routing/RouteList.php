@@ -21,7 +21,9 @@ use Nette\Http\Url;
  */
 class RouteList extends BaseRouteList
 {
-    /** @var RequestEntityUnloader */
+    /**
+     * @var RequestEntityUnloader
+     */
     private $unloader;
 
     /**
@@ -36,6 +38,7 @@ class RouteList extends BaseRouteList
 
     /**
      * Constructs absolute URL from Request object.
+     *
      * @param Request $request
      * @param Url $refUrl
      * @return string|null
