@@ -30,12 +30,6 @@
 		"codeception/mockery-module": "~0.2.2",
 		"enumag/application": "~0.3.5",
 		"mockery/mockery": "~0.9",
-		"nette/application": "~2.3",
-		"nette/caching": "~2.3",
-		"nette/di": "~2.3",
-		"nette/http": "~2.3",
-		"nette/reflection": "~2.3",
-		"nette/utils": "~2.3",
 		"tracy/tracy": "~2.3"
 	},
 	"autoload": {
