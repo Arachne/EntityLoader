@@ -14,6 +14,7 @@ use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
 use Nette\Application\Request;
 use Nette\Utils\Strings;
+use Nette\Security\User;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -26,14 +27,18 @@ trait EntityLoaderPresenterTrait
     /** @var RequestEntityUnloader */
     private $unloader;
 
+    /** @var User */
+    private $user;
+
     /**
      * @param RequestEntityLoader $loader
      * @param RequestEntityUnloader $unloader
      */
-    final public function injectEntityLoader(RequestEntityLoader $loader, RequestEntityUnloader $unloader)
+    final public function injectEntityLoader(RequestEntityLoader $loader, RequestEntityUnloader $unloader, User $user = null)
     {
         $this->loader = $loader;
         $this->unloader = $unloader;
+        $this->user = $user;
     }
 
     /**
@@ -60,7 +65,7 @@ trait EntityLoaderPresenterTrait
             $key = Strings::random(5);
         } while (isset($session[$key]));
 
-        $session[$key] = [ $this->getUser()->getId(), $request ];
+        $session[$key] = [ $this->user ? $this->user->getId() : null, $request ];
         $session->setExpiration($expiration, $key);
         return $key;
     }
@@ -72,7 +77,7 @@ trait EntityLoaderPresenterTrait
     public function restoreRequest($key)
     {
         $session = $this->getSession('Arachne.Application/requests');
-        if (!isset($session[$key]) || ($session[$key][0] !== null && $session[$key][0] !== $this->getUser()->getId())) {
+        if (!isset($session[$key]) || ($this->user && $session[$key][0] !== null && $session[$key][0] !== $this->user->getId())) {
             return;
         }
         $request = clone $session[$key][1];
