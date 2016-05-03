@@ -4,12 +4,11 @@ namespace Tests\Functional\Classes;
 
 use Arachne\EntityLoader\FilterOutInterface;
 use InvalidArgumentException;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class ArticleFilterOut extends Object implements FilterOutInterface
+class ArticleFilterOut implements FilterOutInterface
 {
     public function filterOut($value)
     {

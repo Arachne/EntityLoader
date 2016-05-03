@@ -17,12 +17,11 @@ use Nette\Application\BadRequestException;
 use Nette\Application\InvalidPresenterException;
 use Nette\Application\Request;
 use Nette\Http\IResponse;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class ApplicationListener extends Object implements Subscriber
+class ApplicationListener implements Subscriber
 {
     /**
      * @var RequestEntityLoader

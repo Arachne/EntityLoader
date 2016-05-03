@@ -13,12 +13,11 @@ namespace Arachne\EntityLoader\Application;
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Nette\Application\Request;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class RequestEntityLoader extends Object
+class RequestEntityLoader
 {
     /**
      * @var EntityLoader

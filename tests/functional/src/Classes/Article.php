@@ -2,12 +2,10 @@
 
 namespace Tests\Functional\Classes;
 
-use Nette\Object;
-
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class Article extends Object
+class Article
 {
     private $value;
 

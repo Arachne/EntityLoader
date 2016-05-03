@@ -12,12 +12,11 @@ namespace Arachne\EntityLoader;
 
 use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class EntityUnloader extends Object
+class EntityUnloader
 {
     /**
      * @var ResolverInterface

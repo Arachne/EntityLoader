@@ -17,7 +17,6 @@ use Nette\Application\UI\Presenter;
 use Nette\Application\UI\PresenterComponentReflection;
 use Nette\Caching\Cache;
 use Nette\ComponentModel\IComponent;
-use Nette\Object;
 use Nette\Reflection\AnnotationsParser;
 use Nette\Reflection\ClassType;
 use Nette\Reflection\Method;
@@ -30,7 +29,7 @@ use Oops\CacheFactory\Caching\CacheFactory;
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class ParameterFinder extends Object
+class ParameterFinder
 {
     /**
      * @var string[]

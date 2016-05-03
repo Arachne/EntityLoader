@@ -11,12 +11,11 @@
 namespace Arachne\EntityLoader\FilterIn;
 
 use Arachne\EntityLoader\FilterInInterface;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class MixedFilterIn extends Object implements FilterInInterface
+class MixedFilterIn implements FilterInInterface
 {
     public function filterIn($value)
     {

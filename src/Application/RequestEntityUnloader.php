@@ -12,12 +12,11 @@ namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\EntityUnloader;
 use Nette\Application\Request;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class RequestEntityUnloader extends Object
+class RequestEntityUnloader
 {
     /**
      * @var EntityUnloader

@@ -7,12 +7,11 @@ use Arachne\EntityLoader\Routing\Route;
 use Arachne\EntityLoader\Routing\RouterWrapper;
 use Nette\Application\IRouter;
 use Nette\Application\Routers\RouteList;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class RouterFactory extends Object
+class RouterFactory
 {
     /**
      * var RequestEntityUnloader

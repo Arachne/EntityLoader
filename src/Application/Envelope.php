@@ -10,12 +10,10 @@
 
 namespace Arachne\EntityLoader\Application;
 
-use Nette\Object;
-
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class Envelope extends Object
+class Envelope
 {
     /**
      * @var object
