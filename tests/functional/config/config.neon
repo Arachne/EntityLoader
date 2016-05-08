@@ -1,9 +1,10 @@
 extensions:
     arachne.codeception: Arachne\Codeception\DI\CodeceptionExtension
+    arachne.containeradaper: Arachne\ContainerAdapter\DI\ContainerAdapterExtension
     arachne.dihelpers.resolvers: Arachne\DIHelpers\DI\ResolversExtension
     arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    arachne.eventdispatcher: Arachne\EventDispatcher\DI\EventDispatcherExtension
     enumag.application: Enumag\Application\DI\ApplicationExtension
-    kdyby.events: Kdyby\Events\DI\EventsExtension
     nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
     nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
     nette.http: Nette\Bridges\HttpDI\HttpExtension

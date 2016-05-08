@@ -13,12 +13,10 @@
 	"require": {
 		"php": ">=5.4.0",
 		"arachne/di-helpers": "~0.4.0",
-		"kdyby/events": "~2.2|~3.0",
 		"nette/application": "~2.3",
 		"nette/caching": "~2.3",
 		"nette/di": "~2.3",
 		"nette/http": "~2.3",
-		"nette/reflection": "~2.3",
 		"nette/utils": "~2.3",
 		"oops/cache-factory": "~1.0"
 	},
@@ -26,6 +24,7 @@
 		"php": ">=5.5.0",
 		"arachne/bootstrap": "~0.2.1",
 		"arachne/codeception": "~0.6.3",
+        "arachne/event-dispatcher": "~0.1.0",
 		"codeception/codeception": "~2.1.0",
 		"codeception/mockery-module": "~0.2.2",
 		"enumag/application": "~0.3.5",
