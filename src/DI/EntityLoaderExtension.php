@@ -20,7 +20,16 @@ use Nette\Utils\AssertionException;
  */
 class EntityLoaderExtension extends CompilerExtension
 {
+    /**
+     * EntityLoader uses filters with this tag to convert http parameters to application parameters.
+     * The classes handled by the filter should be passed as the tag attributes.
+     */
     const TAG_FILTER_IN = 'arachne.entityLoader.filterIn';
+
+    /**
+     * EntityUnloader uses filters with this tag to convert application parameters to http parameters.
+     * The classes handled by the filter should be passed as the tag attributes.
+     */
     const TAG_FILTER_OUT = 'arachne.entityLoader.filterOut';
 
     private $filters = [
