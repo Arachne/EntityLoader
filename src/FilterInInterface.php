@@ -19,7 +19,7 @@ interface FilterInInterface
 {
     /**
      * @param mixed $value
-     * @return object
+     * @return mixed
      * @throws BadRequestException
      */
     public function filterIn($value);
