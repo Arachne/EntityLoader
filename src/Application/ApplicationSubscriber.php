@@ -13,10 +13,8 @@ namespace Arachne\EntityLoader\Application;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Arachne\EventDispatcher\ApplicationEvents;
 use Arachne\EventDispatcher\Event\ApplicationRequestEvent;
-use Nette\Application\Application;
 use Nette\Application\BadRequestException;
 use Nette\Application\InvalidPresenterException;
-use Nette\Application\Request;
 use Nette\Http\IResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
