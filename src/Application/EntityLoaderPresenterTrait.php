@@ -12,7 +12,9 @@ namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
+use Nette\Application\BadRequestException;
 use Nette\Application\Request;
+use Nette\Application\Responses\ForwardResponse;
 use Nette\Utils\Strings;
 use Nette\Security\User;
 
