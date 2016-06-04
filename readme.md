@@ -9,7 +9,7 @@ Arachne/EntityLoader
 [![Downloads this Month](https://img.shields.io/packagist/dm/arachne/entity-loader.svg?style=flat-square)](https://packagist.org/packages/arachne/entity-loader)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/Arachne/EntityLoader/blob/master/license.md)
 
-Enables object parameters in Nette/Application.
+Enables object parameters in nette/application.
 
 Installation
 ----

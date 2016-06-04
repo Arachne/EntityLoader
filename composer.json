@@ -1,6 +1,6 @@
 {
     "name": "arachne/entity-loader",
-    "description": "Enables object parameters in Nette/Application.",
+    "description": "Enables object parameters in nette/application.",
     "type": "library",
     "keywords": [ "nette", "arachne" ],
     "license": "MIT",
