@@ -17,7 +17,7 @@ interface FilterOutInterface
 {
 
 	/**
-	 * @param object $value
+	 * @param mixed $value
 	 * @return string|array
 	 */
 	public function filterOut($value);
