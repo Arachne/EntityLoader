@@ -1,5 +1,6 @@
 {
 	"name": "arachne/entity-loader",
+	"description": "Enables object parameters in Nette/Application.",
 	"type": "library",
 	"keywords": [ "nette", "arachne" ],
 	"homepage": "http://enumag.cz",
@@ -24,7 +25,7 @@
 		"php": ">=5.5.0",
 		"arachne/bootstrap": "~0.2.1",
 		"arachne/codeception": "~0.6.3",
-        "arachne/event-dispatcher": "~0.1.0",
+		"arachne/event-dispatcher": "~0.1.0",
 		"codeception/codeception": "~2.1.0",
 		"codeception/mockery-module": "~0.2.2",
 		"enumag/application": "~0.3.5",
