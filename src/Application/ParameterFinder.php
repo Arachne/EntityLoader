@@ -187,10 +187,6 @@ class ParameterFinder extends Object
 	 */
 	private function getMethodParameters(Method $reflection, $prefix = null)
 	{
-		$parameters = [];
-		foreach ($reflection->getParameters() as $parameter) {
-			$parameters[] = $parameter->getName();
-		}
 		$info = [];
 		foreach ($reflection->getParameters() as $parameter) {
 			$type = $this->getParameterType($reflection, $parameter);
