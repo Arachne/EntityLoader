@@ -2,11 +2,12 @@
 
 use Arachne\Bootstrap\Configurator;
 use Arachne\Codeception\Module\Nette;
-use Nette\Bridges\Framework\NetteExtension;
 
 $configurator = new Configurator;
 $configurator->enableDebugger(__DIR__ . '/../_log');
-$configurator->setTempDirectory(__DIR__ . '/../_temp');
+$tempDir = __DIR__ . '/../_temp/functional_' . md5(time());
+mkdir($tempDir);
+$configurator->setTempDirectory($tempDir);
 $configurator->setDebugMode(true);
 
 // Create Dependency Injection container from config.neon file

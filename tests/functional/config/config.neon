@@ -13,18 +13,18 @@ extensions:
 nette.application:
     catchExceptions: null
     mapping:
-        *: Tests\Functional\Classes\*Presenter
+        *: Tests\Functional\Fixtures\*Presenter
 
 services:
-    routerFactory: Tests\Functional\Classes\RouterFactory
+    routerFactory: Tests\Functional\Fixtures\RouterFactory
     router: @routerFactory::create()
     articleFilterIn:
-        class: Tests\Functional\Classes\ArticleFilterIn
+        class: Tests\Functional\Fixtures\ArticleFilterIn
         tags:
             arachne.entityLoader.filterIn:
-                - Tests\Functional\Classes\Article
+                - Tests\Functional\Fixtures\Article
     articleFilterOut:
-        class: Tests\Functional\Classes\ArticleFilterOut
+        class: Tests\Functional\Fixtures\ArticleFilterOut
         tags:
             arachne.entityLoader.filterOut:
-                - Tests\Functional\Classes\Article
+                - Tests\Functional\Fixtures\Article
