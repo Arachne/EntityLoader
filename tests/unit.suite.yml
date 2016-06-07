@@ -1,6 +1,6 @@
 error_level: "E_ALL"
 
-class_name: UnitSuiteGuy
+class_name: UnitSuiteTester
 
 modules:
     enabled:
