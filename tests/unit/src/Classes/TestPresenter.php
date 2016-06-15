@@ -71,13 +71,6 @@ class TestPresenter extends Presenter
     }
 
     /**
-     * @return InvalidComponent
-     */
-    protected function createComponentInvalid()
-    {
-    }
-
-    /**
      * @return NonexistentComponent
      */
     protected function createComponentNonexistentComponent()

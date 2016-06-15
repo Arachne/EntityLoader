@@ -72,19 +72,6 @@ class ParameterFinderExceptionsTest extends Test
 
     /**
      * @expectedException Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage Type hint '$invalid' is not valid. Only alphanumeric characters, '_' and '\' are allowed.
-     */
-    public function testInvalidTypehint()
-    {
-        $request = new Request('', 'GET', [
-            'action' => 'testAction',
-            'invalid-persistent' => 1,
-        ]);
-        $this->finder->getMapping($request);
-    }
-
-    /**
-     * @expectedException Arachne\EntityLoader\Exception\TypeHintException
      * @expectedExceptionMessage Annotation '@param $invalid' is not valid. The correct format is '@param type $name'. Only alphanumeric characters, '_' and '\' are allowed for the type hint.
      */
     public function testInvalidTypehintHandle()
