@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -23,8 +23,8 @@ use Nette\Reflection\Method;
 use Nette\Reflection\Parameter;
 use Nette\Reflection\Property;
 use Nette\Utils\Strings;
-use StdClass;
 use Oops\CacheFactory\Caching\CacheFactory;
+use StdClass;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -72,18 +72,19 @@ class ParameterFinder
      */
     public function getMapping(Request $request)
     {
-        return $this->cache->load($this->getCacheKey($request), function (& $dependencies) use ($request) {
+        return $this->cache->load($this->getCacheKey($request), function (&$dependencies) use ($request) {
             return $this->loadMapping($request->getPresenterName(), $request->getParameters(), $dependencies);
         });
     }
 
     /**
      * @param string $presenter
-     * @param array $parameters
-     * @param array $dependencies
+     * @param array  $parameters
+     * @param array  $dependencies
+     *
      * @return StdClass[]
      */
-    private function loadMapping($presenter, $parameters, & $dependencies)
+    private function loadMapping($presenter, $parameters, &$dependencies)
     {
         $class = $this->presenterFactory->getPresenterClass($presenter);
         $presenterReflection = new PresenterComponentReflection($class);
@@ -95,10 +96,10 @@ class ParameterFinder
 
         // Action parameters
         $action = isset($parameters[Presenter::ACTION_KEY]) ? $parameters[Presenter::ACTION_KEY] : Presenter::DEFAULT_ACTION;
-        $method = 'action' . $action;
+        $method = 'action'.$action;
         $element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
         if (!$element) {
-            $method = 'render' . $action;
+            $method = 'render'.$action;
             $element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
         }
         if ($element) {
@@ -117,7 +118,7 @@ class ParameterFinder
                     $components[$component] = true;
                     if ($reflection) {
                         $files[] = $reflection->getFileName();
-                        $info += $this->getPersistentParameters($reflection, $component . IComponent::NAME_SEPARATOR);
+                        $info += $this->getPersistentParameters($reflection, $component.IComponent::NAME_SEPARATOR);
                     }
                 }
             }
@@ -131,12 +132,12 @@ class ParameterFinder
                 $component = substr($signal, 0, $pos);
                 $signal = substr($signal, $pos + 1);
                 $reflection = $this->createReflection($presenterReflection, $component);
-                $prefix = $component . IComponent::NAME_SEPARATOR;
+                $prefix = $component.IComponent::NAME_SEPARATOR;
             } else {
                 $reflection = $presenterReflection;
                 $prefix = '';
             }
-            $method = 'handle' . ucfirst($signal);
+            $method = 'handle'.ucfirst($signal);
             if ($reflection && $reflection->hasCallableMethod($method)) {
                 $element = $reflection->getMethod($method);
                 $info += $this->getMethodParameters($element, $prefix);
@@ -154,7 +155,8 @@ class ParameterFinder
 
     /**
      * @param ClassType $reflection
-     * @param string $component
+     * @param string    $component
+     *
      * @return PresenterComponentReflection|null
      */
     private function createReflection(ClassType $reflection, $component)
@@ -167,7 +169,7 @@ class ParameterFinder
         if ($component === '') {
             return;
         }
-        $method = 'createComponent' . ucfirst($component);
+        $method = 'createComponent'.ucfirst($component);
         if ($reflection->hasMethod($method)) {
             $element = $reflection->getMethod($method);
             $class = $element->getAnnotation('return');
@@ -178,6 +180,7 @@ class ParameterFinder
             if (!class_exists($class)) {
                 throw new TypeHintException("Class '$class' from $reflection->name::$method @return annotation not found.");
             }
+
             return isset($subComponent)
                 ? $this->createReflection(new ClassType($class), $subComponent)
                 : new PresenterComponentReflection($class);
@@ -188,6 +191,7 @@ class ParameterFinder
      * @param Method $element
      * @param string $prefix
      * @param string $default
+     *
      * @return StdClass[]
      */
     private function getMethodParameters(Method $reflection, $prefix = null)
@@ -196,8 +200,9 @@ class ParameterFinder
         foreach ($reflection->getParameters() as $parameter) {
             $type = $this->getParameterType($reflection, $parameter);
             $nullable = $parameter->isOptional();
-            $info[$prefix . $parameter->getName()] = $this->createInfoObject($type, $nullable);
+            $info[$prefix.$parameter->getName()] = $this->createInfoObject($type, $nullable);
         }
+
         return $info;
     }
 
@@ -234,6 +239,7 @@ class ParameterFinder
     /**
      * @param PresenterComponentReflection $reflection
      * @param string
+     *
      * @return StdClass[]
      */
     private function getPersistentParameters(PresenterComponentReflection $reflection, $prefix = null)
@@ -246,15 +252,17 @@ class ParameterFinder
                 if (!Strings::match($type, '/^[[:alnum:]_\\\\]++$/')) {
                     throw new TypeHintException("Type hint '$type' is not valid. Only alphanumeric characters, '_' and '\' are allowed.");
                 }
-                $info[$prefix . $persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), true);
+                $info[$prefix.$persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), true);
             }
         }
+
         return $info;
     }
 
     /**
-     * @param string $type
+     * @param string    $type
      * @param ClassType $class
+     *
      * @return string
      */
     private function normalizeType($type, ClassType $class)
@@ -264,7 +272,8 @@ class ParameterFinder
 
     /**
      * @param string $type
-     * @param bool $nullable
+     * @param bool   $nullable
+     *
      * @return StdClass
      */
     private function createInfoObject($type, $nullable)
@@ -272,11 +281,13 @@ class ParameterFinder
         $object = new StdClass();
         $object->type = $type;
         $object->nullable = $nullable;
+
         return $object;
     }
 
     /**
      * @param Request $request
+     *
      * @return string[]
      */
     private function getCacheKey(Request $request)
@@ -294,6 +305,7 @@ class ParameterFinder
             unset($parameters[Presenter::SIGNAL_KEY]);
         }
         $key['parameters'] = array_keys($parameters);
+
         return $key;
     }
 }

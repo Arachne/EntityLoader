@@ -12,12 +12,14 @@ class TestPresenter extends Presenter
 {
     /**
      * @persistent
+     *
      * @var Class1
      */
     public $persistent1;
 
     /**
      * @persistent
+     *
      * @var string
      */
     public $persistent2;

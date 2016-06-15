@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -45,7 +45,8 @@ class ApplicationListener implements Subscriber
 
     /**
      * @param Application $application
-     * @param Request $request
+     * @param Request     $request
+     *
      * @throws BadRequestException
      */
     public function requestHandler(Application $application, Request $request)

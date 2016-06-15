@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -30,7 +30,7 @@ class RequestEntityUnloader
 
     /**
      * @param Request $request
-     * @param bool $envelopes
+     * @param bool    $envelopes
      */
     public function filterOut(Request $request, $envelopes = false)
     {

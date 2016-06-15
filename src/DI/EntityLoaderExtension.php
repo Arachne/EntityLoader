@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -10,8 +10,8 @@
 
 namespace Arachne\EntityLoader\DI;
 
-use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Arachne\DIHelpers\CompilerExtension;
+use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Kdyby\Events\DI\EventsExtension;
 use Nette\Utils\AssertionException;
 
@@ -50,7 +50,7 @@ class EntityLoaderExtension extends CompilerExtension
         $extension->add(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
 
         foreach ($this->filters as $class => $type) {
-            $builder->addDefinition($this->prefix('filterIn.' . $type))
+            $builder->addDefinition($this->prefix('filterIn.'.$type))
                 ->setClass($class)
                 ->addTag(self::TAG_FILTER_IN, $type);
         }
@@ -79,7 +79,7 @@ class EntityLoaderExtension extends CompilerExtension
                 ->setClass('Arachne\EntityLoader\Application\ApplicationListener')
                 ->addTag(EventsExtension::TAG_SUBSCRIBER);
         } else {
-            throw new AssertionException("Arachne/EntityLoader requires either Arachne/EventDispatcher or Kdyby/Events to be installed.");
+            throw new AssertionException('Arachne/EntityLoader requires either Arachne/EventDispatcher or Kdyby/Events to be installed.');
         }
     }
 
@@ -91,12 +91,12 @@ class EntityLoaderExtension extends CompilerExtension
 
         $builder->getDefinition($this->prefix('entityLoader'))
             ->setArguments([
-                'filterInResolver' => '@' . $extension->get(self::TAG_FILTER_IN),
+                'filterInResolver' => '@'.$extension->get(self::TAG_FILTER_IN),
             ]);
 
         $builder->getDefinition($this->prefix('entityUnloader'))
             ->setArguments([
-                'filterOutResolver' => '@' . $extension->get(self::TAG_FILTER_OUT),
+                'filterOutResolver' => '@'.$extension->get(self::TAG_FILTER_OUT),
             ]);
     }
 }

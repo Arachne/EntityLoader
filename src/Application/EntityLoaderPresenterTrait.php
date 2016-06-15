@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -10,13 +10,11 @@
 
 namespace Arachne\EntityLoader\Application;
 
-use Arachne\EntityLoader\Application\RequestEntityLoader;
-use Arachne\EntityLoader\Application\RequestEntityUnloader;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\ForwardResponse;
-use Nette\Utils\Strings;
 use Nette\Security\User;
+use Nette\Utils\Strings;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -49,7 +47,8 @@ trait EntityLoaderPresenterTrait
      * Stores request to session.
      *
      * @param Request $request
-     * @param mixed $expiration
+     * @param mixed   $expiration
+     *
      * @return string
      */
     public function storeRequest($request = null, $expiration = '+ 10 minutes')
@@ -70,8 +69,9 @@ trait EntityLoaderPresenterTrait
             $key = Strings::random(5);
         } while (isset($session[$key]));
 
-        $session[$key] = [ $this->user ? $this->user->getId() : null, $request ];
+        $session[$key] = [$this->user ? $this->user->getId() : null, $request];
         $session->setExpiration($expiration, $key);
+
         return $key;
     }
 

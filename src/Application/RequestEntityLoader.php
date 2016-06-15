@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -46,9 +46,8 @@ class RequestEntityLoader
             if (!isset($parameters[$name])) {
                 if ($info->nullable) {
                     continue;
-                } else {
-                    throw new UnexpectedValueException("Parameter '$name' can't be null.");
                 }
+                throw new UnexpectedValueException("Parameter '$name' can't be null.");
             }
             $parameters[$name] = $this->entityLoader->filterIn($info->type, $parameters[$name]);
         }

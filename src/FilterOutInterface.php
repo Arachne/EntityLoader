@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -17,6 +17,7 @@ interface FilterOutInterface
 {
     /**
      * @param mixed $value
+     *
      * @return string|array
      */
     public function filterOut($value);

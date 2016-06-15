@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -30,16 +30,19 @@ class EntityUnloader
 
     /**
      * @param object $object
+     *
      * @return string|array
      */
     public function filterOut($object)
     {
         $type = $object instanceof EntityInterface ? $object->getBaseType() : get_class($object);
+
         return $this->getFilter($type)->filterOut($object);
     }
 
     /**
      * @param string $type
+     *
      * @return FilterOutInterface
      */
     private function getFilter($type)
@@ -48,6 +51,7 @@ class EntityUnloader
         if (!$filter) {
             throw new UnexpectedValueException("No filter out found for type '$type'.");
         }
+
         return $filter;
     }
 }

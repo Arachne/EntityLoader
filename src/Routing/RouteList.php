@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -17,6 +17,7 @@ use Nette\Http\Url;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
+ *
  * @deprecated Use Arachne\EntityLoader\Routing\RouterWrapper instead.
  */
 class RouteList extends BaseRouteList
@@ -28,7 +29,7 @@ class RouteList extends BaseRouteList
 
     /**
      * @param RequestEntityUnloader $unloader
-     * @param string $module
+     * @param string                $module
      */
     public function __construct(RequestEntityUnloader $unloader, $module = null)
     {
@@ -40,13 +41,15 @@ class RouteList extends BaseRouteList
      * Constructs absolute URL from Request object.
      *
      * @param Request $request
-     * @param Url $refUrl
+     * @param Url     $refUrl
+     *
      * @return string|null
      */
     public function constructUrl(Request $request, Url $refUrl)
     {
         $request = clone $request;
         $this->unloader->filterOut($request, true);
+
         return parent::constructUrl($request, $refUrl);
     }
 }

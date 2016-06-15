@@ -15,6 +15,7 @@ class ArticleFilterOut implements FilterOutInterface
         if (!$value instanceof Article) {
             throw new InvalidArgumentException("Entity is not an instance of 'Article'.");
         }
+
         return $value->getValue();
     }
 }

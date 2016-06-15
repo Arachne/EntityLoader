@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -30,7 +30,8 @@ class EntityLoader
 
     /**
      * @param string $type
-     * @param mixed $parameter
+     * @param mixed  $parameter
+     *
      * @return mixed
      */
     public function filterIn($type, $parameter)
@@ -42,11 +43,13 @@ class EntityLoader
         if (!$this->isType($type, $value)) {
             throw new UnexpectedValueException("FilterIn did not return an instance of '$type'.");
         }
+
         return $value;
     }
 
     /**
      * @param string $type
+     *
      * @return filterInInterface
      */
     private function getFilter($type)
@@ -55,12 +58,14 @@ class EntityLoader
         if (!$filter) {
             throw new UnexpectedValueException("No filter in found for type '$type'.");
         }
+
         return $filter;
     }
 
     /**
      * @param string $type
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return bool
      */
     private function isType($type, $value)

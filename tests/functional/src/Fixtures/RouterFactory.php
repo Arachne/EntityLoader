@@ -14,7 +14,7 @@ use Nette\Application\Routers\RouteList;
 class RouterFactory
 {
     /**
-     * var RequestEntityUnloader
+     * @var RequestEntityUnloader
      */
     protected $unloader;
 
@@ -32,6 +32,7 @@ class RouterFactory
         $router[] = new Route('/<action>[/<parameter>]', [
             'presenter' => 'Article',
         ]);
+
         return new RouterWrapper($router, $this->unloader);
     }
 }

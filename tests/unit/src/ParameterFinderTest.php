@@ -8,8 +8,8 @@ use Mockery;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Caching\Cache;
-use StdClass;
 use Oops\CacheFactory\Caching\CacheFactory;
+use StdClass;
 use Tests\Unit\Classes\TestPresenter;
 
 /**
@@ -114,7 +114,8 @@ class ParameterFinderTest extends Test
 
     /**
      * @param string $type
-     * @param bool $nullable
+     * @param bool   $nullable
+     *
      * @return StdClass
      */
     private function createInfoObject($type, $nullable)
@@ -122,6 +123,7 @@ class ParameterFinderTest extends Test
         $object = new StdClass();
         $object->type = $type;
         $object->nullable = $nullable;
+
         return $object;
     }
 }

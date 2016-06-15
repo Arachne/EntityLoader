@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -11,8 +11,8 @@
 namespace Arachne\EntityLoader\Routing;
 
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
-use Nette\Application\Request;
 use Nette\Application\IRouter;
+use Nette\Application\Request;
 use Nette\Http\IRequest;
 use Nette\Http\Url;
 
@@ -37,9 +37,9 @@ class RouterWrapper implements IRouter
     private $envelopes;
 
     /**
-     * @param IRouter $router
+     * @param IRouter               $router
      * @param RequestEntityUnloader $unloader
-     * @param bool $envelopes
+     * @param bool                  $envelopes
      */
     public function __construct(IRouter $router, RequestEntityUnloader $unloader, $envelopes = false)
     {
@@ -62,13 +62,15 @@ class RouterWrapper implements IRouter
      * Constructs absolute URL from Request object.
      *
      * @param Request $request
-     * @param Url $refUrl
+     * @param Url     $refUrl
+     *
      * @return string|null
      */
     public function constructUrl(Request $request, Url $refUrl)
     {
         $request = clone $request;
         $this->unloader->filterOut($request, $this->envelopes);
+
         return $this->router->constructUrl($request, $refUrl);
     }
 }

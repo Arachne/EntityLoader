@@ -42,6 +42,7 @@ class RouteTest extends Test
             ->with(Mockery::on(function ($parameters) {
                 $this->assertInstanceOf(Envelope::class, $parameters['param1']);
                 $this->assertInstanceOf(Envelope::class, $parameters['param2']);
+
                 return true;
             }))
             ->andReturnUsing(function ($parameters) {

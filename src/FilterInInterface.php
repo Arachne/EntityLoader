@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -19,8 +19,10 @@ interface FilterInInterface
 {
     /**
      * @param mixed $value
-     * @return mixed
+     *
      * @throws BadRequestException
+     *
+     * @return mixed
      */
     public function filterIn($value);
 }

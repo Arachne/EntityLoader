@@ -12,6 +12,7 @@ class TestComponent extends PresenterComponent
 {
     /**
      * @persistent
+     *
      * @var Class5
      */
     public $persistent;

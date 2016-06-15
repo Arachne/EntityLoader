@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -45,11 +45,12 @@ class Route extends BaseRoute
 
         // Filter for handling Envelopes correctly.
         $filter = function (array $parameters) use ($metadata) {
-            foreach ($parameters as $key => & $value) {
+            foreach ($parameters as $key => &$value) {
                 if ($value instanceof Envelope && !isset($metadata[$key][self::FILTER_OUT])) {
                     $value = $value->getIdentifier();
                 }
             }
+
             return $parameters;
         };
 
@@ -61,6 +62,7 @@ class Route extends BaseRoute
                 if (!is_array($parameters)) {
                     return $parameters;
                 }
+
                 return call_user_func($filter, $parameters);
             };
         } else {

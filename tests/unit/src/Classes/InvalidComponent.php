@@ -12,7 +12,8 @@ class InvalidComponent extends PresenterComponent
 {
     /**
      * @persistent
-     * @var $invalid
+     *
+     * @var
      */
     public $persistent;
 
