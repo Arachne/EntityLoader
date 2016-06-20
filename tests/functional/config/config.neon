@@ -1,5 +1,5 @@
 extensions:
-    arachne.codeception: Arachne\Codeception\DI\CodeceptionExtension
+    codeception.http: Arachne\Codeception\DI\HttpExtension
     arachne.containeradaper: Arachne\ContainerAdapter\DI\ContainerAdapterExtension
     arachne.dihelpers.resolvers: Arachne\DIHelpers\DI\ResolversExtension
     arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension

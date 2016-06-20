@@ -4,4 +4,9 @@ class_name: FunctionalSuiteTester
 
 modules:
     enabled:
-        - Arachne\Codeception\Module\Nette
+        - Arachne\Codeception\Module\NetteApplicationModule
+        - Arachne\Codeception\Module\NetteDIModule:
+            tempDir: ../_temp/integration
+            configurator: Arachne\Bootstrap\Configurator
+            configFiles:
+                - config/config.neon
