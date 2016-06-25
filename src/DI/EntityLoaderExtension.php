@@ -70,11 +70,11 @@ class EntityLoaderExtension extends CompilerExtension
         $builder->addDefinition($this->prefix('application.requestEntityUnloader'))
             ->setClass('Arachne\EntityLoader\Application\RequestEntityUnloader');
 
-        if ($this->getExtension('Arachne\EventDispatcher\DI\EventDispatcherExtension')) {
+        if ($this->getExtension('Arachne\EventDispatcher\DI\EventDispatcherExtension', false)) {
             $builder->addDefinition($this->prefix('application.applicationSubscriber'))
                 ->setClass('Arachne\EntityLoader\Application\ApplicationSubscriber')
                 ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
-        } elseif ($this->getExtension('Kdyby\Events\DI\EventsExtension')) {
+        } elseif ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
             $builder->addDefinition($this->prefix('application.applicationListener'))
                 ->setClass('Arachne\EntityLoader\Application\ApplicationListener')
                 ->addTag(EventsExtension::TAG_SUBSCRIBER);
