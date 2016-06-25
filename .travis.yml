@@ -11,6 +11,11 @@ php:
     - hhvm-3.12
     - hhvm-nightly
 
+matrix:
+    allow_failures:
+        - php: hhvm-3.12
+        - php: hhvm-nightly
+
 before_install:
     - echo $TRAVIS_PHP_VERSION
     - travis_retry composer self-update
