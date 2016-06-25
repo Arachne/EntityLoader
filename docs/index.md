@@ -35,7 +35,7 @@ Finally you will need to change your routing a little. Instead of `Nette\Applica
 Doctrine
 ----
 
-For usage with Doctrine entities just skip this part and add the Arachne/Doctrine package to your application.
+For usage with Doctrine ORM entities use the [Arachne/Doctrine](https://github.com/Arachne/Doctrine) package to your application.
 
 
 Custom filters
