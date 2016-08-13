@@ -7,6 +7,6 @@ modules:
         - Arachne\Codeception\Module\NetteApplicationModule
         - Arachne\Codeception\Module\NetteDIModule:
             tempDir: ../_temp/integration
-            configurator: Arachne\Bootstrap\Configurator
+            removeDefaultExtensions: true
             configFiles:
                 - config/config.neon
