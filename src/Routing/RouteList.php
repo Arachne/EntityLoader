@@ -18,7 +18,7 @@ use Nette\Http\Url;
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  *
- * @deprecated Use Arachne\EntityLoader\Routing\RouterWrapper instead.
+ * @deprecated use {@link Arachne\EntityLoader\Routing\RouterWrapper} instead
  */
 class RouteList extends BaseRouteList
 {
