@@ -188,9 +188,8 @@ class ParameterFinder
     }
 
     /**
-     * @param Method $element
+     * @param Method $reflection
      * @param string $prefix
-     * @param string $default
      *
      * @return StdClass[]
      */
@@ -207,6 +206,9 @@ class ParameterFinder
     }
 
     /**
+     * @param Method    $method
+     * @param Parameter $parameter
+     *
      * @return string
      */
     private function getParameterType(Method $method, Parameter $parameter)
