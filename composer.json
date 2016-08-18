@@ -18,6 +18,7 @@
         "nette/caching": "^2.3.0",
         "nette/di": "^2.3.0",
         "nette/http": "^2.3.0",
+        "nette/reflection": "^2.3.0",
         "nette/utils": "^2.3.0",
         "oops/cache-factory": "^1.0.0"
     },

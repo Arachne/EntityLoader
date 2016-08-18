@@ -31,6 +31,7 @@ class RouteTest extends Test
         ]);
 
         $url = new Url('/');
+        $url->setScheme('http');
         $this->assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
     }
 
@@ -69,6 +70,7 @@ class RouteTest extends Test
         ]);
 
         $url = new Url('/');
+        $url->setScheme('http');
         $this->assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
     }
 }

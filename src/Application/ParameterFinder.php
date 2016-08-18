@@ -97,10 +97,10 @@ class ParameterFinder
         // Action parameters
         $action = isset($parameters[Presenter::ACTION_KEY]) ? $parameters[Presenter::ACTION_KEY] : Presenter::DEFAULT_ACTION;
         $method = 'action'.$action;
-        $element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
+        $element = $presenterReflection->hasCallableMethod($method) ? $this->createMethodReflection($presenterReflection, $method) : null;
         if (!$element) {
             $method = 'render'.$action;
-            $element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
+            $element = $presenterReflection->hasCallableMethod($method) ? $this->createMethodReflection($presenterReflection, $method) : null;
         }
         if ($element) {
             $info += $this->getMethodParameters($element);
@@ -139,7 +139,7 @@ class ParameterFinder
             }
             $method = 'handle'.ucfirst($signal);
             if ($reflection && $reflection->hasCallableMethod($method)) {
-                $element = $reflection->getMethod($method);
+                $element = $this->createMethodReflection($reflection, $method);
                 $info += $this->getMethodParameters($element, $prefix);
                 $files[] = $element->getFileName();
             }
@@ -154,12 +154,28 @@ class ParameterFinder
     }
 
     /**
-     * @param ClassType $reflection
-     * @param string    $component
+     * @param PresenterComponentReflection $reflection
+     * @param string                       $method
+     *
+     * @return PresenterComponentReflection
+     */
+    private function createMethodReflection(PresenterComponentReflection $reflection, $method)
+    {
+        $element = $reflection->getMethod($method);
+        if (!$element instanceof Method) {
+            $element = new Method($reflection->getName(), $method);
+        }
+
+        return $element;
+    }
+
+    /**
+     * @param PresenterComponentReflection $reflection
+     * @param string                       $component
      *
      * @return PresenterComponentReflection|null
      */
-    private function createReflection(ClassType $reflection, $component)
+    private function createReflection(PresenterComponentReflection $reflection, $component)
     {
         $pos = strpos($component, IComponent::NAME_SEPARATOR);
         if ($pos !== false) {
@@ -171,7 +187,7 @@ class ParameterFinder
         }
         $method = 'createComponent'.ucfirst($component);
         if ($reflection->hasMethod($method)) {
-            $element = $reflection->getMethod($method);
+            $element = $this->createMethodReflection($reflection, $method);
             $class = $element->getAnnotation('return');
             if (!Strings::match($class, '/^[[:alnum:]_\\\\]++$/')) {
                 throw new TypeHintException("No @return annotation found for method $element.");
