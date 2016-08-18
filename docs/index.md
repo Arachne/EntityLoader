@@ -10,26 +10,71 @@ Installation
 The best way to install Arachne/EntityLoader is using [Composer](http://getcomposer.org/).
 
 ```sh
-$ composer require arachne/entity-loader
+$ composer require arachne/entity-loader arachne/event-dispatcher
 ```
 
-Now you need to register Arachne/EntityLoader extension using your [neon](http://ne-on.org/) config file.
+Now you need to register the necessary extensions using your [neon](http://ne-on.org/) config file.
 
 ```
 extensions:
-	arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    - Oops\CacheFactory\DI\CacheFactoryExtension
+    - Arachne\EventDispatcher\DI\EventDispatcherExtension
+    - Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
 
-Add the `Arachne\EntityLoader\Application\EntityLoaderPresenterTrait` to your BasePresenter. It overrides the storeRequest & restoreRequest methods to make them work with object parameters. 
+Alternatively you can use kdyby/events instead of arachne/event-dispatcher.
+
+Add the `Arachne\EntityLoader\Application\EntityLoaderPresenterTrait` to your BasePresenter. It overrides the storeRequest & restoreRequest methods to make them work with object parameters.
 
 ```php
 abstract class BasePresenter extends \Nette\Application\UI\Presenter
 {
-	use \Arachne\EntityLoader\Application\EntityLoaderPresenterTrait;
+    use \Arachne\EntityLoader\Application\EntityLoaderPresenterTrait;
 }
 ```
 
-Finally you will need to change your routing a little. Instead of `Nette\Application\Routers\Route` use `Arachne\EntityLoader\Routing\Route`. Also by default in Nette the root router is an instance of `Nette\Application\Routers\RouteList`. Change it to `Arachne\EntityLoader\Routing\RouteList` (beware that it has a dependency on `Arachne\EntityLoader\Application\RequestEntityUnloader`). For nested route lists stick to the normal `Nette\Application\Routers\RouteList`. The replacement should only be used for 
+Finally you will need to change your routing a little. Instead of `Nette\Application\Routers\Route` use `Arachne\EntityLoader\Routing\Route`. Also you'll need to wrap your router using `Arachne\EntityLoader\Routing\RouterWrapper` (beware that it has a dependency on `Arachne\EntityLoader\Application\RequestEntityUnloader`). Below is an example what your RouterFactory could look like:
+
+```php
+<?php
+
+namespace App\Routing;
+
+use Arachne\EntityLoader\Application\RequestEntityUnloader;
+use Arachne\EntityLoader\Routing\Route;
+use Arachne\EntityLoader\Routing\RouterWrapper;
+use Nette\Application\IRouter;
+use Nette\Application\Routers\RouteList;
+
+/**
+ * Router factory.
+ */
+class RouterFactory
+{
+    /**
+     * @var RequestEntityUnloader
+     */
+    private $entityUnloader;
+
+    public function __construct(RequestEntityUnloader $entityUnloader)
+    {
+        $this->entityUnloader = $entityUnloader;
+    }
+
+    /**
+     * @return IRouter
+     */
+    public function create()
+    {
+        $router = new RouteList();
+
+        $router[] = new Route('<presenter>/<action>[/<entity>]');
+
+        return new RouterWrapper($router, $this->entityUnloader);
+    }
+}
+
+```
 
 
 Doctrine
@@ -45,36 +90,36 @@ To use objects of a certain class as parameters you will need a two services. On
 
 ```yml
 services:
-	dateTimeFilterIn:
-		class: DateTimeFilterIn
-		tags:
-			arachne.entityLoader.filterIn: DateTime
-	dateTimeFilterOut:
-		class: DateTimeFilterOut
-		tags:
-			arachne.entityLoader.filterOut: DateTime
+    dateTimeFilterIn:
+        class: DateTimeFilterIn
+        tags:
+            arachne.entityLoader.filterIn: DateTime
+    dateTimeFilterOut:
+        class: DateTimeFilterOut
+        tags:
+            arachne.entityLoader.filterOut: DateTime
 ```
 
 ```php
 class DateTimeFilterIn implements \Arachne\EntityLoader\FilterInInterface
 {
-	public function filterIn($value)
-	{
-		if (is_numeric($value)) { // timestamp
-			return new \DateTime(date('Y-m-d H:i:s', $value));
-		} else { // textual
-			return new \DateTime($value);
-		}
-	}
+    public function filterIn($value)
+    {
+        if (is_numeric($value)) { // timestamp
+            return new \DateTime(date('Y-m-d H:i:s', $value));
+        } else { // textual
+            return new \DateTime($value);
+        }
+    }
 }
 
 class DateTimeFilterOut implements \Arachne\EntityLoader\FilterInInterface
 {
-	public function filterOut($entity)
-	{
-		// $entity instanceof DateTime
-		return $entity->getTimestamp();
-	}
+    public function filterOut($entity)
+    {
+        // $entity instanceof DateTime
+        return $entity->getTimestamp();
+    }
 }
 ```
 
@@ -89,10 +134,10 @@ Finally we can use DateTime parameters in presenter:
 ```php
 class FooPresenter extends \Nette\Application\UI\Presenter
 {
-	public function renderDefault(DateTime $date)
-	{
-		$this->template->date = $date;
-	}
+    public function renderDefault(DateTime $date)
+    {
+        $this->template->date = $date;
+    }
 }
 ```
 
@@ -106,12 +151,11 @@ Now what if we want to use different format than timestamp in URL? For example i
 
 ```php
 $router[] = new Route('/<date>', [
-	'presenter' => 'Foo',
-	'date' => [
-		Route::FILTER_OUT => function ($value) {
-			// $value instanceof Arachne\EntityLoader\EntityEnvelope
-			return $value->getEntity()->format('Y-m-d');
-		},
-	],
+    'presenter' => 'Foo',
+    'date' => [
+        Route::FILTER_OUT => function (\Arachne\EntityLoader\Application\Envelope $value) {
+            return $value->getEntity()->format('Y-m-d');
+        },
+    ],
 ]);
 ```
