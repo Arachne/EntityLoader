@@ -256,7 +256,7 @@ class ParameterFinder
 
     /**
      * @param PresenterComponentReflection $reflection
-     * @param string
+     * @param string                       $prefix
      *
      * @return StdClass[]
      */
