@@ -111,17 +111,20 @@ class ParameterFinder
         $components = [];
         foreach ($parameters as $key => $_) {
             $pos = strrpos($key, IComponent::NAME_SEPARATOR);
-            if ($pos !== false) {
-                $component = substr($key, 0, $pos);
-                if (!isset($components[$component])) {
-                    $reflection = $this->createReflection($presenterReflection, $component);
-                    $components[$component] = true;
-                    if ($reflection) {
-                        $files[] = $reflection->getFileName();
-                        $info += $this->getPersistentParameters($reflection, $component.IComponent::NAME_SEPARATOR);
-                    }
-                }
+            if ($pos === false) {
+                continue;
             }
+            $component = substr($key, 0, $pos);
+            if (isset($components[$component])) {
+                continue;
+            }
+            $reflection = $this->createReflection($presenterReflection, $component);
+            $components[$component] = true;
+            if (!$reflection) {
+                continue;
+            }
+            $files[] = $reflection->getFileName();
+            $info += $this->getPersistentParameters($reflection, $component.IComponent::NAME_SEPARATOR);
         }
 
         // Signal parameters
