@@ -49,9 +49,7 @@ class RouterWrapper implements IRouter
     }
 
     /**
-     * Maps HTTP request to a Request object.
-     *
-     * @return Request|null
+     * {@inheritdoc}
      */
     public function match(IRequest $httpRequest)
     {
@@ -59,12 +57,7 @@ class RouterWrapper implements IRouter
     }
 
     /**
-     * Constructs absolute URL from Request object.
-     *
-     * @param Request $request
-     * @param Url     $refUrl
-     *
-     * @return string|null
+     * {@inheritdoc}
      */
     public function constructUrl(Request $request, Url $refUrl)
     {

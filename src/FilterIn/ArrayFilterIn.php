@@ -17,6 +17,9 @@ use Arachne\EntityLoader\FilterInInterface;
  */
 class ArrayFilterIn implements FilterInInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($value)
     {
         return (array) $value;

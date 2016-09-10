@@ -17,6 +17,9 @@ use Arachne\EntityLoader\FilterInInterface;
  */
 class BooleanFilterIn implements FilterInInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($value)
     {
         return (bool) $value;

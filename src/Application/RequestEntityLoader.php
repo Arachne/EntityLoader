@@ -35,9 +35,6 @@ class RequestEntityLoader
         $this->finder = $finder;
     }
 
-    /**
-     * @param Request $request
-     */
     public function filterIn(Request $request)
     {
         $mapping = $this->finder->getMapping($request);

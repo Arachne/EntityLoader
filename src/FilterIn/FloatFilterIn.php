@@ -17,6 +17,9 @@ use Arachne\EntityLoader\FilterInInterface;
  */
 class FloatFilterIn implements FilterInInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($value)
     {
         return (float) $value;

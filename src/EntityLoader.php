@@ -50,7 +50,7 @@ class EntityLoader
     /**
      * @param string $type
      *
-     * @return filterInInterface
+     * @return FilterInInterface
      */
     private function getFilter($type)
     {

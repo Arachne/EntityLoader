@@ -38,12 +38,7 @@ class RouteList extends BaseRouteList
     }
 
     /**
-     * Constructs absolute URL from Request object.
-     *
-     * @param Request $request
-     * @param Url     $refUrl
-     *
-     * @return string|null
+     * {@inheritdoc}
      */
     public function constructUrl(Request $request, Url $refUrl)
     {

@@ -17,6 +17,9 @@ use Arachne\EntityLoader\FilterInInterface;
  */
 class MixedFilterIn implements FilterInInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($value)
     {
         return $value;
