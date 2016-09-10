@@ -40,12 +40,7 @@ class EntityUnloader
         return $this->getFilter($type)->filterOut($object);
     }
 
-    /**
-     * @param string $type
-     *
-     * @return FilterOutInterface
-     */
-    private function getFilter($type)
+    private function getFilter(string $type) : FilterOutInterface
     {
         $filter = $this->filterOutResolver->resolve($type);
         if (!$filter) {

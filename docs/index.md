@@ -61,10 +61,7 @@ class RouterFactory
         $this->entityUnloader = $entityUnloader;
     }
 
-    /**
-     * @return IRouter
-     */
-    public function create()
+    public function create() : IRouter
     {
         $router = new RouteList();
 

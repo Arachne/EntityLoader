@@ -34,7 +34,7 @@ class EntityLoader
      *
      * @return mixed
      */
-    public function filterIn($type, $parameter)
+    public function filterIn(string $type, $parameter)
     {
         if ($this->isType($type, $parameter)) {
             return $parameter;
@@ -47,12 +47,7 @@ class EntityLoader
         return $value;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return FilterInInterface
-     */
-    private function getFilter($type)
+    private function getFilter(string $type) : FilterInInterface
     {
         $filter = $this->filterInResolver->resolve($type);
         if (!$filter) {
@@ -68,7 +63,7 @@ class EntityLoader
      *
      * @return bool
      */
-    private function isType($type, $value)
+    private function isType(string $type, $value) : bool
     {
         switch ($type) {
             case 'int':

@@ -69,21 +69,14 @@ class ParameterFinder
      *
      * @return StdClass[]
      */
-    public function getMapping(Request $request)
+    public function getMapping(Request $request) : array
     {
         return $this->cache->load($this->getCacheKey($request), function (&$dependencies) use ($request) {
             return $this->loadMapping($request->getPresenterName(), $request->getParameters(), $dependencies);
         });
     }
 
-    /**
-     * @param string $presenter
-     * @param array  $parameters
-     * @param array  $dependencies
-     *
-     * @return StdClass[]
-     */
-    private function loadMapping($presenter, $parameters, &$dependencies)
+    private function loadMapping(string $presenter, array $parameters, array &$dependencies = null) : array
     {
         $class = $this->presenterFactory->getPresenterClass($presenter);
         $presenterReflection = new ComponentReflection($class);
@@ -156,12 +149,9 @@ class ParameterFinder
     }
 
     /**
-     * @param ReflectionClass $reflection
-     * @param string          $component
-     *
      * @return ComponentReflection|null
      */
-    private function createReflection(ReflectionClass $reflection, $component)
+    private function createReflection(ReflectionClass $reflection, string $component)
     {
         $pos = strpos($component, IComponent::NAME_SEPARATOR);
         if ($pos !== false) {
@@ -192,13 +182,7 @@ class ParameterFinder
         }
     }
 
-    /**
-     * @param ReflectionMethod $reflection
-     * @param string           $prefix
-     *
-     * @return StdClass[]
-     */
-    private function getMethodParameters(ReflectionMethod $reflection, $prefix = null)
+    private function getMethodParameters(ReflectionMethod $reflection, string $prefix = null) : array
     {
         $info = [];
         foreach ($reflection->getParameters() as $parameter) {
@@ -210,13 +194,7 @@ class ParameterFinder
         return $info;
     }
 
-    /**
-     * @param ComponentReflection $reflection
-     * @param string              $prefix
-     *
-     * @return StdClass[]
-     */
-    private function getPersistentParameters(ComponentReflection $reflection, $prefix = null)
+    private function getPersistentParameters(ComponentReflection $reflection, string $prefix = null) : array
     {
         $info = [];
         foreach ($reflection->getPersistentParams() as $persistent => $_) {
@@ -235,24 +213,12 @@ class ParameterFinder
         return $info;
     }
 
-    /**
-     * @param string          $type
-     * @param ReflectionClass $class
-     *
-     * @return string
-     */
-    private function normalizeType($type, ReflectionClass $class)
+    private function normalizeType(string $type, ReflectionClass $class) : string
     {
         return isset(self::$simpleTypes[$type]) ? self::$simpleTypes[$type] : PhpReflection::expandClassName($type, $class);
     }
 
-    /**
-     * @param string $type
-     * @param bool   $optional
-     *
-     * @return StdClass
-     */
-    private function createInfoObject($type, $optional)
+    private function createInfoObject(string $type, bool $optional) : StdClass
     {
         $object = new StdClass();
         $object->type = $type;
@@ -261,12 +227,7 @@ class ParameterFinder
         return $object;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return string[]
-     */
-    private function getCacheKey(Request $request)
+    private function getCacheKey(Request $request) : array
     {
         $parameters = $request->getParameters();
         $key = [

@@ -28,11 +28,7 @@ class RequestEntityUnloader
         $this->entityUnloader = $entityUnloader;
     }
 
-    /**
-     * @param Request $request
-     * @param bool    $envelopes
-     */
-    public function filterOut(Request $request, $envelopes = false)
+    public function filterOut(Request $request, bool $envelopes = false)
     {
         $parameters = $request->getParameters();
         foreach ($parameters as &$value) {
