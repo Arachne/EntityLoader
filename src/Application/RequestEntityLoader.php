@@ -41,7 +41,7 @@ class RequestEntityLoader
         $parameters = $request->getParameters();
         foreach ($mapping as $name => $info) {
             if (!isset($parameters[$name])) {
-                if ($info->nullable) {
+                if ($info->optional) {
                     continue;
                 }
                 throw new UnexpectedValueException("Parameter '$name' can't be null.");

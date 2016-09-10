@@ -41,20 +41,6 @@ class TestPresenter extends Presenter
     {
     }
 
-    /**
-     * @param $invalid
-     */
-    public function handleInvalidTypehintHandle($handleEntity)
-    {
-    }
-
-    /**
-     * @param type $another
-     */
-    public function handleMissingTypehintHandle($handleEntity)
-    {
-    }
-
     public function handleNoTypehintHandle($handleEntity)
     {
     }
@@ -63,21 +49,19 @@ class TestPresenter extends Presenter
     {
     }
 
-    /**
-     * @return TestComponent
-     */
-    protected function createComponentComponent()
+    protected function createComponentComponent() : TestComponent
     {
     }
 
-    /**
-     * @return NonexistentComponent
-     */
-    protected function createComponentNonexistentComponent()
+    protected function createComponentNonexistentComponent() : NonexistentComponent
     {
     }
 
     protected function createComponentMissingTypehint()
+    {
+    }
+
+    protected function createComponentBuiltinTypehint() : int
     {
     }
 }

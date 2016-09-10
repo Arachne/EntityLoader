@@ -89,7 +89,7 @@ class RequestEntityLoaderTest extends Test
         $mapping = [
             'entity' => (object) [
                 'type' => 'Type1',
-                'nullable' => true,
+                'optional' => true,
             ],
         ];
         $this->finder->shouldReceive('getMapping')
@@ -112,7 +112,7 @@ class RequestEntityLoaderTest extends Test
         $mapping = [
             'entity' => (object) [
                 'type' => 'Type1',
-                'nullable' => false,
+                'optional' => false,
             ],
         ];
         $this->finder->shouldReceive('getMapping')

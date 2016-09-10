@@ -13,17 +13,16 @@ namespace Arachne\EntityLoader\Application;
 use Arachne\EntityLoader\Exception\TypeHintException;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
+use Nette\Application\UI\ComponentReflection;
 use Nette\Application\UI\Presenter;
-use Nette\Application\UI\PresenterComponentReflection;
 use Nette\Caching\Cache;
 use Nette\ComponentModel\IComponent;
-use Nette\Reflection\AnnotationsParser;
-use Nette\Reflection\ClassType;
-use Nette\Reflection\Method;
-use Nette\Reflection\Parameter;
-use Nette\Reflection\Property;
+use Nette\DI\PhpReflection;
 use Nette\Utils\Strings;
 use Oops\CacheFactory\Caching\CacheFactory;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 use StdClass;
 
 /**
@@ -87,7 +86,7 @@ class ParameterFinder
     private function loadMapping($presenter, $parameters, &$dependencies)
     {
         $class = $this->presenterFactory->getPresenterClass($presenter);
-        $presenterReflection = new PresenterComponentReflection($class);
+        $presenterReflection = new ComponentReflection($class);
         $files = [];
 
         // Presenter persistent parameters
@@ -97,10 +96,10 @@ class ParameterFinder
         // Action parameters
         $action = isset($parameters[Presenter::ACTION_KEY]) ? $parameters[Presenter::ACTION_KEY] : Presenter::DEFAULT_ACTION;
         $method = 'action'.$action;
-        $element = $presenterReflection->hasCallableMethod($method) ? $this->createMethodReflection($presenterReflection, $method) : null;
+        $element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
         if (!$element) {
             $method = 'render'.$action;
-            $element = $presenterReflection->hasCallableMethod($method) ? $this->createMethodReflection($presenterReflection, $method) : null;
+            $element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
         }
         if ($element) {
             $info += $this->getMethodParameters($element);
@@ -142,7 +141,7 @@ class ParameterFinder
             }
             $method = 'handle'.ucfirst($signal);
             if ($reflection && $reflection->hasCallableMethod($method)) {
-                $element = $this->createMethodReflection($reflection, $method);
+                $element = $reflection->getMethod($method);
                 $info += $this->getMethodParameters($element, $prefix);
                 $files[] = $element->getFileName();
             }
@@ -157,28 +156,12 @@ class ParameterFinder
     }
 
     /**
-     * @param PresenterComponentReflection $reflection
-     * @param string                       $method
+     * @param ReflectionClass $reflection
+     * @param string          $component
      *
-     * @return PresenterComponentReflection
+     * @return ComponentReflection|null
      */
-    private function createMethodReflection(PresenterComponentReflection $reflection, $method)
-    {
-        $element = $reflection->getMethod($method);
-        if (!$element instanceof Method) {
-            $element = new Method($reflection->getName(), $method);
-        }
-
-        return $element;
-    }
-
-    /**
-     * @param PresenterComponentReflection $reflection
-     * @param string                       $component
-     *
-     * @return PresenterComponentReflection|null
-     */
-    private function createReflection(PresenterComponentReflection $reflection, $component)
+    private function createReflection(ReflectionClass $reflection, $component)
     {
         $pos = strpos($component, IComponent::NAME_SEPARATOR);
         if ($pos !== false) {
@@ -190,90 +173,62 @@ class ParameterFinder
         }
         $method = 'createComponent'.ucfirst($component);
         if ($reflection->hasMethod($method)) {
-            $element = $this->createMethodReflection($reflection, $method);
-            $class = $element->getAnnotation('return');
-            if (!Strings::match($class, '/^[[:alnum:]_\\\\]++$/')) {
-                throw new TypeHintException("No @return annotation found for method $element.");
+            $element = $reflection->getMethod($method);
+            $type = $element->getReturnType();
+            if (!$type) {
+                throw new TypeHintException("Method $reflection->name::$method has no return type.");
             }
-            $class = AnnotationsParser::expandClassName($class, $element->getDeclaringClass());
+            if ($type->isBuiltin()) {
+                throw new TypeHintException("Method $reflection->name::$method does not return a class.");
+            }
+            $class = (string) $type;
             if (!class_exists($class)) {
-                throw new TypeHintException("Class '$class' from $reflection->name::$method @return annotation not found.");
+                throw new TypeHintException("Class '$class' from $reflection->name::$method return type not found.");
             }
 
             return isset($subComponent)
-                ? $this->createReflection(new ClassType($class), $subComponent)
-                : new PresenterComponentReflection($class);
+                ? $this->createReflection(new ReflectionClass($class), $subComponent)
+                : new ComponentReflection($class);
         }
     }
 
     /**
-     * @param Method $reflection
-     * @param string $prefix
+     * @param ReflectionMethod $reflection
+     * @param string           $prefix
      *
      * @return StdClass[]
      */
-    private function getMethodParameters(Method $reflection, $prefix = null)
+    private function getMethodParameters(ReflectionMethod $reflection, $prefix = null)
     {
         $info = [];
         foreach ($reflection->getParameters() as $parameter) {
-            $type = $this->getParameterType($reflection, $parameter);
-            $nullable = $parameter->isOptional();
-            $info[$prefix.$parameter->getName()] = $this->createInfoObject($type, $nullable);
+            $type = $parameter->getType() ? (string) $parameter->getType() : 'mixed';
+            $optional = $parameter->isOptional();
+            $info[$prefix.$parameter->getName()] = $this->createInfoObject($type, $optional);
         }
 
         return $info;
     }
 
     /**
-     * @param Method    $method
-     * @param Parameter $parameter
-     *
-     * @return string
-     */
-    private function getParameterType(Method $method, Parameter $parameter)
-    {
-        $type = $parameter->getClassName();
-        if ($type) {
-            return $type;
-        }
-        if ($parameter->isArray()) {
-            return 'array';
-        }
-        if ($parameter->isCallable()) {
-            return 'callable';
-        }
-        // no typehint, check the @param annotation
-        if (isset($method->getAnnotations()['param'])) {
-            foreach ($method->getAnnotations()['param'] as $annotation) {
-                $matches = Strings::match($annotation, '/^([[:alnum:]_\\\\]++)\\s++\\$([[:alnum:]]++)$/');
-                if (!$matches) {
-                    throw new TypeHintException("Annotation '@param $annotation' is not valid. The correct format is '@param type \$name'. Only alphanumeric characters, '_' and '\' are allowed for the type hint.");
-                }
-                if ($matches[2] === $parameter->getName()) {
-                    return $this->normalizeType($matches[1], $method->getDeclaringClass());
-                }
-            }
-        }
-        throw new TypeHintException("No type hint found for $parameter. Specify it or use '@param mixed \${$parameter->getName()}' to allow any type.");
-    }
-
-    /**
-     * @param PresenterComponentReflection $reflection
-     * @param string                       $prefix
+     * @param ComponentReflection $reflection
+     * @param string              $prefix
      *
      * @return StdClass[]
      */
-    private function getPersistentParameters(PresenterComponentReflection $reflection, $prefix = null)
+    private function getPersistentParameters(ComponentReflection $reflection, $prefix = null)
     {
         $info = [];
         foreach ($reflection->getPersistentParams() as $persistent => $_) {
-            $parameter = new Property($reflection->getName(), $persistent);
-            if (!$parameter->isStatic() && $parameter->hasAnnotation('var')) {
-                $type = (string) $parameter->getAnnotation('var');
-                if (!Strings::match($type, '/^[[:alnum:]_\\\\]++$/')) {
-                    throw new TypeHintException("Type hint '$type' is not valid. Only alphanumeric characters, '_' and '\' are allowed.");
+            $parameter = new ReflectionProperty($reflection->getName(), $persistent);
+            if (!$parameter->isStatic()) {
+                $type = (string) PhpReflection::parseAnnotation($parameter, 'var');
+                if ($type) {
+                    if (!Strings::match($type, '/^[[:alnum:]_\\\\]++$/')) {
+                        throw new TypeHintException("Type hint '$type' is not valid. Only alphanumeric characters, '_' and '\' are allowed.");
+                    }
+                    $info[$prefix.$persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), true);
                 }
-                $info[$prefix.$persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), true);
             }
         }
 
@@ -281,27 +236,27 @@ class ParameterFinder
     }
 
     /**
-     * @param string    $type
-     * @param ClassType $class
+     * @param string          $type
+     * @param ReflectionClass $class
      *
      * @return string
      */
-    private function normalizeType($type, ClassType $class)
+    private function normalizeType($type, ReflectionClass $class)
     {
-        return isset(self::$simpleTypes[$type]) ? self::$simpleTypes[$type] : AnnotationsParser::expandClassName($type, $class);
+        return isset(self::$simpleTypes[$type]) ? self::$simpleTypes[$type] : PhpReflection::expandClassName($type, $class);
     }
 
     /**
      * @param string $type
-     * @param bool   $nullable
+     * @param bool   $optional
      *
      * @return StdClass
      */
-    private function createInfoObject($type, $nullable)
+    private function createInfoObject($type, $optional)
     {
         $object = new StdClass();
         $object->type = $type;
-        $object->nullable = $nullable;
+        $object->optional = $optional;
 
         return $object;
     }

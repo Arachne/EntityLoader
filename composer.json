@@ -12,18 +12,16 @@
         }
     ],
     "require": {
-        "php": "^5.4.0|^7.0.0",
+        "php": "^7.0.0",
         "arachne/di-helpers": "^0.4.0|^0.5.0",
         "nette/application": "^2.3.0",
         "nette/caching": "^2.3.0",
         "nette/di": "^2.3.0",
         "nette/http": "^2.3.0",
-        "nette/reflection": "^2.3.0",
         "nette/utils": "^2.3.0",
         "oops/cache-factory": "^1.0.0|^2.0.0|^3.0.0"
     },
     "require-dev": {
-        "php": "^5.5.0|^7.0.0",
         "arachne/codeception": "^0.7.3",
         "arachne/event-dispatcher": "^0.1.0",
         "codeception/codeception": "~2.2.0",

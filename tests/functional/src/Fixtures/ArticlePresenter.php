@@ -18,10 +18,7 @@ class ArticlePresenter extends Presenter
     {
     }
 
-    /**
-     * @param int $parameter
-     */
-    public function actionInt($parameter = 1)
+    public function actionInt(int $parameter = 1)
     {
     }
 

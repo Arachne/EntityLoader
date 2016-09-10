@@ -83,6 +83,20 @@ class ParameterFinderTest extends Test
         ], $this->finder->getMapping($request));
     }
 
+    public function testNoTypehintHandle()
+    {
+        $request = new Request('', 'GET', [
+            'action' => 'testAction',
+            'do' => 'noTypehintHandle',
+        ]);
+        $this->assertEquals([
+            'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
+            'handleEntity' => $this->createInfoObject('mixed', false),
+            'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
+            'persistent2' => $this->createInfoObject('string', true),
+        ], $this->finder->getMapping($request));
+    }
+
     public function testComponent()
     {
         $request = new Request('', 'GET', [
@@ -114,15 +128,15 @@ class ParameterFinderTest extends Test
 
     /**
      * @param string $type
-     * @param bool   $nullable
+     * @param bool   $optional
      *
      * @return StdClass
      */
-    private function createInfoObject($type, $nullable)
+    private function createInfoObject($type, $optional)
     {
         $object = new StdClass();
         $object->type = $type;
-        $object->nullable = $nullable;
+        $object->optional = $optional;
 
         return $object;
     }

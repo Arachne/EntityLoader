@@ -11,13 +11,14 @@ use Tests\Functional\Fixtures\Article;
  */
 class RequestEntityLoaderTest extends Test
 {
-    /**
-     * @expectedException Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage No type hint found for $parameter in Tests\Functional\Fixtures\ArticlePresenter::actionUntyped(). Specify it or use '@param mixed $parameter' to allow any type.
-     */
     public function testUntyped()
     {
         $this->tester->amOnPage('/untyped/5');
+        $request = $this->tester->grabService(Application::class)->getPresenter()->getRequest();
+        $this->assertSame([
+            'action' => 'untyped',
+            'parameter' => '5',
+        ], $request->getParameters());
     }
 
     public function testInt()

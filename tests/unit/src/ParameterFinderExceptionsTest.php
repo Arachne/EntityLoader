@@ -46,7 +46,7 @@ class ParameterFinderExceptionsTest extends Test
 
     /**
      * @expectedException Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage Class 'Tests\Unit\Classes\NonexistentComponent' from Tests\Unit\Classes\TestPresenter::createComponentNonexistentComponent @return annotation not found.
+     * @expectedExceptionMessage Class 'Tests\Unit\Classes\NonexistentComponent' from Tests\Unit\Classes\TestPresenter::createComponentNonexistentComponent return type not found.
      */
     public function testNonexistentComponent()
     {
@@ -59,7 +59,7 @@ class ParameterFinderExceptionsTest extends Test
 
     /**
      * @expectedException Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage No @return annotation found for method Tests\Unit\Classes\TestPresenter::createComponentMissingTypehint().
+     * @expectedExceptionMessage Method Tests\Unit\Classes\TestPresenter::createComponentMissingTypehint has no return type.
      */
     public function testMissingTypehint()
     {
@@ -72,39 +72,13 @@ class ParameterFinderExceptionsTest extends Test
 
     /**
      * @expectedException Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage Annotation '@param $invalid' is not valid. The correct format is '@param type $name'. Only alphanumeric characters, '_' and '\' are allowed for the type hint.
+     * @expectedExceptionMessage Method Tests\Unit\Classes\TestPresenter::createComponentBuiltinTypehint does not return a class.
      */
-    public function testInvalidTypehintHandle()
+    public function testBuiltinTypehint()
     {
         $request = new Request('', 'GET', [
             'action' => 'testAction',
-            'do' => 'invalidTypehintHandle',
-        ]);
-        $this->finder->getMapping($request);
-    }
-
-    /**
-     * @expectedException Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage No type hint found for $handleEntity in Tests\Unit\Classes\TestPresenter::handleMissingTypehintHandle(). Specify it or use '@param mixed $handleEntity' to allow any type.
-     */
-    public function testMissingTypehintHandle()
-    {
-        $request = new Request('', 'GET', [
-            'action' => 'testAction',
-            'do' => 'missingTypehintHandle',
-        ]);
-        $this->finder->getMapping($request);
-    }
-
-    /**
-     * @expectedException Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage No type hint found for $handleEntity in Tests\Unit\Classes\TestPresenter::handleNoTypehintHandle(). Specify it or use '@param mixed $handleEntity' to allow any type.
-     */
-    public function testNoTypehintHandle()
-    {
-        $request = new Request('', 'GET', [
-            'action' => 'testAction',
-            'do' => 'noTypehintHandle',
+            'builtinTypehint-persistent' => 1,
         ]);
         $this->finder->getMapping($request);
     }
