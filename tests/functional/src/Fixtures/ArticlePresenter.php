@@ -18,11 +18,23 @@ class ArticlePresenter extends Presenter
     {
     }
 
+    public function actionEntity(Article $parameter)
+    {
+    }
+
     public function actionInt(int $parameter = 1)
     {
     }
 
-    public function actionEntity(Article $parameter)
+    public function actionBool(bool $parameter)
+    {
+    }
+
+    public function actionFloat(float $parameter)
+    {
+    }
+
+    public function actionString(string $parameter)
     {
     }
 }

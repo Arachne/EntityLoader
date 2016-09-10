@@ -15,6 +15,6 @@ class RequestEntityUnloaderTest extends Test
     {
         $this->tester->amOnPage('/default');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
-        $this->assertSame('/entity/5', $presenter->link('Article:entity', new Article(5)));
+        $this->assertSame('/entity?parameter=5', $presenter->link('Article:entity', new Article(5)));
     }
 }

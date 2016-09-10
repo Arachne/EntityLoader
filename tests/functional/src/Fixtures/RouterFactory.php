@@ -26,9 +26,12 @@ class RouterFactory
     public function create() : IRouter
     {
         $router = new RouteList();
-        $router[] = new Route('/<action>[/<parameter>]', [
-            'presenter' => 'Article',
-        ]);
+        $router[] = new Route(
+            '/<action>',
+            [
+                'presenter' => 'Article',
+            ]
+        );
 
         return new RouterWrapper($router, $this->unloader);
     }
