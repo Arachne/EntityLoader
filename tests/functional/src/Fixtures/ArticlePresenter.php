@@ -18,6 +18,10 @@ class ArticlePresenter extends Presenter
     {
     }
 
+    public function actionEntity(Article $parameter)
+    {
+    }
+
     /**
      * @param int $parameter
      */
@@ -25,7 +29,24 @@ class ArticlePresenter extends Presenter
     {
     }
 
-    public function actionEntity(Article $parameter)
+    /**
+     * @param bool $parameter
+     */
+    public function actionBool($parameter)
+    {
+    }
+
+    /**
+     * @param float $parameter
+     */
+    public function actionFloat($parameter)
+    {
+    }
+
+    /**
+     * @param string $parameter
+     */
+    public function actionString($parameter)
     {
     }
 }
