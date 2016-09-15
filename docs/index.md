@@ -10,7 +10,7 @@ Installation
 The best way to install Arachne/EntityLoader is using [Composer](http://getcomposer.org/).
 
 ```sh
-$ composer require arachne/entity-loader arachne/event-dispatcher
+$ composer require arachne/entity-loader
 ```
 
 Now you need to register the necessary extensions using your [neon](http://ne-on.org/) config file.
@@ -22,8 +22,6 @@ extensions:
     - Arachne\EventDispatcher\DI\EventDispatcherExtension
     - Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
-
-Alternatively you can use kdyby/events instead of arachne/event-dispatcher.
 
 Add the `Arachne\EntityLoader\Application\EntityLoaderPresenterTrait` to your BasePresenter. It overrides the storeRequest & restoreRequest methods to make them work with object parameters.
 
