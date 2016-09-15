@@ -32,7 +32,7 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
 }
 ```
 
-Finally you will need to change your routing a little. Instead of `Nette\Application\Routers\Route` use `Arachne\EntityLoader\Routing\Route`. Also you'll need to wrap your router using `Arachne\EntityLoader\Routing\RouterWrapper` (beware that it has a dependency on `Arachne\EntityLoader\Application\RequestEntityUnloader`). Below is an example what your RouterFactory could look like:
+Finally you will need to wrap your router using `Arachne\EntityLoader\Routing\RouterWrapper`. Beware that it has a dependency on `Arachne\EntityLoader\Application\RequestEntityUnloader`. Below is an example what your RouterFactory could look like:
 
 ```php
 <?php
@@ -40,14 +40,11 @@ Finally you will need to change your routing a little. Instead of `Nette\Applica
 namespace App\Routing;
 
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
-use Arachne\EntityLoader\Routing\Route;
 use Arachne\EntityLoader\Routing\RouterWrapper;
 use Nette\Application\IRouter;
+use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 
-/**
- * Router factory.
- */
 class RouterFactory
 {
     /**
@@ -76,7 +73,7 @@ class RouterFactory
 Doctrine
 ----
 
-For usage with Doctrine ORM entities use the [Arachne/Doctrine](https://github.com/Arachne/Doctrine) package to your application.
+For usage with Doctrine ORM entities add the [Arachne/Doctrine](https://github.com/Arachne/Doctrine) package to your application.
 
 
 Custom filters
@@ -143,7 +140,15 @@ Persistent parameters are also supported. Use the @var annotation to specify the
 Routers
 ----
 
-Now what if we want to use different format than timestamp in URL? For example imagine that you don't need the time part in one case when you use a DateTime parameter and want to reptesent the date simply as 'Y-m-d' in the URL. This is supported and it can even be specific to the route in question. The solution uses filter out option and envelope object (EntityLoader creates them by default):
+Now what if we want to use different format than timestamp in URL? For example imagine that you don't need the time part in one case when you use a DateTime parameter and want to reptesent the date simply as 'Y-m-d' in the URL. This is supported and it can even be specific to the route in question. The solution uses `Route::FILTER_OUT` option and an Envelope object.
+
+To use Envelopes you need to change your routing a little. Instead of `Nette\Application\Routers\Route` use `Arachne\EntityLoader\Routing\Route`. Then you can enable envelopes first by passing an optional third parameter to `Arachne\EntityLoader\Routing\RouterWrapper`.
+
+```php
+return new RouterWrapper($router, $this->entityUnloader, true);
+```
+
+The envelopes are a simple objects implementing the __toString method. Thanks to that and some magic in the `Arachne\EntityLoader\Routing\Route` class they won't have any effect on your application other than that you can use them to get the underlying object in `Route::FILTER_OUT` callbacks:
 
 ```php
 $router[] = new Route('/<date>', [
