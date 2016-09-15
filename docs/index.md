@@ -81,7 +81,7 @@ class RouterFactory
 Doctrine
 ----
 
-For usage with Doctrine ORM entities use the [Arachne/Doctrine](https://github.com/Arachne/Doctrine) package to your application.
+For usage with Doctrine ORM entities add the [arachne/doctrine](https://github.com/Arachne/Doctrine) package to your application.
 
 
 Custom filters
