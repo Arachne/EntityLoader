@@ -12,7 +12,6 @@ namespace Arachne\EntityLoader\DI;
 
 use Arachne\DIHelpers\CompilerExtension;
 use Arachne\DIHelpers\DI\ResolversExtension;
-use Arachne\EntityLoader\Application\ApplicationListener;
 use Arachne\EntityLoader\Application\ApplicationSubscriber;
 use Arachne\EntityLoader\Application\ParameterFinder;
 use Arachne\EntityLoader\Application\RequestEntityLoader;
@@ -28,8 +27,6 @@ use Arachne\EntityLoader\FilterIn\StringFilterIn;
 use Arachne\EntityLoader\FilterInInterface;
 use Arachne\EntityLoader\FilterOutInterface;
 use Arachne\EventDispatcher\DI\EventDispatcherExtension;
-use Kdyby\Events\DI\EventsExtension;
-use Nette\Utils\AssertionException;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -61,6 +58,9 @@ class EntityLoaderExtension extends CompilerExtension
     {
         $builder = $this->getContainerBuilder();
 
+        // EventDispatcherExtension is required.
+        $this->getExtension(EventDispatcherExtension::class);
+
         $resolvers = $this->getExtension(ResolversExtension::class);
         $resolvers->add(self::TAG_FILTER_IN, FilterInInterface::class);
         $resolvers->add(self::TAG_FILTER_OUT, FilterOutInterface::class);
@@ -86,17 +86,9 @@ class EntityLoaderExtension extends CompilerExtension
         $builder->addDefinition($this->prefix('application.requestEntityUnloader'))
             ->setClass(RequestEntityUnloader::class);
 
-        if ($this->getExtension(EventDispatcherExtension::class, false)) {
-            $builder->addDefinition($this->prefix('application.applicationSubscriber'))
-                ->setClass(ApplicationSubscriber::class)
-                ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
-        } elseif ($this->getExtension(EventsExtension::class, false)) {
-            $builder->addDefinition($this->prefix('application.applicationListener'))
-                ->setClass(ApplicationListener::class)
-                ->addTag(EventsExtension::TAG_SUBSCRIBER);
-        } else {
-            throw new AssertionException('Arachne/EntityLoader requires either Arachne/EventDispatcher or Kdyby/Events to be installed.');
-        }
+        $builder->addDefinition($this->prefix('application.applicationSubscriber'))
+            ->setClass(ApplicationSubscriber::class)
+            ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
     }
 
     public function beforeCompile()
