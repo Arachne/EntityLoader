@@ -25,4 +25,8 @@ class TestComponent extends PresenterComponent
     public function handleTestHandle(Class6 $handleEntity)
     {
     }
+
+    public function createComponentSub() : TestComponent
+    {
+    }
 }

@@ -113,6 +113,22 @@ class ParameterFinderTest extends Test
         ], $this->finder->getMapping($request));
     }
 
+    public function testSubComponent()
+    {
+        $request = new Request('', 'GET', [
+            'action' => 'testAction',
+            'do' => 'component-sub-testHandle',
+            'component-sub-persistent' => 1,
+        ]);
+        $this->assertEquals([
+            'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
+            'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
+            'component-sub-persistent' => $this->createInfoObject('Tests\Unit\Classes\Class5', true),
+            'component-sub-handleEntity' => $this->createInfoObject('Tests\Unit\Classes\Class6', false),
+            'persistent2' => $this->createInfoObject('string', true),
+        ], $this->finder->getMapping($request));
+    }
+
     public function testNamelessComponent()
     {
         $request = new Request('', 'GET', [

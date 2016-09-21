@@ -177,7 +177,7 @@ class ParameterFinder
             }
 
             return isset($subComponent)
-                ? $this->createReflection(new ReflectionClass($class), $subComponent)
+                ? $this->createReflection(new ComponentReflection($class), $subComponent)
                 : new ComponentReflection($class);
         }
     }
