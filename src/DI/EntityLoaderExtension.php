@@ -90,13 +90,17 @@ class EntityLoaderExtension extends CompilerExtension
         $extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension');
 
         $builder->getDefinition($this->prefix('entityLoader'))
-            ->setArguments([
-                'filterInResolver' => '@'.$extension->get(self::TAG_FILTER_IN),
-            ]);
+            ->setArguments(
+                [
+                    'filterInResolver' => '@'.$extension->get(self::TAG_FILTER_IN),
+                ]
+            );
 
         $builder->getDefinition($this->prefix('entityUnloader'))
-            ->setArguments([
-                'filterOutResolver' => '@'.$extension->get(self::TAG_FILTER_OUT),
-            ]);
+            ->setArguments(
+                [
+                    'filterOutResolver' => '@'.$extension->get(self::TAG_FILTER_OUT),
+                ]
+            );
     }
 }
