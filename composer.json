@@ -39,5 +39,10 @@
             "Tests\\Unit\\": "tests/unit/src",
             "Tests\\Functional\\": "tests/functional/src"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
     }
 }
