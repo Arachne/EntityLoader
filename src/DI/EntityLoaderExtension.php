@@ -12,8 +12,6 @@ namespace Arachne\EntityLoader\DI;
 
 use Arachne\DIHelpers\CompilerExtension;
 use Arachne\EventDispatcher\DI\EventDispatcherExtension;
-use Kdyby\Events\DI\EventsExtension;
-use Nette\Utils\AssertionException;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -70,17 +68,9 @@ class EntityLoaderExtension extends CompilerExtension
         $builder->addDefinition($this->prefix('application.requestEntityUnloader'))
             ->setClass('Arachne\EntityLoader\Application\RequestEntityUnloader');
 
-        if ($this->getExtension('Arachne\EventDispatcher\DI\EventDispatcherExtension', false)) {
-            $builder->addDefinition($this->prefix('application.applicationSubscriber'))
-                ->setClass('Arachne\EntityLoader\Application\ApplicationSubscriber')
-                ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
-        } elseif ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
-            $builder->addDefinition($this->prefix('application.applicationListener'))
-                ->setClass('Arachne\EntityLoader\Application\ApplicationListener')
-                ->addTag(EventsExtension::TAG_SUBSCRIBER);
-        } else {
-            throw new AssertionException('Arachne/EntityLoader requires either Arachne/EventDispatcher or Kdyby/Events to be installed.');
-        }
+        $builder->addDefinition($this->prefix('application.applicationSubscriber'))
+            ->setClass('Arachne\EntityLoader\Application\ApplicationSubscriber')
+            ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
     }
 
     public function beforeCompile()

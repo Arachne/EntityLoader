@@ -14,6 +14,7 @@
     "require": {
         "php": "^5.4.0|^7.0.0",
         "arachne/di-helpers": "^0.4.0|^0.5.0",
+        "arachne/event-dispatcher": "^0.1.0",
         "nette/application": "^2.3.0",
         "nette/caching": "^2.3.0",
         "nette/di": "^2.3.0",
@@ -25,7 +26,6 @@
     "require-dev": {
         "php": "^5.5.0|^7.0.0",
         "arachne/codeception": "^0.7.3",
-        "arachne/event-dispatcher": "^0.1.0",
         "codeception/codeception": "~2.2.0",
         "codeception/mockery-module": "^0.2.2",
         "enumag/application": "^0.3.5",
