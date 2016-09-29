@@ -10,7 +10,6 @@
 
 namespace Arachne\EntityLoader;
 
-use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
 
 /**
@@ -19,11 +18,11 @@ use Arachne\EntityLoader\Exception\UnexpectedValueException;
 class EntityUnloader
 {
     /**
-     * @var ResolverInterface
+     * @var callable
      */
     private $filterOutResolver;
 
-    public function __construct(ResolverInterface $filterOutResolver)
+    public function __construct(callable $filterOutResolver)
     {
         $this->filterOutResolver = $filterOutResolver;
     }
@@ -47,7 +46,7 @@ class EntityUnloader
      */
     private function getFilter($type)
     {
-        $filter = $this->filterOutResolver->resolve($type);
+        $filter = call_user_func($this->filterOutResolver, $type);
         if (!$filter) {
             throw new UnexpectedValueException("No filter out found for type '$type'.");
         }

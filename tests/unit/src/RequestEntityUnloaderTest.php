@@ -5,15 +5,15 @@ namespace Tests\Unit;
 use Arachne\EntityLoader\Application\Envelope;
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
 use Arachne\EntityLoader\EntityUnloader;
-use Codeception\MockeryModule\Test;
-use Mockery;
-use Mockery\MockInterface;
+use Codeception\Test\Unit;
+use Eloquent\Phony\Mock\Handle\InstanceHandle;
+use Eloquent\Phony\Phpunit\Phony;
 use Nette\Application\Request;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class RequestEntityUnloaderTest extends Test
+class RequestEntityUnloaderTest extends Unit
 {
     /**
      * @var RequestEntityUnloader
@@ -21,83 +21,97 @@ class RequestEntityUnloaderTest extends Test
     private $requestEntityUnloader;
 
     /**
-     * @var MockInterface
+     * @var InstanceHandle
      */
-    private $entityUnloader;
+    private $entityUnloaderHandle;
 
     protected function _before()
     {
-        $this->entityUnloader = Mockery::mock(EntityUnloader::class);
-        $this->requestEntityUnloader = new RequestEntityUnloader($this->entityUnloader);
+        $this->entityUnloaderHandle = Phony::mock(EntityUnloader::class);
+        $this->requestEntityUnloader = new RequestEntityUnloader($this->entityUnloaderHandle->get());
     }
 
     public function testFilterOut()
     {
-        $mock = Mockery::mock();
-        $expected = [
-            'entity' => 'value',
-        ];
-        $request = new Request('', 'GET', [
-            'entity' => $mock,
-        ]);
-        $this->entityUnloader
-            ->shouldReceive('filterOut')
-            ->once()
-            ->with($mock)
-            ->andReturn('value');
+        $stub = Phony::stub();
+        $request = $this->createRequest($stub);
+
+        $this->entityUnloaderHandle
+            ->filterOut
+            ->with($stub)
+            ->returns('value');
+
         $this->requestEntityUnloader->filterOut($request);
-        $this->assertEquals($expected, $request->getParameters());
+
+        self::assertSame(
+            [
+               'entity' => 'value',
+            ],
+            $request->getParameters()
+        );
     }
 
     public function testFilterOutEmptyMapping()
     {
-        $expected = [
-            'entity' => 'value',
-        ];
-        $request = new Request('', 'GET', $expected);
+        $request = $this->createRequest('value');
+
         $this->requestEntityUnloader->filterOut($request);
-        $this->assertEquals($expected, $request->getParameters());
+
+        self::assertSame(
+            [
+               'entity' => 'value',
+            ],
+            $request->getParameters()
+        );
     }
 
     public function testFilterOutEnvelopes()
     {
-        $mock = Mockery::mock();
-        $expected = [
-            'entity' => new Envelope($mock, 'value'),
-        ];
-        $request = new Request('', 'GET', [
-            'entity' => $mock,
-        ]);
-        $this->entityUnloader
-            ->shouldReceive('filterOut')
-            ->once()
-            ->with($mock)
-            ->andReturn('value');
+        $stub = Phony::stub();
+        $request = $this->createRequest($stub);
+
+        $this->entityUnloaderHandle
+            ->filterOut
+            ->with($stub)
+            ->returns('value');
+
         $this->requestEntityUnloader->filterOut($request, true);
-        $this->assertEquals($expected, $request->getParameters());
+
+        self::assertEquals(
+            [
+               'entity' => new Envelope($stub, 'value'),
+            ],
+            $request->getParameters()
+        );
     }
 
     public function testFilterOutNullable()
     {
-        $expected = [
-            'entity' => null,
-        ];
-        $request = new Request('', 'GET', [
-            'entity' => null,
-        ]);
+        $request = $this->createRequest();
+
         $this->requestEntityUnloader->filterOut($request);
-        $this->assertEquals($expected, $request->getParameters());
+
+        self::assertSame(
+            [
+               'entity' => null,
+            ],
+            $request->getParameters()
+        );
     }
 
-    public function testFilterOutNullableIgnored()
+    /**
+     * @param mixed $value
+     *
+     * @return Request
+     */
+    private function createRequest($value = null)
     {
-        $expected = [
-            'entity' => null,
-        ];
-        $request = new Request('', 'GET', [
-            'entity' => null,
-        ]);
-        $this->requestEntityUnloader->filterOut($request);
-        $this->assertEquals($expected, $request->getParameters());
+        return new Request(
+            '',
+            'GET',
+            [
+                'entity' => $value,
+            ]
+        );
     }
 }

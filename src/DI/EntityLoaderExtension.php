@@ -10,8 +10,10 @@
 
 namespace Arachne\EntityLoader\DI;
 
-use Arachne\DIHelpers\CompilerExtension;
 use Arachne\EventDispatcher\DI\EventDispatcherExtension;
+use Arachne\ServiceCollections\DI\ServiceCollectionsExtension;
+use Nette\DI\CompilerExtension;
+use Nette\Utils\AssertionException;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -43,9 +45,20 @@ class EntityLoaderExtension extends CompilerExtension
     {
         $builder = $this->getContainerBuilder();
 
-        $extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension');
-        $extension->add(self::TAG_FILTER_IN, 'Arachne\EntityLoader\FilterInInterface');
-        $extension->add(self::TAG_FILTER_OUT, 'Arachne\EntityLoader\FilterOutInterface');
+        /* @var $serviceCollectionsExtension ServiceCollectionsExtension */
+        $serviceCollectionsExtension = $this->getExtension('Arachne\ServiceCollections\DI\ServiceCollectionsExtension');
+
+        $filterInResolver = $serviceCollectionsExtension->getCollection(
+            ServiceCollectionsExtension::TYPE_RESOLVER,
+            self::TAG_FILTER_IN,
+            'Arachne\EntityLoader\FilterInInterface'
+        );
+
+        $filterOutResolver = $serviceCollectionsExtension->getCollection(
+            ServiceCollectionsExtension::TYPE_RESOLVER,
+            self::TAG_FILTER_OUT,
+            'Arachne\EntityLoader\FilterOutInterface'
+        );
 
         foreach ($this->filters as $class => $type) {
             $builder->addDefinition($this->prefix('filterIn.'.$type))
@@ -54,10 +67,20 @@ class EntityLoaderExtension extends CompilerExtension
         }
 
         $builder->addDefinition($this->prefix('entityLoader'))
-            ->setClass('Arachne\EntityLoader\EntityLoader');
+            ->setClass('Arachne\EntityLoader\EntityLoader')
+            ->setArguments(
+                [
+                    'filterInResolver' => '@'.$filterInResolver,
+                ]
+            );
 
         $builder->addDefinition($this->prefix('entityUnloader'))
-            ->setClass('Arachne\EntityLoader\EntityUnloader');
+            ->setClass('Arachne\EntityLoader\EntityUnloader')
+            ->setArguments(
+                [
+                    'filterOutResolver' => '@'.$filterOutResolver,
+                ]
+            );
 
         $builder->addDefinition($this->prefix('application.parameterFinder'))
             ->setClass('Arachne\EntityLoader\Application\ParameterFinder');
@@ -73,24 +96,21 @@ class EntityLoaderExtension extends CompilerExtension
             ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
     }
 
-    public function beforeCompile()
+    /**
+     * @param string $class
+     *
+     * @return CompilerExtension
+     */
+    private function getExtension($class)
     {
-        $builder = $this->getContainerBuilder();
+        $extensions = $this->compiler->getExtensions($class);
 
-        $extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension');
-
-        $builder->getDefinition($this->prefix('entityLoader'))
-            ->setArguments(
-                [
-                    'filterInResolver' => '@'.$extension->get(self::TAG_FILTER_IN),
-                ]
+        if (!$extensions) {
+            throw new AssertionException(
+                sprintf('Extension "%s" requires "%s" to be installed.', get_class($this), $class)
             );
+        }
 
-        $builder->getDefinition($this->prefix('entityUnloader'))
-            ->setArguments(
-                [
-                    'filterOutResolver' => '@'.$extension->get(self::TAG_FILTER_OUT),
-                ]
-            );
+        return reset($extensions);
     }
 }

@@ -13,8 +13,8 @@
     ],
     "require": {
         "php": "^5.4.0|^7.0.0",
-        "arachne/di-helpers": "^0.4.0|^0.5.0",
         "arachne/event-dispatcher": "^0.1.0",
+        "arachne/service-collections": "^0.1.0",
         "nette/application": "^2.3.0",
         "nette/caching": "^2.3.0",
         "nette/di": "^2.3.0",
@@ -27,9 +27,8 @@
         "php": "^5.5.0|^7.0.0",
         "arachne/codeception": "^0.7.3",
         "codeception/codeception": "~2.2.0",
-        "codeception/mockery-module": "^0.2.2",
-        "enumag/application": "^0.3.5",
-        "mockery/mockery": "^0.9.0"
+        "eloquent/phony": "^0.13.5",
+        "enumag/application": "^0.3.5"
     },
     "autoload": {
         "psr-4": {
