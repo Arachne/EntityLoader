@@ -55,10 +55,10 @@ trait EntityLoaderPresenterTrait
     {
         // both parameters are optional
         if ($request === null) {
-            $request = $this->request;
+            $request = $this->getRequest();
         } elseif (!$request instanceof Request) {
             $expiration = $request;
-            $request = $this->request;
+            $request = $this->getRequest();
         }
 
         $request = clone $request;

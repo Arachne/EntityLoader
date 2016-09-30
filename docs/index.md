@@ -18,6 +18,7 @@ Now you need to register the necessary extensions using your [neon](http://ne-on
 ```
 extensions:
     - Oops\CacheFactory\DI\CacheFactoryExtension
+    - Arachne\DIHelpers\DI\ResolversExtension
     - Arachne\ContainerAdapter\DI\ContainerAdapterExtension
     - Arachne\EventDispatcher\DI\EventDispatcherExtension
     - Arachne\EntityLoader\DI\EntityLoaderExtension

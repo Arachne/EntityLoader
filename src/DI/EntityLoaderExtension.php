@@ -98,13 +98,17 @@ class EntityLoaderExtension extends CompilerExtension
         $resolvers = $this->getExtension(ResolversExtension::class);
 
         $builder->getDefinition($this->prefix('entityLoader'))
-            ->setArguments([
-                'filterInResolver' => '@'.$resolvers->get(self::TAG_FILTER_IN),
-            ]);
+            ->setArguments(
+                [
+                    'filterInResolver' => '@'.$resolvers->get(self::TAG_FILTER_IN),
+                ]
+            );
 
         $builder->getDefinition($this->prefix('entityUnloader'))
-            ->setArguments([
-                'filterOutResolver' => '@'.$resolvers->get(self::TAG_FILTER_OUT),
-            ]);
+            ->setArguments(
+                [
+                    'filterOutResolver' => '@'.$resolvers->get(self::TAG_FILTER_OUT),
+                ]
+            );
     }
 }
