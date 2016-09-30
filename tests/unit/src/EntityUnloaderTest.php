@@ -2,18 +2,19 @@
 
 namespace Tests\Unit;
 
-use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\EntityInterface;
 use Arachne\EntityLoader\EntityUnloader;
 use Arachne\EntityLoader\FilterOutInterface;
-use Codeception\MockeryModule\Test;
-use Mockery;
-use Mockery\MockInterface;
+use Codeception\Test\Unit;
+use Eloquent\Phony\Mock\Handle\InstanceHandle;
+use Eloquent\Phony\Phpunit\Phony;
+use Eloquent\Phony\Stub\StubVerifier;
+use stdClass;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class EntityUnloaderTest extends Test
+class EntityUnloaderTest extends Unit
 {
     /**
      * @var EntityUnloader
@@ -21,76 +22,66 @@ class EntityUnloaderTest extends Test
     private $entityUnloader;
 
     /**
-     * @var MockInterface
+     * @var InstanceHandle
      */
-    private $filter;
+    private $filterHandle;
 
     /**
-     * @var MockInterface
+     * @var StubVerifier
      */
     private $filterResolver;
 
     protected function _before()
     {
-        $this->filter = Mockery::mock(FilterOutInterface::class);
-        $this->filterResolver = Mockery::mock(ResolverInterface::class);
+        $this->filterHandle = Phony::mock(FilterOutInterface::class);
+        $this->filterResolver = Phony::stub();
         $this->entityUnloader = new EntityUnloader($this->filterResolver);
     }
 
     public function testFilterOut()
     {
         $this->filterResolver
-            ->shouldReceive('resolve')
-            ->once()
-            ->andReturn($this->filter);
+            ->returns($this->filterHandle->get());
 
-        $mock1 = Mockery::mock();
+        $stub = Phony::stub();
 
-        $this->filter
-            ->shouldReceive('filterOut')
-            ->once()
-            ->with($mock1)
-            ->andReturn('1');
+        $this->filterHandle
+            ->filterOut
+            ->with($stub)
+            ->returns('1');
 
-        $this->assertSame('1', $this->entityUnloader->filterOut($mock1));
+        $this->assertSame('1', $this->entityUnloader->filterOut($stub));
     }
 
     public function testFilterOutEntityInterface()
     {
         $this->filterResolver
-            ->shouldReceive('resolve')
-            ->with(EntityInterface::class)
-            ->once()
-            ->andReturn($this->filter);
+            ->returns($this->filterHandle->get());
 
-        $mock1 = Mockery::mock(EntityInterface::class);
-        $mock1
-            ->shouldReceive('getBaseType')
-            ->once()
-            ->andReturn(EntityInterface::class);
+        $entityHandle = Phony::mock(EntityInterface::class);
+        $entityHandle
+            ->getBaseType
+            ->returns(EntityInterface::class);
 
-        $this->filter
-            ->shouldReceive('filterOut')
-            ->once()
-            ->with($mock1)
-            ->andReturn('1');
+        $this->filterHandle
+            ->filterOut
+            ->with($entityHandle->get())
+            ->returns('1');
 
-        $this->assertSame('1', $this->entityUnloader->filterOut($mock1));
+        $this->assertSame('1', $this->entityUnloader->filterOut($entityHandle->get()));
     }
 
     /**
-     * @expectedException Arachne\EntityLoader\Exception\UnexpectedValueException
+     * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
      * @expectedExceptionMessage No filter out found for type
      */
     public function testFilterNotFound()
     {
-        $mock1 = Mockery::mock('Type1');
+        $entityHandle = Phony::mock(stdClass::class);
 
         $this->filterResolver
-            ->shouldReceive('resolve')
-            ->once()
-            ->andReturn();
+            ->returns();
 
-        $this->entityUnloader->filterOut($mock1);
+        $this->entityUnloader->filterOut($entityHandle->get());
     }
 }

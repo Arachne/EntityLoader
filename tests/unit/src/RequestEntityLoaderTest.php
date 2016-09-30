@@ -5,15 +5,15 @@ namespace Tests\Unit;
 use Arachne\EntityLoader\Application\ParameterFinder;
 use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\EntityLoader;
-use Codeception\MockeryModule\Test;
-use Mockery;
-use Mockery\MockInterface;
+use Codeception\Test\Unit;
+use Eloquent\Phony\Mock\Handle\InstanceHandle;
+use Eloquent\Phony\Phpunit\Phony;
 use Nette\Application\Request;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class RequestEntityLoaderTest extends Test
+class RequestEntityLoaderTest extends Unit
 {
     /**
      * @var RequestEntityLoader
@@ -21,83 +21,95 @@ class RequestEntityLoaderTest extends Test
     private $requestEntityLoader;
 
     /**
-     * @var MockInterface
+     * @var InstanceHandle
      */
-    private $entityLoader;
+    private $entityLoaderHandle;
 
     /**
-     * @var MockInterface
+     * @var InstanceHandle
      */
-    private $finder;
+    private $finderHandle;
 
     protected function _before()
     {
-        $this->finder = Mockery::mock(ParameterFinder::class);
-        $this->entityLoader = Mockery::mock(EntityLoader::class);
-        $this->requestEntityLoader = new RequestEntityLoader($this->entityLoader, $this->finder);
+        $this->finderHandle = Phony::mock(ParameterFinder::class);
+        $this->entityLoaderHandle = Phony::mock(EntityLoader::class);
+        $this->requestEntityLoader = new RequestEntityLoader($this->entityLoaderHandle->get(), $this->finderHandle->get());
     }
 
     public function testFilterIn()
     {
-        $expected = [
-            'entity' => 'value2',
-        ];
-        $request = new Request('', 'GET', [
-            'entity' => 'value1',
-        ]);
-        $mapping = [
-            'entity' => (object) [
-                'type' => 'Type1',
-            ],
-        ];
-        $this->finder->shouldReceive('getMapping')
-            ->once()
+        $request = $this->createRequest('value1');
+
+        $this->finderHandle
+            ->getMapping
             ->with($request)
-            ->andReturn($mapping);
-        $this->entityLoader
-            ->shouldReceive('filterIn')
-            ->once()
+            ->returns(
+                [
+                    'entity' => (object) [
+                        'type' => 'Type1',
+                    ],
+                ]
+            );
+
+        $this->entityLoaderHandle
+            ->filterIn
             ->with('Type1', 'value1')
-            ->andReturn('value2');
+            ->returns('value2');
+
         $this->requestEntityLoader->filterIn($request);
-        $this->assertEquals($expected, $request->getParameters());
+
+        self::assertSame(
+            [
+                'entity' => 'value2',
+            ],
+            $request->getParameters()
+        );
     }
 
     public function testFilterInEmptyMapping()
     {
-        $expected = [
-            'entity' => 'value1',
-        ];
-        $request = new Request('', 'GET', $expected);
-        $mapping = [];
-        $this->finder->shouldReceive('getMapping')
-            ->once()
+        $request = $this->createRequest('value1');
+
+        $this->finderHandle
+            ->getMapping
             ->with($request)
-            ->andReturn($mapping);
+            ->returns([]);
+
         $this->requestEntityLoader->filterIn($request);
-        $this->assertEquals($expected, $request->getParameters());
+
+        self::assertSame(
+            [
+                'entity' => 'value1',
+            ],
+            $request->getParameters()
+        );
     }
 
     public function testFilterInNullable()
     {
-        $expected = [
-            'entity' => null,
-        ];
-        $request = new Request('', 'GET', [
-            'entity' => null,
-        ]);
-        $mapping = [
-            'entity' => (object) [
-                'type' => 'Type1',
-                'optional' => true,
-            ],
-        ];
-        $this->finder->shouldReceive('getMapping')
-            ->once()
+        $request = $this->createRequest();
+
+        $this->finderHandle
+            ->getMapping
             ->with($request)
-            ->andReturn($mapping);
+            ->returns(
+                [
+                    'entity' => (object) [
+                        'type' => 'Type1',
+                        'optional' => true,
+                    ],
+                ]
+            );
+
         $this->requestEntityLoader->filterIn($request);
-        $this->assertEquals($expected, $request->getParameters());
+
+        self::assertSame(
+            [
+               'entity' => null,
+            ],
+            $request->getParameters()
+        );
     }
 
     /**
@@ -106,19 +118,36 @@ class RequestEntityLoaderTest extends Test
      */
     public function testFilterInNullableException()
     {
-        $request = new Request('', 'GET', [
-            'entity' => null,
-        ]);
-        $mapping = [
-            'entity' => (object) [
-                'type' => 'Type1',
-                'optional' => false,
-            ],
-        ];
-        $this->finder->shouldReceive('getMapping')
-            ->once()
+        $request = $this->createRequest();
+
+        $this->finderHandle
+            ->getMapping
             ->with($request)
-            ->andReturn($mapping);
+            ->returns(
+                [
+                    'entity' => (object) [
+                        'type' => 'Type1',
+                        'optional' => false,
+                    ],
+                ]
+            );
+
         $this->requestEntityLoader->filterIn($request);
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return Request
+     */
+    private function createRequest($value = null)
+    {
+        return new Request(
+            '',
+            'GET',
+            [
+                'entity' => $value,
+            ]
+        );
     }
 }

@@ -1,7 +1,3 @@
 error_level: "E_ALL"
 
 class_name: UnitSuiteTester
-
-modules:
-    enabled:
-        - Mockery

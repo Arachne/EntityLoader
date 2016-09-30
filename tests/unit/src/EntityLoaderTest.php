@@ -2,17 +2,18 @@
 
 namespace Tests\Unit;
 
-use Arachne\DIHelpers\ResolverInterface;
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\FilterInInterface;
-use Codeception\MockeryModule\Test;
-use Mockery;
-use Mockery\MockInterface;
+use Codeception\Test\Unit;
+use DateTime;
+use Eloquent\Phony\Mock\Handle\InstanceHandle;
+use Eloquent\Phony\Phpunit\Phony;
+use Eloquent\Phony\Stub\StubVerifier;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class EntityLoaderTest extends Test
+class EntityLoaderTest extends Unit
 {
     /**
      * @var EntityLoader
@@ -20,72 +21,66 @@ class EntityLoaderTest extends Test
     private $entityLoader;
 
     /**
-     * @var MockInterface
+     * @var InstanceHandle
      */
-    private $filter;
+    private $filterHandle;
 
     /**
-     * @var MockInterface
+     * @var StubVerifier
      */
     private $filterResolver;
 
     protected function _before()
     {
-        $this->filter = Mockery::mock(FilterInInterface::class);
-        $this->filterResolver = Mockery::mock(ResolverInterface::class);
+        $this->filterHandle = Phony::mock(FilterInInterface::class);
+        $this->filterResolver = Phony::stub();
         $this->entityLoader = new EntityLoader($this->filterResolver);
     }
 
     public function testFilterIn()
     {
         $this->filterResolver
-            ->shouldReceive('resolve')
-            ->once()
-            ->with('Type1')
-            ->andReturn($this->filter);
+            ->returns($this->filterHandle->get());
 
-        $mock1 = Mockery::mock('Type1');
+        $mock1 = Phony::mock(DateTime::class)->get();
 
-        $this->filter
-            ->shouldReceive('filterIn')
-            ->once()
-            ->with(1)
-            ->andReturn($mock1);
+        $this->filterHandle
+            ->filterIn
+            ->returns($mock1);
 
-        $this->assertSame($mock1, $this->entityLoader->filterIn('Type1', 1));
+        $this->assertSame($mock1, $this->entityLoader->filterIn(DateTime::class, 1));
+
+        $this->filterHandle
+            ->filterIn
+            ->calledWith(1);
     }
 
     /**
-     * @expectedException Arachne\EntityLoader\Exception\UnexpectedValueException
-     * @expectedExceptionMessage FilterIn did not return an instance of 'Type1'.
+     * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
+     * @expectedExceptionMessage FilterIn did not return an instance of 'DateTime'.
      */
     public function testFilterInFail()
     {
         $this->filterResolver
-            ->shouldReceive('resolve')
-            ->once()
-            ->with('Type1')
-            ->andReturn($this->filter);
+            ->returns($this->filterHandle->get());
 
-        $this->filter
-            ->shouldReceive('filterIn')
-            ->once()
-            ->with(1)
-            ->andReturn(null);
+        $this->filterHandle
+            ->filterIn
+            ->returns(null);
 
-        $this->entityLoader->filterIn('Type1', 1);
+        $this->entityLoader->filterIn(DateTime::class, 1);
     }
 
     public function testFilterInIgnore()
     {
         // Make sure that the converter is not called at all if the parameter already has the desired type.
-        $mock1 = Mockery::mock('Type1');
-        $this->assertSame($mock1, $this->entityLoader->filterIn('Type1', $mock1));
+        $mock1 = Phony::mock(DateTime::class)->get();
+        $this->assertSame($mock1, $this->entityLoader->filterIn(DateTime::class, $mock1));
     }
 
     /**
-     * @expectedException Arachne\EntityLoader\Exception\UnexpectedValueException
-     * @expectedExceptionMessage No filter in found for type 'Type1'.
+     * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
+     * @expectedExceptionMessage No filter in found for type 'DateTime'.
      */
     public function testFilterNotFound()
     {
@@ -93,12 +88,6 @@ class EntityLoaderTest extends Test
             'entity' => 'value1',
         ];
 
-        $this->filterResolver
-            ->shouldReceive('resolve')
-            ->once()
-            ->with('Type1')
-            ->andReturn();
-
-        $this->entityLoader->filterIn('Type1', $parameters);
+        $this->entityLoader->filterIn(DateTime::class, $parameters);
     }
 }
