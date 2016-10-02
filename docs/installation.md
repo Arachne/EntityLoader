@@ -18,14 +18,8 @@ extensions:
     - Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
 
-Next add the `Arachne\EntityLoader\Application\EntityLoaderPresenterTrait` to your BasePresenter. It overrides the storeRequest & restoreRequest methods to make them work with object parameters.
-
-```php
-abstract class BasePresenter extends \Nette\Application\UI\Presenter
-{
-    use \Arachne\EntityLoader\Application\EntityLoaderPresenterTrait;
-}
-```
+Routing
+----
 
 Then you will need to wrap your router using `Arachne\EntityLoader\Routing\RouterWrapper`. Beware that it has a dependency on `Arachne\EntityLoader\Application\RequestEntityUnloader`. Below is an example what your RouterFactory could look like:
 
@@ -63,6 +57,18 @@ class RouterFactory
 }
 ```
 
+Presenters and components
+----
+
+Next add the `Arachne\EntityLoader\Application\EntityLoaderPresenterTrait` to your BasePresenter. It overrides the storeRequest & restoreRequest methods to make them work with object parameters.
+
+```php
+abstract class BasePresenter extends \Nette\Application\UI\Presenter
+{
+    use \Arachne\EntityLoader\Application\EntityLoaderPresenterTrait;
+}
+```
+
 Finally you will need to specify the types of parameters in your application.
 
 - Add types to all parameters of your action, render and handle methods.
@@ -72,3 +78,8 @@ Finally you will need to specify the types of parameters in your application.
 These types are handled out of the box: `int`, `bool`, `float`, `string`, `array` and `mixed`.
 
 EntityLoader is very strict about this and it will throw an exception if some type or annotation is missing.
+
+Nextras/SecuredLinks
+----
+
+If you're using [Nextras/SecuredLinks](https://github.com/nextras/secured-links) replace the standard `Nextras\Application\UI\SecuredLinksPresenterTrait` with `Arachne\EntityLoader\Application\SecuredLinksPresenterTrait`.
