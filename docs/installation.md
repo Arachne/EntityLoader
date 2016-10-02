@@ -27,7 +27,7 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
 }
 ```
 
-Finally you will need to wrap your router using `Arachne\EntityLoader\Routing\RouterWrapper`. Beware that it has a dependency on `Arachne\EntityLoader\Application\RequestEntityUnloader`. Below is an example what your RouterFactory could look like:
+Then you will need to wrap your router using `Arachne\EntityLoader\Routing\RouterWrapper`. Beware that it has a dependency on `Arachne\EntityLoader\Application\RequestEntityUnloader`. Below is an example what your RouterFactory could look like:
 
 ```php
 <?php
@@ -65,3 +65,13 @@ class RouterFactory
     }
 }
 ```
+
+Finally you will need to specify the types of parameters in your application.
+
+- Add `@param` annotations to all your action, render and handle methods.
+- Add `@var` annotations to all your persistent parameters.
+- Add `@return` annotations to all your createComponent methods.
+
+These types are handled out of the box: `int`, `bool`, `float`, `string`, `array` and `mixed`.
+
+EntityLoader is very strict about this and it will throw an exception if some annotation is missing.
