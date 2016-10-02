@@ -14,7 +14,7 @@ use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\Responses\ForwardResponse;
 use Nette\Security\User;
-use Nette\Utils\Strings;
+use Nette\Utils\Random;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -66,7 +66,7 @@ trait EntityLoaderPresenterTrait
 
         $session = $this->getSession('Arachne.Application/requests');
         do {
-            $key = Strings::random(5);
+            $key = Random::generate(5);
         } while (isset($session[$key]));
 
         $session[$key] = [$this->user ? $this->user->getId() : null, $request];
