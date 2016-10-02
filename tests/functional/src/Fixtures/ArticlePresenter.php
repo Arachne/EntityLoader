@@ -2,6 +2,7 @@
 
 namespace Tests\Functional\Fixtures;
 
+use Arachne\EntityLoader\Application\SecuredLinksPresenterTrait;
 use Nette\Application\UI\Presenter;
 
 /**
@@ -9,6 +10,8 @@ use Nette\Application\UI\Presenter;
  */
 class ArticlePresenter extends Presenter
 {
+    use SecuredLinksPresenterTrait;
+
     public function startup()
     {
         $this->terminate();
@@ -47,6 +50,13 @@ class ArticlePresenter extends Presenter
      * @param string $parameter
      */
     public function actionString($parameter)
+    {
+    }
+
+    /**
+     * @secured
+     */
+    public function handleSignal(Article $parameter)
     {
     }
 }
