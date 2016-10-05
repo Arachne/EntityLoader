@@ -46,6 +46,13 @@ class EntityLoaderExtension extends CompilerExtension
      */
     const TAG_FILTER_OUT = 'arachne.entityLoader.filterOut';
 
+    /**
+     * @var array
+     */
+    public $defaults = [
+        'envelopes' => false,
+    ];
+
     private $filters = [
         ArrayFilterIn::class => 'array',
         BooleanFilterIn::class => 'bool',
@@ -57,6 +64,7 @@ class EntityLoaderExtension extends CompilerExtension
 
     public function loadConfiguration()
     {
+        $this->validateConfig($this->defaults);
         $builder = $this->getContainerBuilder();
 
         /* @var $serviceCollectionsExtension ServiceCollectionsExtension */
@@ -108,6 +116,30 @@ class EntityLoaderExtension extends CompilerExtension
         $builder->addDefinition($this->prefix('application.applicationSubscriber'))
             ->setClass(ApplicationSubscriber::class)
             ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
+    }
+
+    public function beforeCompile()
+    {
+        $builder = $this->getContainerBuilder();
+
+        $router = $builder->getByType('Nette\Application\IRouter');
+
+        if ($router) {
+            $routerDefinition = $builder->getDefinition($router);
+
+            if ($routerDefinition->getClass() !== 'Arachne\EntityLoader\Routing\RouterWrapper') {
+                $routerDefinition->setAutowired(false);
+
+                $builder->addDefinition($this->prefix('router'))
+                    ->setClass('Arachne\EntityLoader\Routing\RouterWrapper')
+                    ->setArguments(
+                        [
+                            'router' => '@'.$router,
+                            'envelopes' => $this->config['envelopes'],
+                        ]
+                    );
+            }
+        }
     }
 
     /**
