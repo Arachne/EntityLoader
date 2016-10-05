@@ -74,7 +74,7 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
 
 Finally you will need to specify the types of parameters in your application.
 
-- Add `@param` annotations to all your action, render and handle methods.
+- Add types or `@param` annotations to all your action, render and handle methods.
 - Add `@var` annotations to all your persistent parameters.
 - Add `@return` annotations to all your createComponent methods.
 
