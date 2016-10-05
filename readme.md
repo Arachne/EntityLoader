@@ -11,6 +11,24 @@ Arachne/EntityLoader
 
 Enables object parameters in nette/application.
 
+```php
+// Without EntityLoader
+public function actionEdit($id)
+{
+	$article = $this->em->getReposiroty(Article::class)->find($id);
+	if (! $article) {
+		$this->error(); // 404
+	}
+	// ...
+}
+
+// With EntityLoader
+public function actionEdit(Article $article)
+{
+	// ...
+}
+```
+
 Documentation
 ----
 
