@@ -18,48 +18,6 @@ extensions:
     arachne.entity_loader: Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
 
-Routing
-----
-
-Then you will need to wrap your router using `Arachne\EntityLoader\Routing\RouterWrapper`. Beware that it has a dependency on `Arachne\EntityLoader\Application\RequestEntityUnloader`. Below is an example what your RouterFactory could look like:
-
-```php
-<?php
-
-namespace App\Routing;
-
-use Arachne\EntityLoader\Application\RequestEntityUnloader;
-use Arachne\EntityLoader\Routing\RouterWrapper;
-use Nette\Application\IRouter;
-use Nette\Application\Routers\Route;
-use Nette\Application\Routers\RouteList;
-
-class RouterFactory
-{
-    /**
-     * @var RequestEntityUnloader
-     */
-    private $entityUnloader;
-
-    public function __construct(RequestEntityUnloader $entityUnloader)
-    {
-        $this->entityUnloader = $entityUnloader;
-    }
-
-    /**
-     * @return IRouter
-     */
-    public function create()
-    {
-        $router = new RouteList();
-
-        $router[] = new Route('<presenter>/<action>[/<entity>]');
-
-        return new RouterWrapper($router, $this->entityUnloader);
-    }
-}
-```
-
 Presenters and components
 ----
 
