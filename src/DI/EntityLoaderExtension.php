@@ -24,8 +24,10 @@ use Arachne\EntityLoader\FilterIn\MixedFilterIn;
 use Arachne\EntityLoader\FilterIn\StringFilterIn;
 use Arachne\EntityLoader\FilterInInterface;
 use Arachne\EntityLoader\FilterOutInterface;
+use Arachne\EntityLoader\Routing\RouterWrapper;
 use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Arachne\ServiceCollections\DI\ServiceCollectionsExtension;
+use Nette\Application\IRouter;
 use Nette\DI\CompilerExtension;
 use Nette\Utils\AssertionException;
 
@@ -122,16 +124,16 @@ class EntityLoaderExtension extends CompilerExtension
     {
         $builder = $this->getContainerBuilder();
 
-        $router = $builder->getByType('Nette\Application\IRouter');
+        $router = $builder->getByType(IRouter::class);
 
         if ($router) {
             $routerDefinition = $builder->getDefinition($router);
 
-            if ($routerDefinition->getClass() !== 'Arachne\EntityLoader\Routing\RouterWrapper') {
+            if ($routerDefinition->getClass() !== RouterWrapper::class) {
                 $routerDefinition->setAutowired(false);
 
                 $builder->addDefinition($this->prefix('router'))
-                    ->setClass('Arachne\EntityLoader\Routing\RouterWrapper')
+                    ->setClass(RouterWrapper::class)
                     ->setArguments(
                         [
                             'router' => '@'.$router,
