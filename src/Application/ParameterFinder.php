@@ -69,14 +69,14 @@ class ParameterFinder
      *
      * @return StdClass[]
      */
-    public function getMapping(Request $request) : array
+    public function getMapping(Request $request): array
     {
         return $this->cache->load($this->getCacheKey($request), function (&$dependencies) use ($request) {
             return $this->loadMapping($request->getPresenterName(), $request->getParameters(), $dependencies);
         });
     }
 
-    private function loadMapping(string $presenter, array $parameters, array &$dependencies = null) : array
+    private function loadMapping(string $presenter, array $parameters, array &$dependencies = null): array
     {
         $class = $this->presenterFactory->getPresenterClass($presenter);
         $presenterReflection = new ComponentReflection($class);
@@ -182,7 +182,7 @@ class ParameterFinder
         }
     }
 
-    private function getMethodParameters(ReflectionMethod $reflection, string $prefix = null) : array
+    private function getMethodParameters(ReflectionMethod $reflection, string $prefix = null): array
     {
         $info = [];
         foreach ($reflection->getParameters() as $parameter) {
@@ -194,7 +194,7 @@ class ParameterFinder
         return $info;
     }
 
-    private function getPersistentParameters(ComponentReflection $reflection, string $prefix = null) : array
+    private function getPersistentParameters(ComponentReflection $reflection, string $prefix = null): array
     {
         $info = [];
         foreach ($reflection->getPersistentParams() as $persistent => $_) {
@@ -213,12 +213,12 @@ class ParameterFinder
         return $info;
     }
 
-    private function normalizeType(string $type, ReflectionClass $class) : string
+    private function normalizeType(string $type, ReflectionClass $class): string
     {
         return isset(self::$simpleTypes[$type]) ? self::$simpleTypes[$type] : PhpReflection::expandClassName($type, $class);
     }
 
-    private function createInfoObject(string $type, bool $optional) : StdClass
+    private function createInfoObject(string $type, bool $optional): StdClass
     {
         $object = new StdClass();
         $object->type = $type;
@@ -227,7 +227,7 @@ class ParameterFinder
         return $object;
     }
 
-    private function getCacheKey(Request $request) : array
+    private function getCacheKey(Request $request): array
     {
         $parameters = $request->getParameters();
         $key = [

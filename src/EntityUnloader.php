@@ -39,7 +39,7 @@ class EntityUnloader
         return $this->getFilter($type)->filterOut($object);
     }
 
-    private function getFilter(string $type) : FilterOutInterface
+    private function getFilter(string $type): FilterOutInterface
     {
         $filter = call_user_func($this->filterOutResolver, $type);
         if (!$filter) {

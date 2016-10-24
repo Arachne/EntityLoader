@@ -46,7 +46,7 @@ class EntityLoader
         return $value;
     }
 
-    private function getFilter(string $type) : FilterInInterface
+    private function getFilter(string $type): FilterInInterface
     {
         $filter = call_user_func($this->filterInResolver, $type);
         if (!$filter) {
@@ -62,7 +62,7 @@ class EntityLoader
      *
      * @return bool
      */
-    private function isType(string $type, $value) : bool
+    private function isType(string $type, $value): bool
     {
         switch ($type) {
             case 'int':

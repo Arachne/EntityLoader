@@ -15,5 +15,5 @@ namespace Arachne\EntityLoader;
  */
 interface EntityInterface
 {
-    public function getBaseType() : string;
+    public function getBaseType(): string;
 }

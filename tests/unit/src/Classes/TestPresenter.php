@@ -49,11 +49,11 @@ class TestPresenter extends Presenter
     {
     }
 
-    protected function createComponentComponent() : TestComponent
+    protected function createComponentComponent(): TestComponent
     {
     }
 
-    protected function createComponentNonexistentComponent() : NonexistentComponent
+    protected function createComponentNonexistentComponent(): NonexistentComponent
     {
     }
 
@@ -61,7 +61,7 @@ class TestPresenter extends Presenter
     {
     }
 
-    protected function createComponentBuiltinTypehint() : int
+    protected function createComponentBuiltinTypehint(): int
     {
     }
 }
