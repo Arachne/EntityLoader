@@ -13,7 +13,7 @@ use Tests\Functional\Fixtures\Article;
 class RequestEntityLoaderTest extends Test
 {
     /**
-     * @expectedException Arachne\EntityLoader\Exception\TypeHintException
+     * @expectedException \Arachne\EntityLoader\Exception\TypeHintException
      * @expectedExceptionMessage No type hint found for $parameter in Tests\Functional\Fixtures\ArticlePresenter::actionUntyped(). Specify it or use '@param mixed $parameter' to allow any type.
      */
     public function testUntyped()
@@ -66,7 +66,7 @@ class RequestEntityLoaderTest extends Test
     }
 
     /**
-     * @expectedException Nette\Application\BadRequestException
+     * @expectedException \Nette\Application\BadRequestException
      */
     public function testIntError()
     {
@@ -89,7 +89,7 @@ class RequestEntityLoaderTest extends Test
     }
 
     /**
-     * @expectedException Nette\Application\BadRequestException
+     * @expectedException \Nette\Application\BadRequestException
      */
     public function testBoolError()
     {
@@ -112,7 +112,7 @@ class RequestEntityLoaderTest extends Test
     }
 
     /**
-     * @expectedException Nette\Application\BadRequestException
+     * @expectedException \Nette\Application\BadRequestException
      */
     public function testFloatError()
     {
@@ -135,7 +135,7 @@ class RequestEntityLoaderTest extends Test
     }
 
     /**
-     * @expectedException Nette\Application\BadRequestException
+     * @expectedException \Nette\Application\BadRequestException
      */
     public function testStringError()
     {
