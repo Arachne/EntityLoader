@@ -67,7 +67,7 @@ class RequestEntityLoaderTest extends Test
     }
 
     /**
-     * @expectedException Nette\Application\BadRequestException
+     * @expectedException \Nette\Application\BadRequestException
      */
     public function testIntError()
     {
@@ -90,7 +90,7 @@ class RequestEntityLoaderTest extends Test
     }
 
     /**
-     * @expectedException Nette\Application\BadRequestException
+     * @expectedException \Nette\Application\BadRequestException
      */
     public function testBoolError()
     {
@@ -113,7 +113,7 @@ class RequestEntityLoaderTest extends Test
     }
 
     /**
-     * @expectedException Nette\Application\BadRequestException
+     * @expectedException \Nette\Application\BadRequestException
      */
     public function testFloatError()
     {
@@ -136,7 +136,7 @@ class RequestEntityLoaderTest extends Test
     }
 
     /**
-     * @expectedException Nette\Application\BadRequestException
+     * @expectedException \Nette\Application\BadRequestException
      */
     public function testStringError()
     {
