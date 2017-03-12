@@ -15,7 +15,7 @@ Enables object parameters in nette/application.
 // Without EntityLoader
 public function actionEdit($id)
 {
-	$article = $this->em->getReposiroty(Article::class)->find($id);
+	$article = $this->em->getRepository(Article::class)->find($id);
 	if (! $article) {
 		$this->error(); // 404
 	}
