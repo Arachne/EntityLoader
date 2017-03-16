@@ -2,8 +2,8 @@ How to run tests
 ====
 
 ```
-# install php-cs-fixer
-composer global require friendsofphp/php-cs-fixer ^2.0.0
+# install php-cs-fixer and phpstan
+composer tools
 
 # go to the project's root directory, but NOT the tests subdirectory 
 cd <project_dir>
@@ -11,14 +11,14 @@ cd <project_dir>
 # install dependencies
 composer update
 
-# check coding style
-php-cs-fixer fix --dry-run
-
 # fix coding style
-php-cs-fixer fix
+composer fix
+
+# static analysis
+composer analyse
 
 # run tests
-sh ./tests/run.sh
+composer test
 ```
 
 Advanced usage
