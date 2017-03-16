@@ -4,7 +4,6 @@ extensions:
     arachne.servicecollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
     arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
     arachne.eventdispatcher: Arachne\EventDispatcher\DI\EventDispatcherExtension
-    enumag.application: Enumag\Application\DI\ApplicationExtension
     nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
     nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
     nette.http: Nette\Bridges\HttpDI\HttpExtension

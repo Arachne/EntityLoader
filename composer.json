@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": "^7.0.0",
+        "php": "^7.1.0",
         "arachne/event-dispatcher": "^0.1.0",
         "arachne/service-collections": "^0.1.0",
         "nette/application": "^2.3.0",
@@ -20,13 +20,12 @@
         "nette/di": "^2.3.0",
         "nette/http": "^2.3.0",
         "nette/utils": "^2.3.0",
-        "oops/cache-factory": "^1.0.0|^2.0.0|^3.0.0"
+        "oops/cache-factory": "^3.0.0"
     },
     "require-dev": {
         "arachne/codeception": "^0.7.3",
-        "codeception/codeception": "~2.2.0",
-        "eloquent/phony": "^0.13.5",
-        "enumag/application": "^0.3.5",
+        "codeception/codeception": "^2.2.0",
+        "eloquent/phony": "^0.14.0",
         "nextras/secured-links": "^1.3.0"
     },
     "autoload": {
