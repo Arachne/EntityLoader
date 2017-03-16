@@ -2,7 +2,9 @@
 
 namespace Tests\Functional;
 
-use Codeception\TestCase\Test;
+use Arachne\Codeception\Module\NetteApplicationModule;
+use Arachne\Codeception\Module\NetteDIModule;
+use Codeception\Test\Unit;
 use Nette\Application\Application;
 use Nette\Application\UI\Presenter;
 use Tests\Functional\Fixtures\Article;
@@ -10,8 +12,13 @@ use Tests\Functional\Fixtures\Article;
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class RequestEntityLoaderTest extends Test
+class RequestEntityLoaderTest extends Unit
 {
+    /**
+     * @var NetteApplicationModule|NetteDIModule
+     */
+    protected $tester;
+
     public function testUntyped()
     {
         $this->tester->amOnPage('/untyped?parameter=5');

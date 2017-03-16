@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Classes;
 
-use Exception;
 use Nette\Application\UI\Presenter;
 
 /**
@@ -23,11 +22,6 @@ class TestPresenter extends Presenter
      * @var string
      */
     public $persistent2;
-
-    final public function __construct()
-    {
-        throw new Exception('This class is there for annotations only.');
-    }
 
     public function actionTestAction(Class2 $actionEntity)
     {

@@ -2,14 +2,21 @@
 
 namespace Tests\Functional;
 
-use Codeception\TestCase\Test;
+use Arachne\Codeception\Module\NetteApplicationModule;
+use Arachne\Codeception\Module\NetteDIModule;
+use Codeception\Test\Unit;
 use Nette\Application\Application;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class EntityLoaderPresenterTraitTest extends Test
+class EntityLoaderPresenterTraitTest extends Unit
 {
+    /**
+     * @var NetteApplicationModule|NetteDIModule
+     */
+    protected $tester;
+
     /**
      * @expectedException \Nette\Application\AbortException
      */

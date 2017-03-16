@@ -34,6 +34,8 @@ class ParameterFinderTest extends Unit
             ->load
             ->does(
                 function ($key, callable $callback) {
+                    $dependencies = null;
+
                     return $callback($dependencies);
                 }
             );

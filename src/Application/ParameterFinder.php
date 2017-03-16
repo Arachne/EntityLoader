@@ -151,7 +151,7 @@ class ParameterFinder
             $component = substr($component, 0, $pos);
         }
         if ($component === '') {
-            return;
+            return null;
         }
         $method = 'createComponent'.ucfirst($component);
         if ($reflection->hasMethod($method)) {

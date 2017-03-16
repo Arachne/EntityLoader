@@ -2,15 +2,22 @@
 
 namespace Tests\Functional;
 
-use Codeception\TestCase\Test;
+use Arachne\Codeception\Module\NetteApplicationModule;
+use Arachne\Codeception\Module\NetteDIModule;
+use Codeception\Test\Unit;
 use Nette\Application\Application;
 use Tests\Functional\Fixtures\Article;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class RequestEntityUnloaderTest extends Test
+class RequestEntityUnloaderTest extends Unit
 {
+    /**
+     * @var NetteApplicationModule|NetteDIModule
+     */
+    protected $tester;
+
     public function testLink()
     {
         $this->tester->amOnPage('/default');
