@@ -27,7 +27,7 @@ class RequestEntityLoader
         $this->finder = $finder;
     }
 
-    public function filterIn(Request $request)
+    public function filterIn(Request $request): void
     {
         $mapping = $this->finder->getMapping($request);
         $parameters = $request->getParameters();

@@ -136,12 +136,7 @@ class EntityLoaderExtension extends CompilerExtension
         }
     }
 
-    /**
-     * @param string $class
-     *
-     * @return CompilerExtension
-     */
-    private function getExtension($class)
+    private function getExtension(string $class): CompilerExtension
     {
         $extensions = $this->compiler->getExtensions($class);
 

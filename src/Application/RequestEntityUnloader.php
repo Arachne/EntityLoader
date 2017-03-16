@@ -20,7 +20,7 @@ class RequestEntityUnloader
         $this->entityUnloader = $entityUnloader;
     }
 
-    public function filterOut(Request $request, bool $envelopes = false)
+    public function filterOut(Request $request, bool $envelopes = false): void
     {
         $parameters = $request->getParameters();
         foreach ($parameters as &$value) {
