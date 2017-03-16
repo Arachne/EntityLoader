@@ -17,8 +17,8 @@ matrix:
 
 install:
     - export PATH="$PATH:$HOME/.composer/vendor/bin"
-    - composer global require friendsofphp/php-cs-fixer "^2.0.0@dev"
-    - composer global require satooshi/php-coveralls "^1.0.0"
+    - composer global require friendsofphp/php-cs-fixer ^2.0.0
+    - composer global require satooshi/php-coveralls ^1.0.0
     - composer update --no-interaction
 
 before_script:
