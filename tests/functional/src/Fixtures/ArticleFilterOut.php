@@ -10,6 +10,11 @@ use InvalidArgumentException;
  */
 class ArticleFilterOut implements FilterOutInterface
 {
+    public function supports(string $class): bool
+    {
+        return $class === Article::class;
+    }
+
     public function filterOut($value)
     {
         if (!$value instanceof Article) {

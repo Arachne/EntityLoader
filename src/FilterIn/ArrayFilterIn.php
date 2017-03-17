@@ -12,6 +12,14 @@ class ArrayFilterIn implements FilterInInterface
     /**
      * {@inheritdoc}
      */
+    public function supports(string $type): bool
+    {
+        return $type === 'array';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($value)
     {
         return (array) $value;

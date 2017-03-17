@@ -4,11 +4,11 @@ namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityLoader;
 use Arachne\EntityLoader\FilterInInterface;
+use ArrayObject;
 use Codeception\Test\Unit;
 use DateTime;
 use Eloquent\Phony\Mock\Handle\InstanceHandle;
 use Eloquent\Phony\Phpunit\Phony;
-use Eloquent\Phony\Stub\StubVerifier;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -26,23 +26,27 @@ class EntityLoaderTest extends Unit
     private $filterHandle;
 
     /**
-     * @var StubVerifier
+     * @var ArrayObject
      */
-    private $filterResolver;
+    private $filterIterator;
 
     protected function _before()
     {
         $this->filterHandle = Phony::mock(FilterInInterface::class);
-        $this->filterResolver = Phony::stub();
-        $this->entityLoader = new EntityLoader($this->filterResolver);
+        $this->filterIterator = new ArrayObject();
+        $this->entityLoader = new EntityLoader($this->filterIterator);
     }
 
     public function testFilterIn()
     {
-        $this->filterResolver
-            ->returns($this->filterHandle->get());
+        $this->filterIterator[] = $this->filterHandle->get();
 
         $mock1 = Phony::mock(DateTime::class)->get();
+
+        $this->filterHandle
+            ->supports
+            ->with(DateTime::class)
+            ->returns(true);
 
         $this->filterHandle
             ->filterIn
@@ -57,12 +61,16 @@ class EntityLoaderTest extends Unit
 
     /**
      * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
-     * @expectedExceptionMessage FilterIn did not return an instance of 'DateTime'.
+     * @expectedExceptionMessage FilterIn did not return an instance of "DateTime".
      */
     public function testFilterInFail()
     {
-        $this->filterResolver
-            ->returns($this->filterHandle->get());
+        $this->filterIterator[] = $this->filterHandle->get();
+
+        $this->filterHandle
+            ->supports
+            ->with(DateTime::class)
+            ->returns(true);
 
         $this->filterHandle
             ->filterIn
@@ -80,7 +88,7 @@ class EntityLoaderTest extends Unit
 
     /**
      * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
-     * @expectedExceptionMessage No filter in found for type 'DateTime'.
+     * @expectedExceptionMessage No filter in found for type "DateTime".
      */
     public function testFilterNotFound()
     {

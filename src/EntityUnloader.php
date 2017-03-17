@@ -3,6 +3,7 @@
 namespace Arachne\EntityLoader;
 
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
+use Traversable;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -10,13 +11,18 @@ use Arachne\EntityLoader\Exception\UnexpectedValueException;
 class EntityUnloader
 {
     /**
-     * @var callable
+     * @var Traversable
      */
-    private $filterOutResolver;
+    private $filterOutIterator;
 
-    public function __construct(callable $filterOutResolver)
+    /**
+     * @var array
+     */
+    private $filterMap;
+
+    public function __construct(Traversable $filterOutIterator)
     {
-        $this->filterOutResolver = $filterOutResolver;
+        $this->filterOutIterator = $filterOutIterator;
     }
 
     /**
@@ -33,11 +39,17 @@ class EntityUnloader
 
     private function getFilter(string $type): FilterOutInterface
     {
-        $filter = ($this->filterOutResolver)($type);
-        if (!$filter) {
-            throw new UnexpectedValueException("No filter out found for type '$type'.");
+        if (isset($this->filterMap[$type])) {
+            return $this->filterMap[$type];
         }
 
-        return $filter;
+        /** @var FilterOutInterface $filter */
+        foreach ($this->filterOutIterator as $filter) {
+            if ($filter->supports($type)) {
+                return $this->filterMap[$type] = $filter;
+            }
+        }
+
+        throw new UnexpectedValueException(sprintf('No filter out found for type "%s".', $type));
     }
 }

@@ -10,6 +10,13 @@ use Nette\Application\BadRequestException;
 interface FilterInInterface
 {
     /**
+     * @param string $type
+     *
+     * @return bool
+     */
+    public function supports(string $type): bool;
+
+    /**
      * @param mixed $value
      *
      * @throws BadRequestException

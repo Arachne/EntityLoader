@@ -13,6 +13,14 @@ class FloatFilterIn implements FilterInInterface
     /**
      * {@inheritdoc}
      */
+    public function supports(string $type): bool
+    {
+        return $type === 'float';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($value)
     {
         if (!is_string($value)) {

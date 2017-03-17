@@ -64,14 +64,14 @@ class EntityLoaderExtension extends CompilerExtension
         /* @var $serviceCollectionsExtension ServiceCollectionsExtension */
         $serviceCollectionsExtension = $this->getExtension(ServiceCollectionsExtension::class);
 
-        $filterInResolver = $serviceCollectionsExtension->getCollection(
-            ServiceCollectionsExtension::TYPE_RESOLVER,
+        $filterInIterator = $serviceCollectionsExtension->getCollection(
+            ServiceCollectionsExtension::TYPE_ITERATOR,
             self::TAG_FILTER_IN,
             FilterInInterface::class
         );
 
-        $filterOutResolver = $serviceCollectionsExtension->getCollection(
-            ServiceCollectionsExtension::TYPE_RESOLVER,
+        $filterOutIterator = $serviceCollectionsExtension->getCollection(
+            ServiceCollectionsExtension::TYPE_ITERATOR,
             self::TAG_FILTER_OUT,
             FilterOutInterface::class
         );
@@ -79,14 +79,14 @@ class EntityLoaderExtension extends CompilerExtension
         foreach ($this->filters as $class => $type) {
             $builder->addDefinition($this->prefix('filterIn.'.$type))
                 ->setClass($class)
-                ->addTag(self::TAG_FILTER_IN, $type);
+                ->addTag(self::TAG_FILTER_IN);
         }
 
         $builder->addDefinition($this->prefix('entityLoader'))
             ->setClass(EntityLoader::class)
             ->setArguments(
                 [
-                    'filterInResolver' => '@'.$filterInResolver,
+                    'filterInIterator' => '@'.$filterInIterator,
                 ]
             );
 
@@ -94,7 +94,7 @@ class EntityLoaderExtension extends CompilerExtension
             ->setClass(EntityUnloader::class)
             ->setArguments(
                 [
-                    'filterOutResolver' => '@'.$filterOutResolver,
+                    'filterOutIterator' => '@'.$filterOutIterator,
                 ]
             );
 

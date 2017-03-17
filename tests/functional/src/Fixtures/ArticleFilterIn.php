@@ -9,6 +9,11 @@ use Arachne\EntityLoader\FilterInInterface;
  */
 class ArticleFilterIn implements FilterInInterface
 {
+    public function supports(string $type): bool
+    {
+        return $type === Article::class;
+    }
+
     public function filterIn($value)
     {
         return new Article($value);

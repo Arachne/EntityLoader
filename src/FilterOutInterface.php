@@ -8,6 +8,13 @@ namespace Arachne\EntityLoader;
 interface FilterOutInterface
 {
     /**
+     * @param string $class
+     *
+     * @return bool
+     */
+    public function supports(string $class): bool;
+
+    /**
      * @param mixed $value
      *
      * @return string|array

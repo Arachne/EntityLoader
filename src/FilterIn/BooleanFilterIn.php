@@ -13,6 +13,14 @@ class BooleanFilterIn implements FilterInInterface
     /**
      * {@inheritdoc}
      */
+    public function supports(string $type): bool
+    {
+        return $type === 'bool';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($value)
     {
         if (!is_string($value)) {

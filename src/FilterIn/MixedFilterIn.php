@@ -12,6 +12,14 @@ class MixedFilterIn implements FilterInInterface
     /**
      * {@inheritdoc}
      */
+    public function supports(string $type): bool
+    {
+        return $type === 'mixed';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($value)
     {
         return $value;

@@ -3,6 +3,7 @@
 namespace Arachne\EntityLoader;
 
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
+use Traversable;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -10,13 +11,18 @@ use Arachne\EntityLoader\Exception\UnexpectedValueException;
 class EntityLoader
 {
     /**
-     * @var callable
+     * @var Traversable
      */
-    private $filterInResolver;
+    private $filterInIterator;
 
-    public function __construct(callable $filterInResolver)
+    /**
+     * @var array
+     */
+    private $filterMap;
+
+    public function __construct(Traversable $filterInIterator)
     {
-        $this->filterInResolver = $filterInResolver;
+        $this->filterInIterator = $filterInIterator;
     }
 
     /**
@@ -32,7 +38,7 @@ class EntityLoader
         }
         $value = $this->getFilter($type)->filterIn($parameter);
         if (!$this->isType($type, $value)) {
-            throw new UnexpectedValueException("FilterIn did not return an instance of '$type'.");
+            throw new UnexpectedValueException(sprintf('FilterIn did not return an instance of "%s".', $type));
         }
 
         return $value;
@@ -40,12 +46,18 @@ class EntityLoader
 
     private function getFilter(string $type): FilterInInterface
     {
-        $filter = ($this->filterInResolver)($type);
-        if (!$filter) {
-            throw new UnexpectedValueException("No filter in found for type '$type'.");
+        if (isset($this->filterMap[$type])) {
+            return $this->filterMap[$type];
         }
 
-        return $filter;
+        /** @var FilterInInterface $filter */
+        foreach ($this->filterInIterator as $filter) {
+            if ($filter->supports($type)) {
+                return $this->filterMap[$type] = $filter;
+            }
+        }
+
+        throw new UnexpectedValueException(sprintf('No filter in found for type "%s".', $type));
     }
 
     /**

@@ -5,10 +5,10 @@ namespace Tests\Unit;
 use Arachne\EntityLoader\EntityInterface;
 use Arachne\EntityLoader\EntityUnloader;
 use Arachne\EntityLoader\FilterOutInterface;
+use ArrayObject;
 use Codeception\Test\Unit;
 use Eloquent\Phony\Mock\Handle\InstanceHandle;
 use Eloquent\Phony\Phpunit\Phony;
-use Eloquent\Phony\Stub\StubVerifier;
 use stdClass;
 
 /**
@@ -27,23 +27,26 @@ class EntityUnloaderTest extends Unit
     private $filterHandle;
 
     /**
-     * @var StubVerifier
+     * @var ArrayObject
      */
-    private $filterResolver;
+    private $filterIterator;
 
     protected function _before()
     {
         $this->filterHandle = Phony::mock(FilterOutInterface::class);
-        $this->filterResolver = Phony::stub();
-        $this->entityUnloader = new EntityUnloader($this->filterResolver);
+        $this->filterIterator = new ArrayObject();
+        $this->entityUnloader = new EntityUnloader($this->filterIterator);
     }
 
     public function testFilterOut()
     {
-        $this->filterResolver
-            ->returns($this->filterHandle->get());
+        $this->filterIterator[] = $this->filterHandle->get();
 
         $stub = Phony::stub();
+
+        $this->filterHandle
+            ->supports
+            ->returns(true);
 
         $this->filterHandle
             ->filterOut
@@ -55,13 +58,17 @@ class EntityUnloaderTest extends Unit
 
     public function testFilterOutEntityInterface()
     {
-        $this->filterResolver
-            ->returns($this->filterHandle->get());
+        $this->filterIterator[] = $this->filterHandle->get();
 
         $entityHandle = Phony::mock(EntityInterface::class);
         $entityHandle
             ->getBaseType
             ->returns(EntityInterface::class);
+
+        $this->filterHandle
+            ->supports
+            ->with(EntityInterface::class)
+            ->returns(true);
 
         $this->filterHandle
             ->filterOut
@@ -78,9 +85,6 @@ class EntityUnloaderTest extends Unit
     public function testFilterNotFound()
     {
         $entityHandle = Phony::mock(stdClass::class);
-
-        $this->filterResolver
-            ->returns();
 
         $this->entityUnloader->filterOut($entityHandle->get());
     }
