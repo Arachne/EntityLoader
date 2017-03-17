@@ -11,12 +11,13 @@ Now you need to register the necessary extensions using your [neon](http://ne-on
 
 ```
 extensions:
-    oops.cache_factory: Oops\CacheFactory\DI\CacheFactoryExtension
-    arachne.service_collections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
-    arachne.container_adapter: Arachne\ContainerAdapter\DI\ContainerAdapterExtension
-    arachne.event_dispatcher: Arachne\EventDispatcher\DI\EventDispatcherExtension
-    arachne.entity_loader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    oops.cacheFactory: Oops\CacheFactory\DI\CacheFactoryExtension
+    arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
+    arachne.containerAdapter: Arachne\ContainerAdapter\DI\ContainerAdapterExtension
+    arachne.eventDispatcher: Arachne\EventDispatcher\DI\EventDispatcherExtension
+    arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
+
 
 Presenters and components
 ----
@@ -39,6 +40,7 @@ Finally you will need to specify the types of parameters in your application.
 These types are handled out of the box: `int`, `bool`, `float`, `string`, `array` and `mixed`.
 
 EntityLoader is very strict about this and it will throw an exception if some type or annotation is missing.
+
 
 Nextras/SecuredLinks
 ----
