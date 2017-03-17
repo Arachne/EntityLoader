@@ -49,12 +49,12 @@ class Route extends BaseRoute
         if (isset($metadata[null][self::FILTER_OUT])) {
             $original = $metadata[null][self::FILTER_OUT];
             $metadata[null][self::FILTER_OUT] = function (array $parameters) use ($original, $filter) {
-                $parameters = call_user_func($original, $parameters);
+                $parameters = $original($parameters);
                 if (!is_array($parameters)) {
                     return $parameters;
                 }
 
-                return call_user_func($filter, $parameters);
+                return $filter($parameters);
             };
         } else {
             $metadata[null][self::FILTER_OUT] = $filter;

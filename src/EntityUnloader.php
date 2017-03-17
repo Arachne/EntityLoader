@@ -33,7 +33,7 @@ class EntityUnloader
 
     private function getFilter(string $type): FilterOutInterface
     {
-        $filter = call_user_func($this->filterOutResolver, $type);
+        $filter = ($this->filterOutResolver)($type);
         if (!$filter) {
             throw new UnexpectedValueException("No filter out found for type '$type'.");
         }

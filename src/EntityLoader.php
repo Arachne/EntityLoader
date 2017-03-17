@@ -40,7 +40,7 @@ class EntityLoader
 
     private function getFilter(string $type): FilterInInterface
     {
-        $filter = call_user_func($this->filterInResolver, $type);
+        $filter = ($this->filterInResolver)($type);
         if (!$filter) {
             throw new UnexpectedValueException("No filter in found for type '$type'.");
         }
