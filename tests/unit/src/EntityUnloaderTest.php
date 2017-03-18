@@ -9,6 +9,7 @@ use ArrayObject;
 use Codeception\Test\Unit;
 use Eloquent\Phony\Mock\Handle\InstanceHandle;
 use Eloquent\Phony\Phpunit\Phony;
+use Eloquent\Phony\Stub\StubVerifier;
 use stdClass;
 
 /**
@@ -46,11 +47,12 @@ class EntityUnloaderTest extends Unit
 
         $this->filterHandle
             ->supports
+            ->with(StubVerifier::class)
             ->returns(true);
 
         $this->filterHandle
             ->filterOut
-            ->with($stub)
+            ->with($stub, StubVerifier::class)
             ->returns('1');
 
         $this->assertSame('1', $this->entityUnloader->filterOut($stub));
@@ -72,7 +74,7 @@ class EntityUnloaderTest extends Unit
 
         $this->filterHandle
             ->filterOut
-            ->with($entityHandle->get())
+            ->with($entityHandle->get(), EntityInterface::class)
             ->returns('1');
 
         $this->assertSame('1', $this->entityUnloader->filterOut($entityHandle->get()));

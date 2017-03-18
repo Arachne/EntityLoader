@@ -14,7 +14,7 @@ class ArticleFilterIn implements FilterInInterface
         return $type === Article::class;
     }
 
-    public function filterIn($value)
+    public function filterIn($value, string $type)
     {
         return new Article($value);
     }

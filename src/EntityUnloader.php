@@ -34,7 +34,7 @@ class EntityUnloader
     {
         $type = $object instanceof EntityInterface ? $object->getBaseType() : get_class($object);
 
-        return $this->getFilter($type)->filterOut($object);
+        return $this->getFilter($type)->filterOut($object, $type);
     }
 
     private function getFilter(string $type): FilterOutInterface

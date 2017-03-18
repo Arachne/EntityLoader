@@ -56,7 +56,7 @@ class EntityLoaderTest extends Unit
 
         $this->filterHandle
             ->filterIn
-            ->calledWith(1);
+            ->calledWith(1, DateTime::class);
     }
 
     /**

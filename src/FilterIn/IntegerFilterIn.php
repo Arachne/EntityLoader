@@ -21,7 +21,7 @@ class IntegerFilterIn implements FilterInInterface
     /**
      * {@inheritdoc}
      */
-    public function filterIn($value)
+    public function filterIn($value, string $type)
     {
         if (!is_string($value)) {
             throw new BadRequestException();

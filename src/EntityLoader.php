@@ -36,7 +36,7 @@ class EntityLoader
         if ($this->isType($type, $parameter)) {
             return $parameter;
         }
-        $value = $this->getFilter($type)->filterIn($parameter);
+        $value = $this->getFilter($type)->filterIn($parameter, $type);
         if (!$this->isType($type, $value)) {
             throw new UnexpectedValueException(sprintf('FilterIn did not return an instance of "%s".', $type));
         }

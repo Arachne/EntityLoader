@@ -20,7 +20,7 @@ class ArrayFilterIn implements FilterInInterface
     /**
      * {@inheritdoc}
      */
-    public function filterIn($value)
+    public function filterIn($value, string $type)
     {
         return (array) $value;
     }

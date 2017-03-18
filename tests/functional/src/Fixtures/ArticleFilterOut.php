@@ -15,10 +15,10 @@ class ArticleFilterOut implements FilterOutInterface
         return $class === Article::class;
     }
 
-    public function filterOut($value)
+    public function filterOut($value, string $class)
     {
         if (!$value instanceof Article) {
-            throw new InvalidArgumentException("Entity is not an instance of 'Article'.");
+            throw new InvalidArgumentException(sprintf('Entity is not an instance of "%s".', Article::class));
         }
 
         return $value->getValue();

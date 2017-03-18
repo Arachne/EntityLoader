@@ -17,11 +17,12 @@ interface FilterInInterface
     public function supports(string $type): bool;
 
     /**
-     * @param mixed $value
+     * @param mixed  $value
+     * @param string $type
      *
      * @throws BadRequestException
      *
      * @return mixed
      */
-    public function filterIn($value);
+    public function filterIn($value, string $type);
 }
