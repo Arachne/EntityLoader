@@ -18,12 +18,12 @@ services:
 ```php
 class DateTimeFilterIn implements \Arachne\EntityLoader\FilterInInterface
 {
-    public function supports($type): bool
+    public function supports(string $type): bool
     {
         return $type === \DateTime::class;
     }
 
-    public function filterIn($value)
+    public function filterIn($value, string $type)
     {
         if (is_numeric($value)) { // timestamp
             return new \DateTime(date('Y-m-d H:i:s', $value));
@@ -35,12 +35,12 @@ class DateTimeFilterIn implements \Arachne\EntityLoader\FilterInInterface
 
 class DateTimeFilterOut implements \Arachne\EntityLoader\FilterInInterface
 {
-    public function supports($class): bool
+    public function supports(string $class): bool
     {
         return $class === \DateTime::class;
     }
 
-    public function filterOut($entity)
+    public function filterOut($entity, string $class)
     {
         // $entity instanceof DateTime
         return $entity->getTimestamp();
