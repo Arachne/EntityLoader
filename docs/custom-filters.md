@@ -40,7 +40,7 @@ class DateTimeFilterOut implements \Arachne\EntityLoader\FilterInInterface
         return $class === \DateTime::class;
     }
 
-    public function filterOut($entity, string $class)
+    public function filterOut($entity)
     {
         // $entity instanceof DateTime
         return $entity->getTimestamp();

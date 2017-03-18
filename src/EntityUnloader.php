@@ -32,24 +32,22 @@ class EntityUnloader
      */
     public function filterOut($object)
     {
-        $type = $object instanceof EntityInterface ? $object->getBaseType() : get_class($object);
-
-        return $this->getFilter($type)->filterOut($object, $type);
+        return $this->getFilter(get_class($object))->filterOut($object);
     }
 
-    private function getFilter(string $type): FilterOutInterface
+    private function getFilter(string $class): FilterOutInterface
     {
-        if (isset($this->filterMap[$type])) {
-            return $this->filterMap[$type];
+        if (isset($this->filterMap[$class])) {
+            return $this->filterMap[$class];
         }
 
         /** @var FilterOutInterface $filter */
         foreach ($this->filterOutIterator as $filter) {
-            if ($filter->supports($type)) {
-                return $this->filterMap[$type] = $filter;
+            if ($filter->supports($class)) {
+                return $this->filterMap[$class] = $filter;
             }
         }
 
-        throw new UnexpectedValueException(sprintf('No filter out found for type "%s".', $type));
+        throw new UnexpectedValueException(sprintf('No filter out found for class "%s".', $class));
     }
 }

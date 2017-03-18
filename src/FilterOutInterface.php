@@ -15,10 +15,9 @@ interface FilterOutInterface
     public function supports(string $class): bool;
 
     /**
-     * @param mixed  $value
-     * @param string $class
+     * @param mixed $value
      *
      * @return string|array
      */
-    public function filterOut($value, string $class);
+    public function filterOut($value);
 }
