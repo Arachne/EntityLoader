@@ -28,7 +28,7 @@ class RouterWrapper implements IRouter
      */
     private $envelopes;
 
-    public function __construct(IRouter $router, RequestEntityUnloader $unloader, bool $envelopes = false)
+    public function __construct(IRouter $router, RequestEntityUnloader $unloader, bool $envelopes)
     {
         $this->router = $router;
         $this->unloader = $unloader;
