@@ -55,7 +55,7 @@ class EntityLoaderTest extends Unit
             ->filterIn
             ->returns($mock1);
 
-        $this->assertSame($mock1, $this->entityLoader->filterIn(DateTime::class, 1));
+        self::assertSame($mock1, $this->entityLoader->filterIn(DateTime::class, 1));
 
         $this->filterHandle
             ->filterIn
@@ -87,7 +87,7 @@ class EntityLoaderTest extends Unit
     {
         // Make sure that the converter is not called at all if the parameter already has the desired type.
         $mock1 = Phony::mock(DateTime::class)->get();
-        $this->assertSame($mock1, $this->entityLoader->filterIn(DateTime::class, $mock1));
+        self::assertSame($mock1, $this->entityLoader->filterIn(DateTime::class, $mock1));
     }
 
     public function testFilterNotFound()

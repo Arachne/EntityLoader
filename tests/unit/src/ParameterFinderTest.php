@@ -60,7 +60,7 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
                 'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
@@ -78,7 +78,7 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
                 'persistent2' => $this->createInfoObject('string', true),
@@ -96,7 +96,7 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
                 'renderEntity' => $this->createInfoObject('Tests\Unit\Classes\Class3', false),
@@ -116,7 +116,7 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
                 'handleEntity' => $this->createInfoObject('mixed', false),
@@ -137,7 +137,7 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
                 'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
@@ -159,7 +159,7 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
                 'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
@@ -180,7 +180,7 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
                 'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),

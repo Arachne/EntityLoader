@@ -54,7 +54,7 @@ class EntityUnloaderTest extends Unit
             ->with($stub)
             ->returns('1');
 
-        $this->assertSame('1', $this->entityUnloader->filterOut($stub));
+        self::assertSame('1', $this->entityUnloader->filterOut($stub));
     }
 
     public function testFilterNotFound()

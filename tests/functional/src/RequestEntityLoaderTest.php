@@ -26,7 +26,7 @@ class RequestEntityLoaderTest extends Unit
     {
         $this->tester->amOnPage('/untyped?parameter=5');
         $request = $this->tester->grabService(Application::class)->getPresenter()->getRequest();
-        $this->assertSame(
+        self::assertSame(
             [
                 'action' => 'untyped',
                 'parameter' => '5',

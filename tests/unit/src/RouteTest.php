@@ -41,7 +41,7 @@ class RouteTest extends Unit
 
         $url = new Url('/');
         $url->setScheme('http');
-        $this->assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
+        self::assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
     }
 
     public function testGlobalFilterOut()
@@ -75,7 +75,7 @@ class RouteTest extends Unit
 
         $url = new Url('/');
         $url->setScheme('http');
-        $this->assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
+        self::assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
 
         $parameters = $stub->firstCall()->argument();
         self::assertInstanceOf(Envelope::class, $parameters['param1']);
