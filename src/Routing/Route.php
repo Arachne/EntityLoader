@@ -21,7 +21,7 @@ class Route extends BaseRoute
         if (is_string($metadata)) {
             $pos = strrpos($metadata, ':');
             if (!$pos) {
-                throw new InvalidArgumentException("Second argument must be array or string in format Presenter:action, '$metadata' given.");
+                throw new InvalidArgumentException(sprintf('Second argument must be array or string in format Presenter:action, %s given.', $metadata));
             }
             $metadata = [
                 self::PRESENTER_KEY => substr($metadata, 0, $pos),
