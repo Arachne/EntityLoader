@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arachne\EntityLoader\Application;
 
 use Nette\Application\BadRequestException;
