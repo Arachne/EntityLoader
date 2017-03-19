@@ -25,7 +25,7 @@ class ParameterFinderTest extends Unit
      */
     private $finder;
 
-    protected function _before()
+    protected function _before(): void
     {
         $presenterFactoryHandle = Phony::mock(IPresenterFactory::class);
         $presenterFactoryHandle
@@ -51,7 +51,7 @@ class ParameterFinderTest extends Unit
         $this->finder = new ParameterFinder($presenterFactoryHandle->get(), $cacheFactoryHandle->get());
     }
 
-    public function testAction()
+    public function testAction(): void
     {
         $request = $this->createRequest(
             [
@@ -70,7 +70,7 @@ class ParameterFinderTest extends Unit
         );
     }
 
-    public function testNoAction()
+    public function testNoAction(): void
     {
         $request = $this->createRequest(
             [
@@ -87,7 +87,7 @@ class ParameterFinderTest extends Unit
         );
     }
 
-    public function testRenderAndHandle()
+    public function testRenderAndHandle(): void
     {
         $request = $this->createRequest(
             [
@@ -107,7 +107,7 @@ class ParameterFinderTest extends Unit
         );
     }
 
-    public function testNoTypehintHandle()
+    public function testNoTypehintHandle(): void
     {
         $request = $this->createRequest(
             [
@@ -127,7 +127,7 @@ class ParameterFinderTest extends Unit
         );
     }
 
-    public function testComponent()
+    public function testComponent(): void
     {
         $request = $this->createRequest(
             [
@@ -149,7 +149,7 @@ class ParameterFinderTest extends Unit
         );
     }
 
-    public function testSubComponent()
+    public function testSubComponent(): void
     {
         $request = $this->createRequest(
             [
@@ -171,7 +171,7 @@ class ParameterFinderTest extends Unit
         );
     }
 
-    public function testNamelessComponent()
+    public function testNamelessComponent(): void
     {
         $request = $this->createRequest(
             [
@@ -190,7 +190,7 @@ class ParameterFinderTest extends Unit
         );
     }
 
-    public function testNonexistentComponent()
+    public function testNonexistentComponent(): void
     {
         $request = $this->createRequest(
             [
@@ -207,7 +207,7 @@ class ParameterFinderTest extends Unit
         }
     }
 
-    public function testMissingTypehint()
+    public function testMissingTypehint(): void
     {
         $request = $this->createRequest(
             [
@@ -224,7 +224,7 @@ class ParameterFinderTest extends Unit
         }
     }
 
-    public function testBuiltinTypehint()
+    public function testBuiltinTypehint(): void
     {
         $request = $this->createRequest(
             [
@@ -241,21 +241,12 @@ class ParameterFinderTest extends Unit
         }
     }
 
-    /**
-     * @return Request
-     */
-    private function createRequest(array $parameters)
+    private function createRequest(array $parameters): Request
     {
         return new Request('', 'GET', $parameters);
     }
 
-    /**
-     * @param string $type
-     * @param bool   $optional
-     *
-     * @return StdClass
-     */
-    private function createInfoObject($type, $optional)
+    private function createInfoObject(string $type, bool $optional): StdClass
     {
         $object = new StdClass();
         $object->type = $type;

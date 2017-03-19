@@ -25,23 +25,23 @@ class TestPresenter extends Presenter
      */
     public $persistent2;
 
-    public function actionTestAction(Class2 $actionEntity)
+    public function actionTestAction(Class2 $actionEntity): void
     {
     }
 
-    public function renderTestRender(Class3 $renderEntity)
+    public function renderTestRender(Class3 $renderEntity): void
     {
     }
 
-    public function handleTestHandle(Class4 $handleEntity)
+    public function handleTestHandle(Class4 $handleEntity): void
     {
     }
 
-    public function handleNoTypehintHandle($handleEntity)
+    public function handleNoTypehintHandle($handleEntity): void
     {
     }
 
-    public function actionNonexistentParameter($entity)
+    public function actionNonexistentParameter($entity): void
     {
     }
 

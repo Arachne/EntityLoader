@@ -22,7 +22,7 @@ class RequestEntityLoaderTest extends Unit
      */
     protected $tester;
 
-    public function testUntyped()
+    public function testUntyped(): void
     {
         $this->tester->amOnPage('/untyped?parameter=5');
         $request = $this->tester->grabService(Application::class)->getPresenter()->getRequest();
@@ -35,7 +35,7 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testEntity()
+    public function testEntity(): void
     {
         $this->tester->amOnPage('/entity?parameter=5');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
@@ -50,7 +50,7 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testInt()
+    public function testInt(): void
     {
         $this->tester->amOnPage('/int?parameter=5');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
@@ -65,7 +65,7 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testIntWithDefault()
+    public function testIntWithDefault(): void
     {
         $this->tester->amOnPage('/int');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
@@ -79,7 +79,7 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testIntError()
+    public function testIntError(): void
     {
         try {
             $this->tester->amOnPage('/int?parameter[]=0');
@@ -88,7 +88,7 @@ class RequestEntityLoaderTest extends Unit
         }
     }
 
-    public function testBool()
+    public function testBool(): void
     {
         $this->tester->amOnPage('/bool?parameter=1');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
@@ -103,7 +103,7 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testBoolError()
+    public function testBoolError(): void
     {
         try {
             $this->tester->amOnPage('/bool?parameter[]=0');
@@ -112,7 +112,7 @@ class RequestEntityLoaderTest extends Unit
         }
     }
 
-    public function testFloat()
+    public function testFloat(): void
     {
         $this->tester->amOnPage('/float?parameter=1');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
@@ -127,7 +127,7 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testFloatError()
+    public function testFloatError(): void
     {
         try {
             $this->tester->amOnPage('/float?parameter[]=0');
@@ -136,7 +136,7 @@ class RequestEntityLoaderTest extends Unit
         }
     }
 
-    public function testString()
+    public function testString(): void
     {
         $this->tester->amOnPage('/string?parameter=1');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
@@ -151,7 +151,7 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testStringError()
+    public function testStringError(): void
     {
         try {
             $this->tester->amOnPage('/string?parameter[]=0');

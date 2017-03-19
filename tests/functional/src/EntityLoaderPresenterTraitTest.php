@@ -6,6 +6,7 @@ namespace Tests\Functional;
 
 use Arachne\Codeception\Module\NetteApplicationModule;
 use Arachne\Codeception\Module\NetteDIModule;
+use Arachne\EntityLoader\Application\EntityLoaderPresenterTrait;
 use Codeception\Test\Unit;
 use Nette\Application\AbortException;
 use Nette\Application\Application;
@@ -20,9 +21,10 @@ class EntityLoaderPresenterTraitTest extends Unit
      */
     protected $tester;
 
-    public function testStoreRestoreRequest()
+    public function testStoreRestoreRequest(): void
     {
         $this->tester->amOnPage('/entity?parameter=5');
+        /** @var EntityLoaderPresenterTrait $presenter */
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
         $key = $presenter->storeRequest();
         try {

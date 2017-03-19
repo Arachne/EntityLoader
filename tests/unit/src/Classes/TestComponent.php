@@ -18,7 +18,7 @@ class TestComponent extends PresenterComponent
      */
     public $persistent;
 
-    public function handleTestHandle(Class6 $handleEntity)
+    public function handleTestHandle(Class6 $handleEntity): void
     {
     }
 

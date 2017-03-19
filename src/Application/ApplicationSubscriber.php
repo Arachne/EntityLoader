@@ -30,7 +30,7 @@ class ApplicationSubscriber implements EventSubscriberInterface
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             ApplicationEvents::REQUEST => 'requestHandler',
@@ -40,7 +40,7 @@ class ApplicationSubscriber implements EventSubscriberInterface
     /**
      * @throws BadRequestException
      */
-    public function requestHandler(ApplicationRequestEvent $event)
+    public function requestHandler(ApplicationRequestEvent $event): void
     {
         try {
             $this->loader->filterIn($event->getRequest());

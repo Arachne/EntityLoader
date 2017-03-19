@@ -16,39 +16,39 @@ class ArticlePresenter extends Presenter
     use EntityLoaderPresenterTrait;
     use SecuredLinksPresenterTrait;
 
-    public function startup()
+    public function startup(): void
     {
         $this->terminate();
     }
 
-    public function actionUntyped($parameter)
+    public function actionUntyped($parameter): void
     {
     }
 
-    public function actionEntity(Article $parameter)
+    public function actionEntity(Article $parameter): void
     {
     }
 
-    public function actionInt(int $parameter = 1)
+    public function actionInt(int $parameter = 1): void
     {
     }
 
-    public function actionBool(bool $parameter)
+    public function actionBool(bool $parameter): void
     {
     }
 
-    public function actionFloat(float $parameter)
+    public function actionFloat(float $parameter): void
     {
     }
 
-    public function actionString(string $parameter)
+    public function actionString(string $parameter): void
     {
     }
 
     /**
      * @secured
      */
-    public function handleSignal(Article $parameter)
+    public function handleSignal(Article $parameter): void
     {
     }
 }

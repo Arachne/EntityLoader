@@ -145,7 +145,7 @@ class ParameterFinder
     /**
      * @return ComponentReflection|null
      */
-    private function createReflection(ReflectionClass $reflection, string $component)
+    private function createReflection(ReflectionClass $reflection, string $component): ?ComponentReflection
     {
         $pos = strpos($component, IComponent::NAME_SEPARATOR);
         if ($pos !== false) {

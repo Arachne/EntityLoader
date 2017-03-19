@@ -40,7 +40,7 @@ class RouterWrapper implements IRouter
     /**
      * {@inheritdoc}
      */
-    public function match(IRequest $httpRequest)
+    public function match(IRequest $httpRequest): ?Request
     {
         return $this->router->match($httpRequest);
     }
@@ -48,7 +48,7 @@ class RouterWrapper implements IRouter
     /**
      * {@inheritdoc}
      */
-    public function constructUrl(Request $request, Url $refUrl)
+    public function constructUrl(Request $request, Url $refUrl): ?string
     {
         $request = clone $request;
         $this->unloader->filterOut($request, $this->envelopes);

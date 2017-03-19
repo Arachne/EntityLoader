@@ -20,7 +20,7 @@ class SecuredLinksPresenterTraitTest extends Unit
      */
     protected $tester;
 
-    public function testLink()
+    public function testLink(): void
     {
         $this->tester->amOnPage('/default');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();

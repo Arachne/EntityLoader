@@ -13,7 +13,7 @@ use Nextras\Application\UI\SecuredLinksPresenterTrait as BaseSecuredLinksPresent
 trait SecuredLinksPresenterTrait
 {
     use BaseSecuredLinksPresenterTrait {
-        getCsrfToken as private parentGetCsrfToken;
+        getCsrfToken as private nextrasGetCsrfToken;
     }
 
     /**
@@ -21,7 +21,7 @@ trait SecuredLinksPresenterTrait
      */
     private $entityUnloader;
 
-    public function injectEntityUnloader(EntityUnloader $entityUnloader)
+    public function injectEntityUnloader(EntityUnloader $entityUnloader): void
     {
         $this->entityUnloader = $entityUnloader;
     }
@@ -33,7 +33,7 @@ trait SecuredLinksPresenterTrait
      *
      * @return string
      */
-    public function getCsrfToken($control, $method, $params)
+    public function getCsrfToken($control, $method, $params): string
     {
         array_walk(
             $params,
@@ -44,6 +44,6 @@ trait SecuredLinksPresenterTrait
             }
         );
 
-        return $this->parentGetCsrfToken($control, $method, $params);
+        return $this->nextrasGetCsrfToken($control, $method, $params);
     }
 }

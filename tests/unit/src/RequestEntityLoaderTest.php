@@ -33,14 +33,14 @@ class RequestEntityLoaderTest extends Unit
      */
     private $finderHandle;
 
-    protected function _before()
+    protected function _before(): void
     {
         $this->finderHandle = Phony::mock(ParameterFinder::class);
         $this->entityLoaderHandle = Phony::mock(EntityLoader::class);
         $this->requestEntityLoader = new RequestEntityLoader($this->entityLoaderHandle->get(), $this->finderHandle->get());
     }
 
-    public function testFilterIn()
+    public function testFilterIn(): void
     {
         $request = $this->createRequest('value1');
 
@@ -70,7 +70,7 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testFilterInEmptyMapping()
+    public function testFilterInEmptyMapping(): void
     {
         $request = $this->createRequest('value1');
 
@@ -89,9 +89,9 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testFilterInNullable()
+    public function testFilterInNullable(): void
     {
-        $request = $this->createRequest();
+        $request = $this->createRequest(null);
 
         $this->finderHandle
             ->getMapping
@@ -115,9 +115,9 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    public function testFilterInNullableException()
+    public function testFilterInNullableException(): void
     {
-        $request = $this->createRequest();
+        $request = $this->createRequest(null);
 
         $this->finderHandle
             ->getMapping
@@ -144,7 +144,7 @@ class RequestEntityLoaderTest extends Unit
      *
      * @return Request
      */
-    private function createRequest($value = null)
+    private function createRequest($value): Request
     {
         return new Request(
             '',

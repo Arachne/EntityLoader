@@ -33,14 +33,14 @@ class EntityLoaderTest extends Unit
      */
     private $filterIterator;
 
-    protected function _before()
+    protected function _before(): void
     {
         $this->filterHandle = Phony::mock(FilterInInterface::class);
         $this->filterIterator = new ArrayObject();
         $this->entityLoader = new EntityLoader($this->filterIterator);
     }
 
-    public function testFilterIn()
+    public function testFilterIn(): void
     {
         $this->filterIterator[] = $this->filterHandle->get();
 
@@ -62,7 +62,7 @@ class EntityLoaderTest extends Unit
             ->calledWith(1, DateTime::class);
     }
 
-    public function testFilterInFail()
+    public function testFilterInFail(): void
     {
         $this->filterIterator[] = $this->filterHandle->get();
 
@@ -83,14 +83,14 @@ class EntityLoaderTest extends Unit
         }
     }
 
-    public function testFilterInIgnore()
+    public function testFilterInIgnore(): void
     {
         // Make sure that the converter is not called at all if the parameter already has the desired type.
         $mock1 = Phony::mock(DateTime::class)->get();
         self::assertSame($mock1, $this->entityLoader->filterIn(DateTime::class, $mock1));
     }
 
-    public function testFilterNotFound()
+    public function testFilterNotFound(): void
     {
         $parameters = [
             'entity' => 'value1',

@@ -30,7 +30,7 @@ trait EntityLoaderPresenterTrait
      */
     private $user;
 
-    final public function injectEntityLoader(RequestEntityLoader $loader, RequestEntityUnloader $unloader, User $user = null)
+    final public function injectEntityLoader(RequestEntityLoader $loader, RequestEntityUnloader $unloader, User $user = null): void
     {
         $this->loader = $loader;
         $this->unloader = $unloader;
@@ -45,7 +45,7 @@ trait EntityLoaderPresenterTrait
      *
      * @return string
      */
-    public function storeRequest($request = null, $expiration = '+ 10 minutes')
+    public function storeRequest($request = null, $expiration = '+ 10 minutes'): string
     {
         // both parameters are optional
         if ($request === null) {
@@ -74,7 +74,7 @@ trait EntityLoaderPresenterTrait
      *
      * @param string $key
      */
-    public function restoreRequest($key)
+    public function restoreRequest($key): void
     {
         $session = $this->getSession('Arachne.Application/requests');
         if (!isset($session[$key]) || ($this->user && $session[$key][0] !== null && $session[$key][0] !== $this->user->getId())) {

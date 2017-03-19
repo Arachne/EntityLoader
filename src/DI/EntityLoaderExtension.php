@@ -58,7 +58,7 @@ class EntityLoaderExtension extends CompilerExtension
         StringFilterIn::class => 'string',
     ];
 
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         $this->validateConfig($this->defaults);
         $builder = $this->getContainerBuilder();
@@ -114,7 +114,7 @@ class EntityLoaderExtension extends CompilerExtension
             ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
     }
 
-    public function beforeCompile()
+    public function beforeCompile(): void
     {
         $builder = $this->getContainerBuilder();
 

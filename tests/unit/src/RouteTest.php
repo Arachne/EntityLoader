@@ -16,7 +16,7 @@ use Nette\Http\Url;
  */
 class RouteTest extends Unit
 {
-    public function testNoGlobalFilterOut()
+    public function testNoGlobalFilterOut(): void
     {
         $route = new Route(
             '',
@@ -44,7 +44,7 @@ class RouteTest extends Unit
         self::assertSame('http:///?param1=param1_value&param2=param2_id', $route->constructUrl($request, $url));
     }
 
-    public function testGlobalFilterOut()
+    public function testGlobalFilterOut(): void
     {
         $stub = Phony::stub();
         $stub->returnsArgument();

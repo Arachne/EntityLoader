@@ -27,13 +27,13 @@ class RequestEntityUnloaderTest extends Unit
      */
     private $entityUnloaderHandle;
 
-    protected function _before()
+    protected function _before(): void
     {
         $this->entityUnloaderHandle = Phony::mock(EntityUnloader::class);
         $this->requestEntityUnloader = new RequestEntityUnloader($this->entityUnloaderHandle->get());
     }
 
-    public function testFilterOut()
+    public function testFilterOut(): void
     {
         $stub = Phony::stub();
         $request = $this->createRequest($stub);
@@ -53,7 +53,7 @@ class RequestEntityUnloaderTest extends Unit
         );
     }
 
-    public function testFilterOutEmptyMapping()
+    public function testFilterOutEmptyMapping(): void
     {
         $request = $this->createRequest('value');
 
@@ -67,7 +67,7 @@ class RequestEntityUnloaderTest extends Unit
         );
     }
 
-    public function testFilterOutEnvelopes()
+    public function testFilterOutEnvelopes(): void
     {
         $stub = Phony::stub();
         $request = $this->createRequest($stub);
@@ -87,9 +87,9 @@ class RequestEntityUnloaderTest extends Unit
         );
     }
 
-    public function testFilterOutNullable()
+    public function testFilterOutNullable(): void
     {
-        $request = $this->createRequest();
+        $request = $this->createRequest(null);
 
         $this->requestEntityUnloader->filterOut($request);
 
@@ -106,7 +106,7 @@ class RequestEntityUnloaderTest extends Unit
      *
      * @return Request
      */
-    private function createRequest($value = null)
+    private function createRequest($value): Request
     {
         return new Request(
             '',

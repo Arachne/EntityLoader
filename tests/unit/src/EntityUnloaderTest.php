@@ -32,14 +32,14 @@ class EntityUnloaderTest extends Unit
      */
     private $filterIterator;
 
-    protected function _before()
+    protected function _before(): void
     {
         $this->filterHandle = Phony::mock(FilterOutInterface::class);
         $this->filterIterator = new ArrayObject();
         $this->entityUnloader = new EntityUnloader($this->filterIterator);
     }
 
-    public function testFilterOut()
+    public function testFilterOut(): void
     {
         $this->filterIterator[] = $this->filterHandle->get();
 
@@ -57,7 +57,7 @@ class EntityUnloaderTest extends Unit
         self::assertSame('1', $this->entityUnloader->filterOut($stub));
     }
 
-    public function testFilterNotFound()
+    public function testFilterNotFound(): void
     {
         try {
             $this->entityUnloader->filterOut(Phony::stub());
