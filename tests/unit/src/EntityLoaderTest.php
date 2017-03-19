@@ -77,7 +77,7 @@ class EntityLoaderTest extends Unit
 
         try {
             $this->entityLoader->filterIn(DateTime::class, 1);
-            $this->fail();
+            self::fail();
         } catch (UnexpectedValueException $e) {
             self::assertSame('FilterIn did not return an instance of "DateTime".', $e->getMessage());
         }
@@ -98,7 +98,7 @@ class EntityLoaderTest extends Unit
 
         try {
             $this->entityLoader->filterIn(DateTime::class, $parameters);
-            $this->fail();
+            self::fail();
         } catch (UnexpectedValueException $e) {
             self::assertSame('No filter in found for type "DateTime".', $e->getMessage());
         }

@@ -29,7 +29,7 @@ class EntityLoaderPresenterTraitTest extends Unit
         $key = $presenter->storeRequest();
         try {
             $presenter->restoreRequest($key);
-            $this->fail();
+            self::fail();
         } catch (AbortException $e) {
         }
     }

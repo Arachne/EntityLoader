@@ -61,7 +61,7 @@ class EntityUnloaderTest extends Unit
     {
         try {
             $this->entityUnloader->filterOut(Phony::stub());
-            $this->fail();
+            self::fail();
         } catch (UnexpectedValueException $e) {
             self::assertSame('No filter out found for class "Eloquent\Phony\Stub\StubVerifier".', $e->getMessage());
         }

@@ -201,7 +201,7 @@ class ParameterFinderTest extends Unit
 
         try {
             $this->finder->getMapping($request);
-            $this->fail();
+            self::fail();
         } catch (TypeHintException $e) {
             self::assertSame('Class "Tests\Unit\Classes\NonexistentComponent" from Tests\Unit\Classes\TestPresenter::createComponentNonexistentComponent return type not found.', $e->getMessage());
         }
@@ -218,7 +218,7 @@ class ParameterFinderTest extends Unit
 
         try {
             $this->finder->getMapping($request);
-            $this->fail();
+            self::fail();
         } catch (TypeHintException $e) {
             self::assertSame('Method Tests\Unit\Classes\TestPresenter::createComponentMissingTypehint has no return type.', $e->getMessage());
         }
@@ -235,7 +235,7 @@ class ParameterFinderTest extends Unit
 
         try {
             $this->finder->getMapping($request);
-            $this->fail();
+            self::fail();
         } catch (TypeHintException $e) {
             self::assertSame('Method Tests\Unit\Classes\TestPresenter::createComponentBuiltinTypehint does not return a class.', $e->getMessage());
         }

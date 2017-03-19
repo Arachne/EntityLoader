@@ -133,7 +133,7 @@ class RequestEntityLoaderTest extends Unit
 
         try {
             $this->requestEntityLoader->filterIn($request);
-            $this->fail();
+            self::fail();
         } catch (UnexpectedValueException $e) {
             self::assertSame('Parameter "entity" can\'t be null.', $e->getMessage());
         }

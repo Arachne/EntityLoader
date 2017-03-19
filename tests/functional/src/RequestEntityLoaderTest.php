@@ -83,7 +83,7 @@ class RequestEntityLoaderTest extends Unit
     {
         try {
             $this->tester->amOnPage('/int?parameter[]=0');
-            $this->fail();
+            self::fail();
         } catch (BadRequestException $e) {
         }
     }
@@ -107,7 +107,7 @@ class RequestEntityLoaderTest extends Unit
     {
         try {
             $this->tester->amOnPage('/bool?parameter[]=0');
-            $this->fail();
+            self::fail();
         } catch (BadRequestException $e) {
         }
     }
@@ -131,7 +131,7 @@ class RequestEntityLoaderTest extends Unit
     {
         try {
             $this->tester->amOnPage('/float?parameter[]=0');
-            $this->fail();
+            self::fail();
         } catch (BadRequestException $e) {
         }
     }
@@ -155,7 +155,7 @@ class RequestEntityLoaderTest extends Unit
     {
         try {
             $this->tester->amOnPage('/string?parameter[]=0');
-            $this->fail();
+            self::fail();
         } catch (BadRequestException $e) {
         }
     }
