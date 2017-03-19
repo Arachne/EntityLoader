@@ -7,6 +7,7 @@ namespace Tests\Unit;
 use Arachne\EntityLoader\Application\ParameterFinder;
 use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\EntityLoader;
+use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Codeception\Test\Unit;
 use Eloquent\Phony\Mock\Handle\InstanceHandle;
 use Eloquent\Phony\Phpunit\Phony;
@@ -114,10 +115,6 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    /**
-     * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
-     * @expectedExceptionMessage Parameter 'entity' can't be null.
-     */
     public function testFilterInNullableException()
     {
         $request = $this->createRequest();
@@ -134,7 +131,12 @@ class RequestEntityLoaderTest extends Unit
                 ]
             );
 
-        $this->requestEntityLoader->filterIn($request);
+        try {
+            $this->requestEntityLoader->filterIn($request);
+            $this->fail();
+        } catch (UnexpectedValueException $e) {
+            self::assertSame('Parameter "entity" can\'t be null.', $e->getMessage());
+        }
     }
 
     /**

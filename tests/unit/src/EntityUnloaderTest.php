@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityUnloader;
+use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Arachne\EntityLoader\FilterOutInterface;
 use ArrayObject;
 use Codeception\Test\Unit;
@@ -56,12 +57,13 @@ class EntityUnloaderTest extends Unit
         $this->assertSame('1', $this->entityUnloader->filterOut($stub));
     }
 
-    /**
-     * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
-     * @expectedExceptionMessage No filter out found for class
-     */
     public function testFilterNotFound()
     {
-        $this->entityUnloader->filterOut(Phony::stub());
+        try {
+            $this->entityUnloader->filterOut(Phony::stub());
+            $this->fail();
+        } catch (UnexpectedValueException $e) {
+            self::assertSame('No filter out found for class "Eloquent\Phony\Stub\StubVerifier".', $e->getMessage());
+        }
     }
 }

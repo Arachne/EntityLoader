@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\Application\ParameterFinder;
+use Arachne\EntityLoader\Exception\TypeHintException;
 use Codeception\Test\Unit;
 use Eloquent\Phony\Phpunit\Phony;
 use Nette\Application\IPresenterFactory;
@@ -108,16 +109,22 @@ class ParameterFinderTest extends Unit
 
     public function testNoTypehintHandle()
     {
-        $request = new Request('', 'GET', [
-            'action' => 'testAction',
-            'do' => 'noTypehintHandle',
-        ]);
-        $this->assertEquals([
-            'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
-            'handleEntity' => $this->createInfoObject('mixed', false),
-            'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
-            'persistent2' => $this->createInfoObject('string', true),
-        ], $this->finder->getMapping($request));
+        $request = $this->createRequest(
+            [
+                'action' => 'testAction',
+                'do' => 'noTypehintHandle',
+            ]
+        );
+
+        $this->assertEquals(
+            [
+                'actionEntity' => $this->createInfoObject('Tests\Unit\Classes\Class2', false),
+                'handleEntity' => $this->createInfoObject('mixed', false),
+                'persistent1' => $this->createInfoObject('Tests\Unit\Classes\Class1', true),
+                'persistent2' => $this->createInfoObject('string', true),
+            ],
+            $this->finder->getMapping($request)
+        );
     }
 
     public function testComponent()
@@ -183,10 +190,6 @@ class ParameterFinderTest extends Unit
         );
     }
 
-    /**
-     * @expectedException \Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage Class 'Tests\Unit\Classes\NonexistentComponent' from Tests\Unit\Classes\TestPresenter::createComponentNonexistentComponent return type not found.
-     */
     public function testNonexistentComponent()
     {
         $request = $this->createRequest(
@@ -196,13 +199,14 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->finder->getMapping($request);
+        try {
+            $this->finder->getMapping($request);
+            $this->fail();
+        } catch (TypeHintException $e) {
+            self::assertSame('Class "Tests\Unit\Classes\NonexistentComponent" from Tests\Unit\Classes\TestPresenter::createComponentNonexistentComponent return type not found.', $e->getMessage());
+        }
     }
 
-    /**
-     * @expectedException \Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage Method Tests\Unit\Classes\TestPresenter::createComponentMissingTypehint has no return type.
-     */
     public function testMissingTypehint()
     {
         $request = $this->createRequest(
@@ -212,13 +216,14 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->finder->getMapping($request);
+        try {
+            $this->finder->getMapping($request);
+            $this->fail();
+        } catch (TypeHintException $e) {
+            self::assertSame('Method Tests\Unit\Classes\TestPresenter::createComponentMissingTypehint has no return type.', $e->getMessage());
+        }
     }
 
-    /**
-     * @expectedException \Arachne\EntityLoader\Exception\TypeHintException
-     * @expectedExceptionMessage Method Tests\Unit\Classes\TestPresenter::createComponentBuiltinTypehint does not return a class.
-     */
     public function testBuiltinTypehint()
     {
         $request = $this->createRequest(
@@ -228,7 +233,12 @@ class ParameterFinderTest extends Unit
             ]
         );
 
-        $this->finder->getMapping($request);
+        try {
+            $this->finder->getMapping($request);
+            $this->fail();
+        } catch (TypeHintException $e) {
+            self::assertSame('Method Tests\Unit\Classes\TestPresenter::createComponentBuiltinTypehint does not return a class.', $e->getMessage());
+        }
     }
 
     /**

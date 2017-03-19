@@ -8,6 +8,7 @@ use Arachne\Codeception\Module\NetteApplicationModule;
 use Arachne\Codeception\Module\NetteDIModule;
 use Codeception\Test\Unit;
 use Nette\Application\Application;
+use Nette\Application\BadRequestException;
 use Nette\Application\UI\Presenter;
 use Tests\Functional\Fixtures\Article;
 
@@ -78,12 +79,13 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    /**
-     * @expectedException \Nette\Application\BadRequestException
-     */
     public function testIntError()
     {
-        $this->tester->amOnPage('/int?parameter[]=0');
+        try {
+            $this->tester->amOnPage('/int?parameter[]=0');
+            $this->fail();
+        } catch (BadRequestException $e) {
+        }
     }
 
     public function testBool()
@@ -101,12 +103,13 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    /**
-     * @expectedException \Nette\Application\BadRequestException
-     */
     public function testBoolError()
     {
-        $this->tester->amOnPage('/bool?parameter[]=0');
+        try {
+            $this->tester->amOnPage('/bool?parameter[]=0');
+            $this->fail();
+        } catch (BadRequestException $e) {
+        }
     }
 
     public function testFloat()
@@ -124,12 +127,13 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    /**
-     * @expectedException \Nette\Application\BadRequestException
-     */
     public function testFloatError()
     {
-        $this->tester->amOnPage('/float?parameter[]=0');
+        try {
+            $this->tester->amOnPage('/float?parameter[]=0');
+            $this->fail();
+        } catch (BadRequestException $e) {
+        }
     }
 
     public function testString()
@@ -147,11 +151,12 @@ class RequestEntityLoaderTest extends Unit
         );
     }
 
-    /**
-     * @expectedException \Nette\Application\BadRequestException
-     */
     public function testStringError()
     {
-        $this->tester->amOnPage('/string?parameter[]=0');
+        try {
+            $this->tester->amOnPage('/string?parameter[]=0');
+            $this->fail();
+        } catch (BadRequestException $e) {
+        }
     }
 }

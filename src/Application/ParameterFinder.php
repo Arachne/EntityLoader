@@ -160,14 +160,14 @@ class ParameterFinder
             $element = $reflection->getMethod($method);
             $type = $element->getReturnType();
             if (!$type) {
-                throw new TypeHintException("Method $reflection->name::$method has no return type.");
+                throw new TypeHintException(sprintf('Method %s::%s has no return type.', $reflection->name, $method));
             }
             if ($type->isBuiltin()) {
-                throw new TypeHintException("Method $reflection->name::$method does not return a class.");
+                throw new TypeHintException(sprintf('Method %s::%s does not return a class.', $reflection->name, $method));
             }
             $class = (string) $type;
             if (!class_exists($class)) {
-                throw new TypeHintException("Class '$class' from $reflection->name::$method return type not found.");
+                throw new TypeHintException(sprintf('Class "%s" from %s::%s return type not found.', $class, $reflection->name, $method));
             }
 
             return isset($subComponent)
@@ -197,7 +197,7 @@ class ParameterFinder
                 $type = (string) PhpReflection::parseAnnotation($parameter, 'var');
                 if ($type) {
                     if (!Strings::match($type, '/^[[:alnum:]_\\\\]++$/')) {
-                        throw new TypeHintException("Type hint '$type' is not valid. Only alphanumeric characters, '_' and '\' are allowed.");
+                        throw new TypeHintException(sprintf('Type hint "%s" is not valid. Only alphanumeric characters, "_" and "\" are allowed.', $type));
                     }
                     $info[$prefix.$persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), true);
                 }

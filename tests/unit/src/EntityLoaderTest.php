@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Arachne\EntityLoader\EntityLoader;
+use Arachne\EntityLoader\Exception\UnexpectedValueException;
 use Arachne\EntityLoader\FilterInInterface;
 use ArrayObject;
 use Codeception\Test\Unit;
@@ -61,10 +62,6 @@ class EntityLoaderTest extends Unit
             ->calledWith(1, DateTime::class);
     }
 
-    /**
-     * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
-     * @expectedExceptionMessage FilterIn did not return an instance of "DateTime".
-     */
     public function testFilterInFail()
     {
         $this->filterIterator[] = $this->filterHandle->get();
@@ -78,7 +75,12 @@ class EntityLoaderTest extends Unit
             ->filterIn
             ->returns(null);
 
-        $this->entityLoader->filterIn(DateTime::class, 1);
+        try {
+            $this->entityLoader->filterIn(DateTime::class, 1);
+            $this->fail();
+        } catch (UnexpectedValueException $e) {
+            self::assertSame('FilterIn did not return an instance of "DateTime".', $e->getMessage());
+        }
     }
 
     public function testFilterInIgnore()
@@ -88,16 +90,17 @@ class EntityLoaderTest extends Unit
         $this->assertSame($mock1, $this->entityLoader->filterIn(DateTime::class, $mock1));
     }
 
-    /**
-     * @expectedException \Arachne\EntityLoader\Exception\UnexpectedValueException
-     * @expectedExceptionMessage No filter in found for type "DateTime".
-     */
     public function testFilterNotFound()
     {
         $parameters = [
             'entity' => 'value1',
         ];
 
-        $this->entityLoader->filterIn(DateTime::class, $parameters);
+        try {
+            $this->entityLoader->filterIn(DateTime::class, $parameters);
+            $this->fail();
+        } catch (UnexpectedValueException $e) {
+            self::assertSame('No filter in found for type "DateTime".', $e->getMessage());
+        }
     }
 }

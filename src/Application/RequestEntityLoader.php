@@ -38,7 +38,7 @@ class RequestEntityLoader
                 if ($info->optional) {
                     continue;
                 }
-                throw new UnexpectedValueException("Parameter '$name' can't be null.");
+                throw new UnexpectedValueException(sprintf('Parameter "%s" can\'t be null.', $name));
             }
             $parameters[$name] = $this->entityLoader->filterIn($info->type, $parameters[$name]);
         }

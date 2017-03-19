@@ -7,6 +7,7 @@ namespace Tests\Functional;
 use Arachne\Codeception\Module\NetteApplicationModule;
 use Arachne\Codeception\Module\NetteDIModule;
 use Codeception\Test\Unit;
+use Nette\Application\AbortException;
 use Nette\Application\Application;
 
 /**
@@ -19,14 +20,15 @@ class EntityLoaderPresenterTraitTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @expectedException \Nette\Application\AbortException
-     */
     public function testStoreRestoreRequest()
     {
         $this->tester->amOnPage('/entity?parameter=5');
         $presenter = $this->tester->grabService(Application::class)->getPresenter();
         $key = $presenter->storeRequest();
-        $presenter->restoreRequest($key);
+        try {
+            $presenter->restoreRequest($key);
+            $this->fail();
+        } catch (AbortException $e) {
+        }
     }
 }
