@@ -1,9 +1,8 @@
 extensions:
     codeception.http: Arachne\Codeception\DI\HttpExtension
-    arachne.containeradaper: Arachne\ContainerAdapter\DI\ContainerAdapterExtension
     arachne.servicecollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
     arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
-    arachne.eventdispatcher: Arachne\EventDispatcher\DI\EventDispatcherExtension
+    symplify.eventdispatcher: Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
     nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
     nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
     nette.http: Nette\Bridges\HttpDI\HttpExtension

@@ -13,13 +13,13 @@
     ],
     "require": {
         "php": "^7.1.0",
-        "arachne/event-dispatcher": "^0.1.0|^0.2.0",
         "arachne/service-collections": "^0.1.0|^0.2.0",
         "nette/application": "^2.4.0",
         "nette/caching": "^2.5.0",
         "nette/di": "^2.4.0",
         "nette/http": "^2.4.0",
         "nette/utils": "^2.4.0",
+        "symplify/symfony-event-dispatcher": "^1.4.9",
         "oops/cache-factory": "^3.0.0"
     },
     "require-dev": {

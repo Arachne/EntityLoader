@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
-use Arachne\EventDispatcher\ApplicationEvents;
-use Arachne\EventDispatcher\Event\ApplicationRequestEvent;
 use Nette\Application\BadRequestException;
 use Nette\Application\InvalidPresenterException;
 use Nette\Http\IResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -33,21 +32,19 @@ class ApplicationSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ApplicationEvents::REQUEST => 'requestHandler',
+            RequestRecievedEvent::NAME => 'requestHandler',
         ];
     }
 
     /**
      * @throws BadRequestException
      */
-    public function requestHandler(ApplicationRequestEvent $event): void
+    public function requestHandler(RequestRecievedEvent $event): void
     {
         try {
             $this->loader->filterIn($event->getRequest());
-        } catch (InvalidPresenterException $e) {
+        } catch (InvalidPresenterException | UnexpectedValueException $e) {
             throw new BadRequestException('Request has invalid presenter.', IResponse::S404_NOT_FOUND, $e);
-        } catch (UnexpectedValueException $e) {
-            throw new BadRequestException('Request has invalid parameter.', IResponse::S404_NOT_FOUND, $e);
         }
     }
 }

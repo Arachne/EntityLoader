@@ -19,7 +19,6 @@ use Arachne\EntityLoader\FilterIn\StringFilterIn;
 use Arachne\EntityLoader\FilterInInterface;
 use Arachne\EntityLoader\FilterOutInterface;
 use Arachne\EntityLoader\Routing\RouterWrapper;
-use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Arachne\ServiceCollections\DI\ServiceCollectionsExtension;
 use Nette\Application\IRouter;
 use Nette\DI\CompilerExtension;
@@ -110,8 +109,7 @@ class EntityLoaderExtension extends CompilerExtension
             ->setClass(RequestEntityUnloader::class);
 
         $builder->addDefinition($this->prefix('application.applicationSubscriber'))
-            ->setClass(ApplicationSubscriber::class)
-            ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
+            ->setClass(ApplicationSubscriber::class);
     }
 
     public function beforeCompile(): void
