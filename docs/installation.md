@@ -24,9 +24,12 @@ Presenters and components
 Next add the `Arachne\EntityLoader\Application\EntityLoaderPresenterTrait` to your BasePresenter. It overrides the storeRequest & restoreRequest methods to make them work with object parameters.
 
 ```php
-abstract class BasePresenter extends \Nette\Application\UI\Presenter
+use Arachne\EntityLoader\Application\EntityLoaderPresenterTrait;
+use Nette\Application\UI\Presenter;
+
+abstract class BasePresenter extends Presenter
 {
-    use \Arachne\EntityLoader\Application\EntityLoaderPresenterTrait;
+    use EntityLoaderPresenterTrait;
 }
 ```
 
