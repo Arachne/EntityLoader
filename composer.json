@@ -24,8 +24,9 @@
     },
     "require-dev": {
         "arachne/codeception": "^0.7.3",
-        "codeception/codeception": "^2.2.0",
-        "eloquent/phony": "^0.14.0",
+        "codeception/codeception": "^2.3.2",
+        "eloquent/phony": "^1.0.0",
+        "eloquent/phony-phpunit": "^2.0.0",
         "nette/security": "^2.4.0",
         "nextras/secured-links": "^1.3.0"
     },
