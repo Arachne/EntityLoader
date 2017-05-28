@@ -4,7 +4,7 @@ Installation
 The best way to install Arachne/EntityLoader is using [Composer](http://getcomposer.org/).
 
 ```sh
-$ composer require arachne/entity-loader
+composer require arachne/entity-loader
 ```
 
 Now you need to register the necessary extensions using your [neon](http://ne-on.org/) config file.
