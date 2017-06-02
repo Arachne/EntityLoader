@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Arachne\EntityLoader\DI;
 
-use Arachne\EntityLoader\Application\ApplicationSubscriber;
+use Arachne\EntityLoader\Application\FilterRequestParametersSubscriber;
 use Arachne\EntityLoader\Application\ParameterFinder;
 use Arachne\EntityLoader\Application\RequestEntityLoader;
 use Arachne\EntityLoader\Application\RequestEntityUnloader;
@@ -108,8 +108,8 @@ class EntityLoaderExtension extends CompilerExtension
         $builder->addDefinition($this->prefix('application.requestEntityUnloader'))
             ->setClass(RequestEntityUnloader::class);
 
-        $builder->addDefinition($this->prefix('application.applicationSubscriber'))
-            ->setClass(ApplicationSubscriber::class);
+        $builder->addDefinition($this->prefix('application.filterRequestParametersSubscriber'))
+            ->setClass(FilterRequestParametersSubscriber::class);
     }
 
     public function beforeCompile(): void

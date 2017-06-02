@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class ApplicationSubscriber implements EventSubscriberInterface
+class FilterRequestParametersSubscriber implements EventSubscriberInterface
 {
     /**
      * @var RequestEntityLoader
