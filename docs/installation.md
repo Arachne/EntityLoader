@@ -11,9 +11,10 @@ Now you need to register the necessary extensions using your [neon](http://ne-on
 
 ```
 extensions:
-    oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
-    symplify.eventdispatcher: Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
-    arachne.servicecollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
+    oops.cacheFactory: Oops\CacheFactory\DI\CacheFactoryExtension
+    contributte.eventDispatcher: Contributte\EventDispatcher\DI\EventDispatcherExtension
+    contributte.eventsApplicationBridge: Contributte\Events\Bridges\Application\DI\EventApplicationBridgeExtension
+    arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
     arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
 

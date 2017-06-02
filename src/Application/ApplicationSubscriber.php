@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
+use Contributte\Events\Bridges\Application\Event\ApplicationEvents;
+use Contributte\Events\Bridges\Application\Event\RequestEvent;
 use Nette\Application\BadRequestException;
 use Nette\Application\InvalidPresenterException;
 use Nette\Http\IResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -32,14 +33,14 @@ class ApplicationSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            RequestRecievedEvent::NAME => 'requestHandler',
+            ApplicationEvents::ON_REQUEST => 'requestHandler',
         ];
     }
 
     /**
      * @throws BadRequestException
      */
-    public function requestHandler(RequestRecievedEvent $event): void
+    public function requestHandler(RequestEvent $event): void
     {
         try {
             $this->loader->filterIn($event->getRequest());
