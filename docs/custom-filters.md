@@ -33,7 +33,7 @@ class DateTimeFilterIn implements \Arachne\EntityLoader\FilterInInterface
     }
 }
 
-class DateTimeFilterOut implements \Arachne\EntityLoader\FilterInInterface
+class DateTimeFilterOut implements \Arachne\EntityLoader\FilterOutInterface
 {
     public function supports(string $class): bool
     {
