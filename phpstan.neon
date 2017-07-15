@@ -3,9 +3,14 @@ includes:
     - vendor-tools/phpstan/phpstan-nette/rules.neon
 
 parameters:
+    excludes_analyse:
+        - %rootDir%/../../../tests/_*
+
     ignoreErrors:
         - '#^Access to an undefined property Eloquent\\Phony\\Mock\\Handle\\InstanceHandle::\$[a-zA-Z]++#'
         - '#^Parameter \#[0-9]++ \$[a-zA-Z]++ of class [a-zA-Z\\]++ constructor expects [a-zA-Z\\]++, Eloquent\\Phony\\Mock\\Mock given#'
         - '#^Parameter \$[a-zA-Z]++ of method Tests\\Unit\\Classes\\[a-zA-Z]++::[a-zA-Z]++\(\) has invalid typehint type Tests\\Unit\\Classes\\[a-zA-Z0-9]++#'
         - '#^Property Tests\\Unit\\Classes\\[a-zA-Z]++::\$[a-zA-Z0-9]++ has unknown class Tests\\Unit\\Classes\\[a-zA-Z0-9]++ as its type#'
         - '#^Return typehint of method Tests\\Unit\\Classes\\TestPresenter::createComponentNonexistentComponent\(\) has invalid type Tests\\Unit\\Classes\\NonexistentComponent#'
+        - '#^Parameter \#1 \$reflection of method Arachne\\EntityLoader\\Application\\ParameterFinder::[a-zA-Z]++\(\) expects [a-zA-Z\\]++, Nette\\Application\\UI\\[a-zA-Z]+Reflection\|null given#'
+        - '#^Calling method [a-zA-Z]++\(\) on possibly nullable type Nette\\Application\\UI\\[a-zA-Z]+Reflection\|null#'
