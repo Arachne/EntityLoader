@@ -13,5 +13,5 @@ Note that in your [neon](http://ne-on.org/) config file `Arachne\Doctrine\DI\Doc
 extensions:
     # ...
     arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
-    arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
