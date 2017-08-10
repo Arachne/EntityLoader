@@ -2,13 +2,13 @@ extensions:
     codeception.http: Arachne\Codeception\DI\HttpExtension
     arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
     arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    contributte.cache: Contributte\Cache\DI\CacheFactoryExtension
     contributte.eventDispatcher: Contributte\EventDispatcher\DI\EventDispatcherExtension
     contributte.eventsApplicationBridge: Contributte\Events\Bridges\Application\DI\EventApplicationBridgeExtension
     nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
     nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
     nette.http: Nette\Bridges\HttpDI\HttpExtension
     nette.session: Nette\Bridges\HttpDI\SessionExtension
-    oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
 
 nette.application:
     catchExceptions: false

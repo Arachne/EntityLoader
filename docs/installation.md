@@ -11,7 +11,7 @@ Now you need to register the necessary extensions using your [neon](http://ne-on
 
 ```
 extensions:
-    oops.cacheFactory: Oops\CacheFactory\DI\CacheFactoryExtension
+    contributte.cache: Contributte\Cache\DI\CacheFactoryExtension
     contributte.eventDispatcher: Contributte\EventDispatcher\DI\EventDispatcherExtension
     contributte.eventsApplicationBridge: Contributte\Events\Bridges\Application\DI\EventApplicationBridgeExtension
     arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension

@@ -7,11 +7,11 @@ namespace Tests\Unit;
 use Arachne\EntityLoader\Application\ParameterFinder;
 use Arachne\EntityLoader\Exception\TypeHintException;
 use Codeception\Test\Unit;
+use Contributte\Cache\ICacheFactory;
 use Eloquent\Phony\Phpunit\Phony;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Caching\Cache;
-use Oops\CacheFactory\Caching\CacheFactory;
 use StdClass;
 use Tests\Unit\Classes\TestPresenter;
 
@@ -43,7 +43,7 @@ class ParameterFinderTest extends Unit
                 }
             );
 
-        $cacheFactoryHandle = Phony::mock(CacheFactory::class);
+        $cacheFactoryHandle = Phony::mock(ICacheFactory::class);
         $cacheFactoryHandle
             ->create
             ->returns($cacheHandle->get());

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Exception\TypeHintException;
+use Contributte\Cache\ICacheFactory;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\UI\ComponentReflection;
@@ -13,7 +14,6 @@ use Nette\Caching\Cache;
 use Nette\ComponentModel\IComponent;
 use Nette\DI\PhpReflection;
 use Nette\Utils\Strings;
-use Oops\CacheFactory\Caching\CacheFactory;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -52,7 +52,7 @@ class ParameterFinder
      */
     private $cache;
 
-    public function __construct(IPresenterFactory $presenterFactory, CacheFactory $cacheFactory)
+    public function __construct(IPresenterFactory $presenterFactory, ICacheFactory $cacheFactory)
     {
         $this->presenterFactory = $presenterFactory;
         $this->cache = $cacheFactory->create('Arachne.ParameterFinder');
