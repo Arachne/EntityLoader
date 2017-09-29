@@ -79,12 +79,12 @@ class EntityLoaderExtension extends CompilerExtension
 
         foreach ($this->filters as $class => $type) {
             $builder->addDefinition($this->prefix('filterIn.'.$type))
-                ->setClass($class)
+                ->setType($class)
                 ->addTag(self::TAG_FILTER_IN);
         }
 
         $builder->addDefinition($this->prefix('entityLoader'))
-            ->setClass(EntityLoader::class)
+            ->setType(EntityLoader::class)
             ->setArguments(
                 [
                     'filterInIterator' => '@'.$filterInIterator,
@@ -92,7 +92,7 @@ class EntityLoaderExtension extends CompilerExtension
             );
 
         $builder->addDefinition($this->prefix('entityUnloader'))
-            ->setClass(EntityUnloader::class)
+            ->setType(EntityUnloader::class)
             ->setArguments(
                 [
                     'filterOutIterator' => '@'.$filterOutIterator,
@@ -100,16 +100,16 @@ class EntityLoaderExtension extends CompilerExtension
             );
 
         $builder->addDefinition($this->prefix('application.parameterFinder'))
-            ->setClass(ParameterFinder::class);
+            ->setType(ParameterFinder::class);
 
         $builder->addDefinition($this->prefix('application.requestEntityLoader'))
-            ->setClass(RequestEntityLoader::class);
+            ->setType(RequestEntityLoader::class);
 
         $builder->addDefinition($this->prefix('application.requestEntityUnloader'))
-            ->setClass(RequestEntityUnloader::class);
+            ->setType(RequestEntityUnloader::class);
 
         $builder->addDefinition($this->prefix('application.filterRequestParametersSubscriber'))
-            ->setClass(FilterRequestParametersSubscriber::class);
+            ->setType(FilterRequestParametersSubscriber::class);
     }
 
     public function beforeCompile(): void
@@ -125,7 +125,7 @@ class EntityLoaderExtension extends CompilerExtension
                 $routerDefinition->setAutowired(false);
 
                 $builder->addDefinition($this->prefix('router'))
-                    ->setClass(RouterWrapper::class)
+                    ->setType(RouterWrapper::class)
                     ->setArguments(
                         [
                             'router' => '@'.$router,

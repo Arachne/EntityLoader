@@ -19,7 +19,7 @@
         "contributte/event-dispatcher": "^0.3.0",
         "nette/application": "^2.4.0",
         "nette/caching": "^2.5.0",
-        "nette/di": "^2.4.0",
+        "nette/di": "^2.4.10",
         "nette/http": "^2.4.0",
         "nette/utils": "^2.4.0"
     },
