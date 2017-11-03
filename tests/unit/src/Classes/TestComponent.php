@@ -22,7 +22,7 @@ class TestComponent extends PresenterComponent
     {
     }
 
-    public function createComponentSub(): TestComponent
+    public function createComponentSub(): self
     {
     }
 }
