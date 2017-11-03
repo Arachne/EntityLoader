@@ -166,6 +166,9 @@ class ParameterFinder
                 throw new TypeHintException(sprintf('Method %s::%s does not return a class.', $reflection->name, $method));
             }
             $class = (string) $type;
+            if ($class === 'self') {
+                $class = $element->getDeclaringClass()->getName();
+            }
             if (!class_exists($class)) {
                 throw new TypeHintException(sprintf('Class "%s" from %s::%s return type not found.', $class, $reflection->name, $method));
             }
