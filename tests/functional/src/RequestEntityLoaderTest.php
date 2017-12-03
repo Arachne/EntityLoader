@@ -18,7 +18,7 @@ use Tests\Functional\Fixtures\Article;
 class RequestEntityLoaderTest extends Unit
 {
     /**
-     * @var NetteApplicationModule|NetteDIModule
+     * @var NetteApplicationModule&NetteDIModule
      */
     protected $tester;
 

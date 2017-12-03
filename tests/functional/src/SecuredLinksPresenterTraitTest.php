@@ -16,7 +16,7 @@ use Tests\Functional\Fixtures\Article;
 class SecuredLinksPresenterTraitTest extends Unit
 {
     /**
-     * @var NetteApplicationModule|NetteDIModule
+     * @var NetteApplicationModule&NetteDIModule
      */
     protected $tester;
 

@@ -24,7 +24,7 @@ class RouteTest extends Unit
                 'presenter' => 'Test',
                 'param1' => [
                     Route::FILTER_OUT => function (Envelope $envelope) {
-                        return $envelope->getObject();
+                        return $envelope->getObject()->value;
                     },
                 ],
             ]
@@ -34,8 +34,8 @@ class RouteTest extends Unit
             'Test',
             'GET',
             [
-                'param1' => new Envelope('param1_value', 'param1_id'),
-                'param2' => new Envelope('param2_value', 'param2_id'),
+                'param1' => new Envelope($this->createObject('param1_value'), 'param1_id'),
+                'param2' => new Envelope($this->createObject('param2_value'), 'param2_id'),
             ]
         );
 
@@ -55,7 +55,7 @@ class RouteTest extends Unit
                 'presenter' => 'Test',
                 'param1' => [
                     Route::FILTER_OUT => function (Envelope $envelope) {
-                        return $envelope->getObject();
+                        return $envelope->getObject()->value;
                     },
                 ],
                 null => [
@@ -68,8 +68,8 @@ class RouteTest extends Unit
             'Test',
             'GET',
             [
-                'param1' => new Envelope('param1_value', 'param1_id'),
-                'param2' => new Envelope('param2_value', 'param2_id'),
+                'param1' => new Envelope($this->createObject('param1_value'), 'param1_id'),
+                'param2' => new Envelope($this->createObject('param2_value'), 'param2_id'),
             ]
         );
 
@@ -80,5 +80,13 @@ class RouteTest extends Unit
         $parameters = $stub->firstCall()->argument();
         self::assertInstanceOf(Envelope::class, $parameters['param1']);
         self::assertInstanceOf(Envelope::class, $parameters['param2']);
+    }
+
+    /**
+     * @return object
+     */
+    private function createObject($value)
+    {
+        return (object) ['value' => $value];
     }
 }

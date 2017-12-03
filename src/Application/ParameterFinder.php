@@ -17,7 +17,7 @@ use Nette\Utils\Strings;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
-use StdClass;
+use stdClass;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -61,7 +61,7 @@ class ParameterFinder
     /**
      * Returns parameters information based on the request.
      *
-     * @return StdClass[]
+     * @return stdClass[]
      */
     public function getMapping(Request $request): array
     {
@@ -215,9 +215,9 @@ class ParameterFinder
         return isset(self::$simpleTypes[$type]) ? self::$simpleTypes[$type] : PhpReflection::expandClassName($type, $class);
     }
 
-    private function createInfoObject(string $type, bool $optional): StdClass
+    private function createInfoObject(string $type, bool $optional): stdClass
     {
-        $object = new StdClass();
+        $object = new stdClass();
         $object->type = $type;
         $object->optional = $optional;
 

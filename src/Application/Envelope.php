@@ -15,13 +15,13 @@ class Envelope
     private $object;
 
     /**
-     * @var string|int
+     * @var string|int|array
      */
     private $identifier;
 
     /**
-     * @param object     $object
-     * @param string|int $identifier
+     * @param object           $object
+     * @param string|int|array $identifier
      */
     public function __construct($object, $identifier)
     {
@@ -38,7 +38,7 @@ class Envelope
     }
 
     /**
-     * @return string|int
+     * @return string|int|array
      */
     public function getIdentifier()
     {

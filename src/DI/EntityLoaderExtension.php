@@ -62,7 +62,7 @@ class EntityLoaderExtension extends CompilerExtension
         $this->validateConfig($this->defaults);
         $builder = $this->getContainerBuilder();
 
-        /* @var $serviceCollectionsExtension ServiceCollectionsExtension */
+        /** @var ServiceCollectionsExtension $serviceCollectionsExtension */
         $serviceCollectionsExtension = $this->getExtension(ServiceCollectionsExtension::class);
 
         $filterInIterator = $serviceCollectionsExtension->getCollection(

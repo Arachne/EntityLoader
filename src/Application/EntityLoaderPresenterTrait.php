@@ -26,11 +26,11 @@ trait EntityLoaderPresenterTrait
     private $unloader;
 
     /**
-     * @var User
+     * @var User|null
      */
     private $user;
 
-    final public function injectEntityLoader(RequestEntityLoader $loader, RequestEntityUnloader $unloader, User $user = null): void
+    final public function injectEntityLoader(RequestEntityLoader $loader, RequestEntityUnloader $unloader, ?User $user = null): void
     {
         $this->loader = $loader;
         $this->unloader = $unloader;
@@ -40,14 +40,14 @@ trait EntityLoaderPresenterTrait
     /**
      * Stores request to session.
      *
-     * @param Request $request
-     * @param mixed   $expiration
+     * @param Request|null $request
+     * @param mixed        $expiration
      *
      * @return string
      */
     public function storeRequest($request = null, $expiration = '+ 10 minutes'): string
     {
-        // both parameters are optional
+        // Both parameters are optional.
         if ($request === null) {
             $request = $this->getRequest();
         } elseif (!$request instanceof Request) {

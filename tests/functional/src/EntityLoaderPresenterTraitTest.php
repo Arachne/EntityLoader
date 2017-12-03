@@ -17,7 +17,7 @@ use Nette\Application\Application;
 class EntityLoaderPresenterTraitTest extends Unit
 {
     /**
-     * @var NetteApplicationModule|NetteDIModule
+     * @var NetteApplicationModule&NetteDIModule
      */
     protected $tester;
 

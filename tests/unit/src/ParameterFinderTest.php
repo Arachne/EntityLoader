@@ -12,7 +12,7 @@ use Eloquent\Phony\Phpunit\Phony;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Caching\Cache;
-use StdClass;
+use stdClass;
 use Tests\Unit\Classes\TestPresenter;
 
 /**
@@ -219,8 +219,8 @@ class ParameterFinderTest extends Unit
         try {
             $this->finder->getMapping($request);
             self::fail();
-        } catch (TypeHintException $e) {
-            self::assertSame('Method Tests\Unit\Classes\TestPresenter::createComponentMissingTypehint has no return type.', $e->getMessage());
+        } catch (TypeHintException $exception) {
+            self::assertSame('Method Tests\Unit\Classes\TestPresenter::createComponentMissingTypehint has no return type.', $exception->getMessage());
         }
     }
 
@@ -236,8 +236,8 @@ class ParameterFinderTest extends Unit
         try {
             $this->finder->getMapping($request);
             self::fail();
-        } catch (TypeHintException $e) {
-            self::assertSame('Method Tests\Unit\Classes\TestPresenter::createComponentBuiltinTypehint does not return a class.', $e->getMessage());
+        } catch (TypeHintException $exception) {
+            self::assertSame('Method Tests\Unit\Classes\TestPresenter::createComponentBuiltinTypehint does not return a class.', $exception->getMessage());
         }
     }
 
@@ -246,9 +246,9 @@ class ParameterFinderTest extends Unit
         return new Request('', 'GET', $parameters);
     }
 
-    private function createInfoObject(string $type, bool $optional): StdClass
+    private function createInfoObject(string $type, bool $optional): stdClass
     {
-        $object = new StdClass();
+        $object = new stdClass();
         $object->type = $type;
         $object->optional = $optional;
 
