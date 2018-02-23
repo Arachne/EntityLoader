@@ -16,7 +16,7 @@
         "arachne/service-collections": "^0.1.0 || ^0.2.0",
         "contributte/cache": "^0.1.0",
         "contributte/event-application-bridge": "^0.1.0",
-        "contributte/event-dispatcher": "^0.3.0",
+        "contributte/event-dispatcher": "^0.3.0 || ^0.4.0",
         "nette/application": "^2.4.0",
         "nette/caching": "^2.5.0",
         "nette/di": "^2.4.10",
