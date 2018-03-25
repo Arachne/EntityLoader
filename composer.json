@@ -26,8 +26,8 @@
     "require-dev": {
         "arachne/codeception": "^0.8.0",
         "codeception/codeception": "^2.3.2",
-        "eloquent/phony": "^2.0.0",
-        "eloquent/phony-phpunit": "^3.0.0",
+        "eloquent/phony": "^3.0.0",
+        "eloquent/phony-phpunit": "^4.0.0",
         "eloquent/phpstan-phony": "^0.1.0",
         "friendsofphp/php-cs-fixer": "^2.8.0",
         "nette/security": "^2.4.0",
