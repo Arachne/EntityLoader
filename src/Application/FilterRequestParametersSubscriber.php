@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Arachne\EntityLoader\Application;
 
 use Arachne\EntityLoader\Exception\UnexpectedValueException;
-use Contributte\Events\Bridges\Application\Event\RequestEvent;
+use Contributte\Events\Extra\Event\Application\RequestEvent;
 use Nette\Application\BadRequestException;
 use Nette\Application\InvalidPresenterException;
 use Nette\Http\IResponse;

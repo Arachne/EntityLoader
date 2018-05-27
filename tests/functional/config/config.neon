@@ -4,7 +4,7 @@ extensions:
     arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
     contributte.cache: Contributte\Cache\DI\CacheFactoryExtension
     contributte.eventDispatcher: Contributte\EventDispatcher\DI\EventDispatcherExtension
-    contributte.eventsApplicationBridge: Contributte\Events\Bridges\Application\DI\EventApplicationBridgeExtension
+    contributte.eventDispatcher.extra.application: Contributte\Events\Extra\DI\EventApplicationBridgeExtension
     nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
     nette.cache: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
     nette.http: Nette\Bridges\HttpDI\HttpExtension
