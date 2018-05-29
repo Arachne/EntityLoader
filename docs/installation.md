@@ -13,7 +13,7 @@ Now you need to register the necessary extensions using your [neon](http://ne-on
 extensions:
     contributte.cache: Contributte\Cache\DI\CacheFactoryExtension
     contributte.eventDispatcher: Contributte\EventDispatcher\DI\EventDispatcherExtension
-    contributte.eventsApplicationBridge: Contributte\Events\Bridges\Application\DI\EventApplicationBridgeExtension
+    contributte.eventDispatcher.extra.application: Contributte\Events\Extra\DI\EventApplicationBridgeExtension
     arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
     arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
