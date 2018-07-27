@@ -15,14 +15,16 @@ use Nette\InvalidArgumentException;
 class Route extends BaseRoute
 {
     /**
-     * {@inheritdoc}
+     * @param string $mask
+     * @param mixed  $metadata
+     * @param int    $flags
      */
     public function __construct($mask, $metadata = [], $flags = 0)
     {
         // Copied from Nette\Application\Routers\Route::__construct().
         if (is_string($metadata)) {
             $pos = strrpos($metadata, ':');
-            if (!$pos) {
+            if ($pos === false) {
                 throw new InvalidArgumentException(sprintf('Second argument must be array or string in format Presenter:action, %s given.', $metadata));
             }
             $metadata = [

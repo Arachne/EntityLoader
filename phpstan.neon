@@ -1,6 +1,7 @@
 includes:
     - vendor/phpstan/phpstan-nette/extension.neon
     - vendor/phpstan/phpstan-nette/rules.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/eloquent/phpstan-phony/phony.neon
     - vendor/arachne/codeception/extension.neon
 
@@ -12,6 +13,7 @@ parameters:
         - '#^Parameter \$[a-zA-Z]++ of method Tests\\Unit\\Classes\\[a-zA-Z]++::[a-zA-Z]++\(\) has invalid typehint type Tests\\Unit\\Classes\\[a-zA-Z0-9]++#'
         - '#^Property Tests\\Unit\\Classes\\[a-zA-Z]++::\$[a-zA-Z0-9]++ has unknown class Tests\\Unit\\Classes\\[a-zA-Z0-9]++ as its type#'
         - '#^Return typehint of method Tests\\Unit\\Classes\\TestPresenter::createComponentNonexistentComponent\(\) has invalid type Tests\\Unit\\Classes\\NonexistentComponent#'
-        - '#^Cannot clone non-object variable \$request of type Nette\\Application\\Request\|null#'
-        - '#^Method Nette\\Http\\Session::setExpiration\(\) invoked with 2 parameters, 1 required#'
         - '#^Access to an undefined property object::\$value#'
+        - '#^Method Tests\\Unit\\Classes\\TestPresenter::#'
+        - '#^Method Tests\\Functional\\Fixtures\\ArticlePresenter::#'
+        - '#^Strict comparison using !== between ReflectionType and null will always evaluate to true#'

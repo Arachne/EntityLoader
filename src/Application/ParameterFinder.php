@@ -84,11 +84,11 @@ class ParameterFinder
         $action = isset($parameters[Presenter::ACTION_KEY]) ? $parameters[Presenter::ACTION_KEY] : Presenter::DEFAULT_ACTION;
         $method = 'action'.$action;
         $element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
-        if (!$element) {
+        if ($element === null) {
             $method = 'render'.$action;
             $element = $presenterReflection->hasCallableMethod($method) ? $presenterReflection->getMethod($method) : null;
         }
-        if ($element) {
+        if ($element !== null) {
             $info += $this->getMethodParameters($element);
             $files[] = $element->getFileName();
         }
@@ -106,7 +106,7 @@ class ParameterFinder
             }
             $reflection = $this->createReflection($presenterReflection, $component);
             $components[$component] = true;
-            if (!$reflection) {
+            if ($reflection === null) {
                 continue;
             }
             $files[] = $reflection->getFileName();
@@ -127,7 +127,7 @@ class ParameterFinder
                 $prefix = '';
             }
             $method = 'handle'.ucfirst($signal);
-            if ($reflection && $reflection->hasCallableMethod($method)) {
+            if ($reflection !== null && $reflection->hasCallableMethod($method)) {
                 $element = $reflection->getMethod($method);
                 $info += $this->getMethodParameters($element, $prefix);
                 $files[] = $element->getFileName();
@@ -159,7 +159,7 @@ class ParameterFinder
         if ($reflection->hasMethod($method)) {
             $element = $reflection->getMethod($method);
             $type = $element->getReturnType();
-            if (!$type) {
+            if ($type === null) {
                 throw new TypeHintException(sprintf('Method %s::%s has no return type.', $reflection->name, $method));
             }
             if ($type->isBuiltin()) {
@@ -183,7 +183,7 @@ class ParameterFinder
     {
         $info = [];
         foreach ($reflection->getParameters() as $parameter) {
-            $type = $parameter->getType() ? (string) $parameter->getType() : 'mixed';
+            $type = $parameter->getType() !== null ? (string) $parameter->getType() : 'mixed';
             $optional = $parameter->isOptional();
             $info[$prefix.$parameter->getName()] = $this->createInfoObject($type, $optional);
         }
@@ -198,8 +198,8 @@ class ParameterFinder
             $parameter = new ReflectionProperty($reflection->getName(), $persistent);
             if (!$parameter->isStatic()) {
                 $type = (string) PhpReflection::parseAnnotation($parameter, 'var');
-                if ($type) {
-                    if (!Strings::match($type, '/^[[:alnum:]_\\\\]++$/')) {
+                if ($type !== '') {
+                    if (!(bool) Strings::match($type, '/^[[:alnum:]_\\\\]++$/')) {
                         throw new TypeHintException(sprintf('Type hint "%s" is not valid. Only alphanumeric characters, "_" and "\" are allowed.', $type));
                     }
                     $info[$prefix.$persistent] = $this->createInfoObject($this->normalizeType($type, $parameter->getDeclaringClass()), true);

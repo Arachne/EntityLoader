@@ -42,12 +42,15 @@ class EntityLoaderExtension extends CompilerExtension
     const TAG_FILTER_OUT = 'arachne.entityLoader.filterOut';
 
     /**
-     * @var array
+     * @var mixed[]
      */
     public $defaults = [
         'envelopes' => false,
     ];
 
+    /**
+     * @var string[]
+     */
     private $filters = [
         ArrayFilterIn::class => 'array',
         BooleanFilterIn::class => 'bool',
@@ -118,7 +121,7 @@ class EntityLoaderExtension extends CompilerExtension
 
         $router = $builder->getByType(IRouter::class);
 
-        if ($router) {
+        if ($router !== null) {
             $routerDefinition = $builder->getDefinition($router);
 
             if ($routerDefinition->getClass() !== RouterWrapper::class) {
@@ -140,7 +143,7 @@ class EntityLoaderExtension extends CompilerExtension
     {
         $extensions = $this->compiler->getExtensions($class);
 
-        if (!$extensions) {
+        if ($extensions === []) {
             throw new AssertionException(
                 sprintf('Extension "%s" requires "%s" to be installed.', get_class($this), $class)
             );

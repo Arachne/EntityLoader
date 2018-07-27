@@ -40,8 +40,8 @@ trait EntityLoaderPresenterTrait
     /**
      * Stores request to session.
      *
-     * @param Request|null $request
-     * @param mixed        $expiration
+     * @param mixed $request
+     * @param mixed $expiration
      *
      * @return string
      */
@@ -55,6 +55,7 @@ trait EntityLoaderPresenterTrait
             $request = $this->getRequest();
         }
 
+        assert($request instanceof Request);
         $request = clone $request;
         $this->unloader->filterOut($request);
 
@@ -63,7 +64,7 @@ trait EntityLoaderPresenterTrait
             $key = Random::generate(5);
         } while (isset($session[$key]));
 
-        $session[$key] = [$this->user ? $this->user->getId() : null, $request];
+        $session[$key] = [$this->user !== null ? $this->user->getId() : null, $request];
         $session->setExpiration($expiration, $key);
 
         return $key;
@@ -77,7 +78,7 @@ trait EntityLoaderPresenterTrait
     public function restoreRequest($key): void
     {
         $session = $this->getSession('Arachne.Application/requests');
-        if (!isset($session[$key]) || ($this->user && $session[$key][0] !== null && $session[$key][0] !== $this->user->getId())) {
+        if (!isset($session[$key]) || ($this->user !== null && $session[$key][0] !== null && $session[$key][0] !== $this->user->getId())) {
             return;
         }
         $request = clone $session[$key][1];

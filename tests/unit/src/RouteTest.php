@@ -85,7 +85,7 @@ class RouteTest extends Unit
     /**
      * @return object
      */
-    private function createObject($value)
+    private function createObject(string $value)
     {
         return (object) ['value' => $value];
     }

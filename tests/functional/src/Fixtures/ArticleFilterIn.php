@@ -16,7 +16,10 @@ class ArticleFilterIn implements FilterInInterface
         return $type === Article::class;
     }
 
-    public function filterIn($value, string $type)
+    /**
+     * {@inheritdoc}
+     */
+    public function filterIn($value, string $type): Article
     {
         return new Article($value);
     }

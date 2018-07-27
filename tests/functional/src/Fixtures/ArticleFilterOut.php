@@ -17,6 +17,9 @@ class ArticleFilterOut implements FilterOutInterface
         return $class === Article::class;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function filterOut($value)
     {
         if (!$value instanceof Article) {
