@@ -95,6 +95,7 @@ class ParameterFinder
 
         // Persistent component parameters
         $components = [];
+        /** @var string $key */
         foreach ($parameters as $key => $_) {
             $pos = strrpos($key, IComponent::NAME_SEPARATOR);
             if ($pos === false) {
