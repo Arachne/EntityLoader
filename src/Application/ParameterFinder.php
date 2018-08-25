@@ -178,6 +178,8 @@ class ParameterFinder
                 ? $this->createReflection(new ComponentReflection($class), $subComponent)
                 : new ComponentReflection($class);
         }
+
+        return null;
     }
 
     private function getMethodParameters(ReflectionMethod $reflection, string $prefix = null): array
