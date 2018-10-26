@@ -16,4 +16,3 @@ parameters:
         - '#^Access to an undefined property object::\$value#'
         - '#^Method Tests\\Unit\\Classes\\TestPresenter::#'
         - '#^Method Tests\\Functional\\Fixtures\\ArticlePresenter::#'
-        - '#^Strict comparison using !== between ReflectionType and null will always evaluate to true#'
