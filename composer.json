@@ -24,8 +24,8 @@
         "nette/utils": "^2.4.0"
     },
     "require-dev": {
-        "arachne/codeception": "^0.8.0",
         "codeception/codeception": "^2.4.3",
+        "contributte/codeception": "^1.0.1",
         "eloquent/phony": "^3.0.0",
         "eloquent/phony-phpunit": "^4.0.0",
         "eloquent/phpstan-phony": "^0.3.0",

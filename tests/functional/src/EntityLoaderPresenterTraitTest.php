@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Arachne\Codeception\Module\NetteApplicationModule;
-use Arachne\Codeception\Module\NetteDIModule;
 use Arachne\EntityLoader\Application\EntityLoaderPresenterTrait;
 use Codeception\Test\Unit;
+use Contributte\Codeception\Module\NetteApplicationModule;
+use Contributte\Codeception\Module\NetteDIModule;
 use Nette\Application\AbortException;
 use Nette\Application\Application;
 

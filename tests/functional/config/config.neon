@@ -1,5 +1,5 @@
 extensions:
-    codeception.http: Arachne\Codeception\DI\HttpExtension
+    codeception.http: Contributte\Codeception\DI\HttpExtension
     arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
     arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
     contributte.cache: Contributte\Cache\DI\CacheFactoryExtension

@@ -3,7 +3,7 @@ includes:
     - vendor/phpstan/phpstan-nette/rules.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/eloquent/phpstan-phony/phony.neon
-    - vendor/arachne/codeception/extension.neon
+    - vendor/contributte/codeception/extension.neon
 
 parameters:
     excludes_analyse:
