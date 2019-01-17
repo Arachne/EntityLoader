@@ -10,9 +10,11 @@ parameters:
         - %rootDir%/../../../tests/_*
 
     ignoreErrors:
-        - '#^Parameter \$[a-zA-Z]++ of method Tests\\Unit\\Classes\\[a-zA-Z]++::[a-zA-Z]++\(\) has invalid typehint type Tests\\Unit\\Classes\\[a-zA-Z0-9]++#'
-        - '#^Property Tests\\Unit\\Classes\\[a-zA-Z]++::\$[a-zA-Z0-9]++ has unknown class Tests\\Unit\\Classes\\[a-zA-Z0-9]++ as its type#'
-        - '#^Return typehint of method Tests\\Unit\\Classes\\TestPresenter::createComponentNonexistentComponent\(\) has invalid type Tests\\Unit\\Classes\\NonexistentComponent#'
-        - '#^Access to an undefined property object::\$value#'
-        - '#^Method Tests\\Unit\\Classes\\TestPresenter::#'
-        - '#^Method Tests\\Functional\\Fixtures\\ArticlePresenter::#'
+        - '~^Parameter \$[a-zA-Z]++ of method Tests\\Unit\\Classes\\[a-zA-Z]++::[a-zA-Z]++\(\) has invalid typehint type Tests\\Unit\\Classes\\[a-zA-Z0-9]++~'
+        - '~^Property Tests\\Unit\\Classes\\[a-zA-Z]++::\$[a-zA-Z0-9]++ has unknown class Tests\\Unit\\Classes\\[a-zA-Z0-9]++ as its type~'
+        - '~^Return typehint of method Tests\\Unit\\Classes\\TestPresenter::createComponentNonexistentComponent\(\) has invalid type Tests\\Unit\\Classes\\NonexistentComponent~'
+        - '~^Access to an undefined property object::\$value~'
+        - '~^Method Tests\\Unit\\Classes\\TestPresenter::~'
+        - '~^Method Tests\\Functional\\Fixtures\\ArticlePresenter::~'
+        - '~^PHPDoc tag @var for property Tests\\Functional\\[a-zA-Z]++::\$tester contains unresolvable type~'
+        - '~^Parameter #1 \$key \(string\) of method Tests\\Functional\\Fixtures\\ArticlePresenter::restoreRequest\(\) should be contravariant with parameter \$key \(mixed\) of method Nette\\Application\\UI\\Presenter::restoreRequest\(\)~'
